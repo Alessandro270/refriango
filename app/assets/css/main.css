@@ -2,17 +2,62 @@
 @import "@nuxt/ui";
 
 @theme static {
-  --font-sans: 'Public Sans', sans-serif;
+  --font-sans: "Public Sans", sans-serif;
 
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #00C16A;
-  --color-green-600: #00A155;
-  --color-green-700: #007F45;
+  --color-green-50: #effdf5;
+  --color-green-100: #d9fbe8;
+  --color-green-200: #b3f5d1;
+  --color-green-300: #75edae;
+  --color-green-400: #00dc82;
+  --color-green-500: #00c16a;
+  --color-green-600: #00a155;
+  --color-green-700: #007f45;
   --color-green-800: #016538;
-  --color-green-900: #0A5331;
-  --color-green-950: #052E16;
+  --color-green-900: #0a5331;
+  --color-green-950: #052e16;
+  /* Backgrounds */
+  --ui-bg: #f4f1ec;
+  --ui-bg-muted: #ebe7e1;
+  --ui-bg-elevated: #ffffff;
+
+  /* Text */
+  --ui-text: #201c24;
+  --ui-text-muted: #6f6b73;
+  --ui-text-dimmed: #9a96a0;
+
+  /* Borders */
+  --ui-border: #e5e0d9;
+  --ui-border-muted: #f0ece7;
+
+  /* Primary Brand */
+  --color-primary-50: #eef8f7;
+  --color-primary-100: #d7f0ee;
+  --color-primary-200: #afe0dc;
+  --color-primary-300: #7fc9c5;
+  --color-primary-400: #52b0ac;
+  --color-primary-500: #2f8f8b;
+  --color-primary-600: #25726f;
+  --color-primary-700: #1f5a58;
+  --color-primary-800: #1d4745;
+  --color-primary-900: #193a39;
+  --color-primary-950: #102524;
+
+  /* Neutral / Sidebar */
+  --color-grays-50: #f7f6f8;
+  --color-grays-100: #ece9ef;
+  --color-grays-200: #d8d2dd;
+  --color-grays-300: #b7afbf;
+  --color-grays-400: #91879b;
+  --color-grays-500: #6e6677;
+  --color-grays-600: #544d5d;
+  --color-grays-700: #3d3745;
+  --color-grays-800: #2b2731;
+  --color-grays-900: #211e24;
+  --color-grays-950: #161419;
+
+  /* Accent Colors */
+  --color-cyan: #8ed3df;
+  --color-beige: #efcfaf;
+  --color-purple: #6d6882;
+  --color-success: #3d8f7d;
 }
