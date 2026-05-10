@@ -2,7 +2,7 @@
 const open = ref<boolean>(true);
 const items: NavigationMenuItem[] = [
   {
-    label: "Visao geral",
+    label: "Dashboard",
     icon: "i-lucide-house",
     to: "/",
   },
@@ -55,30 +55,38 @@ const items: NavigationMenuItem[] = [
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex min-h-screen">
     <USidebar v-model:open="open" collapsible="icon">
       <template #title>
-        <h1
-          class="capitalize text-xl font-serif font-medium flex space-x-6 items-center"
-        >
-          <img src="~/assets/refri.png" alt="refriango" class="size-9" />
-          refriango
-        </h1>
+        <div class="flex flex-col items-center w-full">
+          <div class="flex justify-between items-center w-full">
+            <h1
+              class="capitalize text-xl font-serif font-medium flex space-x-6 items-center"
+            >
+              <img src="~/assets/refri.png" alt="refriango" class="size-9" />
+              refriango
+            </h1>
+
+            <UIcon
+              v-if="open"
+              name="cuida:sidebar-collapse-outline"
+              class="size-6 text-grays-400 hover:text-grays-200 transition"
+              @click="open = !open"
+            ></UIcon>
+          </div>
+          <UIcon
+            v-if="!open"
+            name="cuida:sidebar-collapse-outline"
+            class="size-6 text-grays-400 hover:text-grays-200 transition"
+            @click="open = !open"
+          ></UIcon>
+        </div>
       </template>
       <template #default>
         <UNavigationMenu :items="items" orientation="vertical" />
       </template>
     </USidebar>
-    <div class="h-screen bg-white w-full text-black">
-      <div
-        class="h-16 bg-grays-900 flex items-center px-6"
-        @click="open = !open"
-      >
-        <UIcon
-          name="cuida:sidebar-collapse-outline"
-          class="size-6 text-grays-400 hover:text-grays-200 transition"
-        ></UIcon>
-      </div>
+    <div class="min-h-screen h-max bg-ui-bg w-full text-black">
       <div class="px-6 py-5">
         <slot />
       </div>
