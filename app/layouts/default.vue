@@ -52,6 +52,22 @@ const items: NavigationMenuItem[] = [
     to: "/warehouses",
   },
 ];
+const user = ref({
+  name: "Alessandro Almeida",
+  email: "alessandro@example.com",
+});
+const footerItems: NavigationMenuItem[] = [
+  {
+    label: "Configurações",
+    icon: "i-lucide-settings",
+    to: "/settings",
+  },
+  {
+    label: "Terminar sessão",
+    icon: "i-lucide-log-out",
+    click: () => logout(),
+  },
+];
 </script>
 
 <template>
@@ -60,12 +76,7 @@ const items: NavigationMenuItem[] = [
       <template #title>
         <div class="flex flex-col items-center w-full">
           <div class="flex justify-between items-center w-full">
-            <h1
-              class="capitalize text-xl font-serif font-medium flex space-x-6 items-center"
-            >
-              <img src="~/assets/refri.png" alt="refriango" class="size-9" />
-              refriango
-            </h1>
+            <UiHeader />
 
             <UIcon
               v-if="open"
@@ -84,6 +95,25 @@ const items: NavigationMenuItem[] = [
       </template>
       <template #default>
         <UNavigationMenu :items="items" orientation="vertical" />
+      </template>
+      <template #footer>
+        <div class="flex flex-col gap-4 mt-auto w-full">
+          <UNavigationMenu :items="footerItems" orientation="vertical" />
+
+          <div class="flex items-center gap-3 rounded-xl bg-ui-bg-elevated p-3">
+            <UAvatar :alt="user.name" size="md" />
+
+            <div v-if="open" class="flex flex-col overflow-hidden">
+              <span class="text-sm font-medium truncate">
+                {{ user.name }}
+              </span>
+
+              <span class="text-xs text-gray-500 truncate">
+                {{ user.email }}
+              </span>
+            </div>
+          </div>
+        </div>
       </template>
     </USidebar>
     <div class="min-h-screen h-max bg-ui-bg w-full text-black">

@@ -55,7 +55,10 @@ const categories = {
 
 <template>
   <div class="space-y-4">
-    <div class="flex space-x-4 w-full mt-8">
+    <div>
+      <h1 class="text-2xl font-semibold">Dashboard</h1>
+    </div>
+    <div class="flex space-x-4 w-full">
       <UiCard description="1,912,182.00kz" title="valor total em estoque" />
       <UiCard description="1,912,182.00kz" title="entradas do mês" />
       <UiCard description="1,912,182.00kz" title="saídas do mês" />
@@ -102,14 +105,19 @@ const categories = {
           <UiLevel>Speed</UiLevel>
           <UiLevel>Fanta</UiLevel>
           <li
-            class="pt-4 border-t mt-30 text-center flex items-center justify-center gap-2 font-medium text-primary-600 border-t-grays-200"
+            class="pt-4 border-t mt-30 flex items-center justify-center gap-2 font-medium text-primary-600 border-t-grays-100"
           >
-            <span class="inline-block"> Verificar estoque </span>
-            <UIcon name="lucide:move-right" />
+            <UButton
+              variant="soft"
+              class="w-full flex justify-center"
+              color="neutral"
+            >
+              Verificar estoque
+            </UButton>
           </li>
         </ul>
       </div>
     </div>
-    <UiTable :columns="columns" :data="data"></UiTable>
+    <UiTable title="últimos pedidos" :columns="columns" :data="data"></UiTable>
   </div>
 </template>
