@@ -2,19 +2,31 @@
 defineProps<{
   description: string;
   title: string;
+  to: string;
 }>();
 </script>
 
 <template>
-  <div class="px-6 py-4 rounded-md bg-white min-h-20 w-1/3 space-y-3">
-    <h1 class="uppercase font-semibold text-sm text-grays-700">{{ title }}</h1>
-    <p class="text-3xl font-semibold text-grays-800">{{ description }}</p>
-    <p class="flex items-center space-x-2">
-      <UIcon
-        name="streamline:graph-arrow-increase"
-        class="size-4 text-success"
-      />
-      <span class="inline-block">+4.2% que no mês anterior</span>
-    </p>
+  <div class="px-6 py-4 rounded-md bg-white min-h-20 space-y-3">
+    <h3
+      class="uppercase font-semibold text-md flex items-center justify-between text-grays-700"
+    >
+      <span>{{ title }}</span>
+      <ULink :to="to">
+        <UIcon name="lucide:arrow-up-right" class="text-xl" />
+      </ULink>
+    </h3>
+    <div class="flex items-center gap-4">
+      <span class="text-4xl inline-block font-semibold text-ui-text">{{
+        description
+      }}</span>
+      <div class="flex gap-2 items-center">
+        <UIcon
+          name="streamline:graph-arrow-increase"
+          class="size-4 text-success"
+        />
+        <span class="inline-block text-md text-green-400">+4.2%</span>
+      </div>
+    </div>
   </div>
 </template>

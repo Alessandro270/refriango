@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { LineChart } from "vue-chrts";
+import { BarChart } from "echarts/charts";
 
 type Order = {
   id: string;
@@ -8,7 +8,7 @@ type Order = {
   total: number;
   createdAt: string;
 };
-const UBadge = resolveComponent("UBadge");
+
 const data = ref([
   {
     id: "ORD-001",
@@ -39,6 +39,7 @@ const data = ref([
     createdAt: "2026-05-06T16:45:00",
   },
 ]);
+
 const columns = reactive<string[]>([
   "#",
   "fornecedor",
@@ -47,10 +48,64 @@ const columns = reactive<string[]>([
   "data",
 ]);
 
-const categories = {
-  stock: { name: "Estoque", color: "red" },
-  month: { name: "Mês", color: "purple" },
-};
+const cards = ref([
+  {
+    title: "Total de produtos",
+    description: "121",
+    to: "/products",
+  },
+  {
+    title: "Estoque baixo",
+    description: "13",
+    to: "/orders",
+  },
+  {
+    title: "Esgotado",
+    description: "41",
+    to: "/products",
+  },
+
+  {
+    title: "Fornecedores",
+    description: "21",
+    to: "/suppliers",
+  },
+]);
+
+const option = ref<ECOption>({
+  title: {
+    text: "Stock por Armazém",
+  },
+  tooltip: {},
+  xAxis: {
+    type: "category",
+    data: [
+      "Central",
+      "Viana",
+      "Talatona",
+      "Kilamba",
+      "Viana",
+      "Talatona",
+      "Kilamba",
+      "Kilamba",
+      "Viana",
+      "Talatona",
+      "Kilamba",
+    ],
+  },
+  yAxis: {
+    type: "value",
+  },
+  series: [
+    {
+      type: "bar",
+      data: [320, 210, 180, 90, 210, 180, 90, 210, 180, 90, 341],
+      itemStyle: {
+        color: "#ef4444",
+      },
+    },
+  ],
+});
 </script>
 
 <template>
@@ -58,66 +113,35 @@ const categories = {
     <div>
       <h1 class="text-2xl font-semibold">Dashboard</h1>
     </div>
-    <div class="flex space-x-4 w-full">
-      <UiCard description="1,912,182.00kz" title="valor total em estoque" />
-      <UiCard description="1,912,182.00kz" title="entradas do mês" />
-      <UiCard description="1,912,182.00kz" title="saídas do mês" />
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-4">
+      <UiCard
+        v-for="(card, index) in cards"
+        :key="index"
+        :to="card.to"
+        :title="card.title"
+        :description="card.description"
+      />
     </div>
-    <div class="flex gap-4 w-full">
-      <div class="bg-white py-2 px-4 rounded-md w-2/3">
-        <div class="flex items-center justify-between">
-          <h3 class="font-medium text-ui-text">Níveis de estoque</h3>
-          <div class="space-x-2 w-max">
-            <UButton label="semanal" color="neutral"></UButton>
-            <UButton label="mensal" color="neutral"></UButton>
-          </div>
+
+    <div class="flex gap-4 w-full h-max">
+      <div class="bg-white py-2 px-4 rounded-md space-y-10 w-1/4">
+        <div class="space-y-10">
+          <UiH3>Valor em estoque</UiH3>
+          <p class="text-3xl font-semibold text-ui-text">1.250.750,00 kz</p>
         </div>
-        <LineChart
-          :data="[
-            { month: 'Jan', stock: 11 },
-            { month: 'Feb', stock: 26 },
-            { month: 'Mar', stock: 59 },
-            { month: 'Apr', stock: 40 },
-            { month: 'May', stock: 67 },
-            { month: 'Jun', stock: 79 },
-            { month: 'Jul', stock: 75 },
-            { month: 'Aug', stock: 89 },
-            { month: 'Sept', stock: 129 },
-            { month: 'Oct', stock: 112 },
-            { month: 'Nov', stock: 142 },
-            { month: 'Dec', stock: 150 },
-            { month: 'Jan', stock: 156 },
-            { month: 'Feb', stock: 145 },
-            { month: 'Mar', stock: 179 },
-            { month: 'Apr', stock: 150 },
-            { month: 'May', stock: 90 },
-            { month: 'Jun', stock: 160 },
-            { month: 'Jul', stock: 130 },
-            { month: 'Aug', stock: 150 },
-          ]"
-          :categories="categories"
-        />
+        <div>
+          <UiH3>Compras de estoque</UiH3>
+          <ul>
+            <li>Pendente 4</li>
+            <li>Recebido 1</li>
+          </ul>
+        </div>
       </div>
-      <div class="bg-white py-2 px-4 rounded-md w-1/3">
-        <h3 class="font-medium text-ui-text">Alerta estoque baixo</h3>
-        <ul class="py-2 flex flex-col gap-2">
-          <UiLevel>Agua Pura</UiLevel>
-          <UiLevel>Speed</UiLevel>
-          <UiLevel>Fanta</UiLevel>
-          <li
-            class="pt-4 border-t mt-30 flex items-center justify-center gap-2 font-medium text-primary-600 border-t-grays-100"
-          >
-            <UButton
-              variant="soft"
-              class="w-full flex justify-center"
-              color="neutral"
-            >
-              Verificar estoque
-            </UButton>
-          </li>
-        </ul>
+      <div class="bg-white py-2 px-4 rounded-md min-h-96 w-3/4">
+        <VChart :option="option" />
       </div>
     </div>
+
     <UiTable title="últimos pedidos" :columns="columns" :data="data"></UiTable>
   </div>
 </template>
