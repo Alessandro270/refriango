@@ -114,6 +114,6 @@ const filteredOrders = computed(() => {
       </div>
     </div>
 
-    <UiTable title="Pedidos" :columns="columns" :data="filteredOrders" />
+    <UTable :data="filteredOrders" />
   </div>
 </template>

@@ -80,11 +80,6 @@ const filteredSuppliers = computed(() => {
     </div>
 
     <!-- Table -->
-    <UiTable
-      title="fornecedores"
-      ble
-      :columns="columns"
-      :data="filteredSuppliers"
-    />
+    <UTable :data="filteredSuppliers" />
   </div>
 </template>

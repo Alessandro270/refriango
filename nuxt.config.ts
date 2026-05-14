@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
 
   echarts: {
-    charts: ["BarChart"],
+    charts: ["BarChart", "PieChart", "LineChart", "LinesChart"],
     components: ["DatasetComponent", "GridComponent", "TooltipComponent"],
   },
 

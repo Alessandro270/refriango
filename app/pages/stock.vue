@@ -137,6 +137,6 @@ const selectedWarehouse = ref("Todos os Armazéns");
       </div>
     </div>
 
-    <UiTable :columns="columns" :data="stocks" />
+    <UTable  :data="stocks" />
   </div>
 </template>
