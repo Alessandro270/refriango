@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --font-sans: "Public Sans", sans-serif;
+
+  --color-green-50: #effdf5;
+  --color-green-100: #d9fbe8;
+  --color-green-200: #b3f5d1;
+  --color-green-300: #75edae;
+  --color-green-400: #00dc82;
+  --color-green-500: #00c16a;
+  --color-green-600: #00a155;
+  --color-green-700: #007f45;
+  --color-green-800: #016538;
+  --color-green-900: #0a5331;
+  --color-green-950: #052e16;
+
+  /* Backgrounds */
+  --color-ui-bg: #f4f1ec;
+  --color-ui-bg-muted: #ebe7e1;
+
+  /* Text */
+  --color-ui-text: #201c24;
+  --color-ui-text-muted: #6f6b73;
+  --color-ui-text-dimmed: #9a96a0;
+
+  /* Borders */
+  --color-ui-border: #e5e0d9;
+  --color-ui-border-muted: #f0ece7;
+
+  /* Primary Brand */
+
+  /* Neutral / Sidebar */
+  --color-grays-50: #f7f6f8;
+  --color-grays-100: #ece9ef;
+  --color-grays-200: #d8d2dd;
+  --color-grays-300: #b7afbf;
+  --color-grays-400: #91879b;
+  --color-grays-500: #6e6677;
+  --color-grays-600: #544d5d;
+  --color-grays-700: #3d3745;
+  --color-grays-800: #2b2731;
+  --color-grays-900: #211e24;
+  --color-grays-950: #161419;
+
+  /* Accent Colors */
+  --color-cyan: #8ed3df;
+  --color-beige: #efcfaf;
+  --color-purple: #6d6882;
+}
