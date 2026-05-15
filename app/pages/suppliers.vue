@@ -45,7 +45,21 @@ const suppliers = ref<Supplier[]>([
   },
 ]);
 
-const columns = ref(["#", "nome", "email", "telefone", "endereço", "pedidos"]);
+const columns = [
+  { accessorKey: "id", header: "#" },
+  { accessorKey: "name", header: "nome" },
+  { accessorKey: "email", header: "email" },
+  { accessorKey: "phone", header: "telefone" },
+  { accessorKey: "address", header: "endereço" },
+  {
+    accessorKey: "totalOrders",
+    header: "pedidos",
+    cell: ({ row }) =>
+      h(UBadge, { variant: "solid", color: "" }, () =>
+        row.getValue("totalOrders"),
+      ),
+  },
+];
 
 const search = ref("");
 
@@ -66,7 +80,7 @@ const filteredSuppliers = computed(() => {
       <UiH1>Fornecedores</UiH1>
     </div>
 
-    <UiTable :data="filteredSuppliers">
+    <UiTable :data="filteredSuppliers" :columns="columns">
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <UInput

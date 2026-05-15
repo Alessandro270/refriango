@@ -61,6 +61,10 @@ const columns = [
   {
     accessorKey: "total",
     header: "total",
+        cell: ({ row }) =>
+      h(UBadge, { variant: "solid", color: "" }, () =>
+        row.getValue("total"),
+      ),
   },
   {
     accessorKey: "createdAt",

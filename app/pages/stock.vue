@@ -95,14 +95,26 @@ const columns = [
   {
     accessorKey: "quantity",
     header: "qtd",
+    cell: ({ row }) =>
+      h(UBadge, { variant: "solid", color: "" }, () =>
+        row.getValue("quantity"),
+      ),
   },
   {
     accessorKey: "minimumStock",
     header: "Min",
+    cell: ({ row }) =>
+      h(UBadge, { variant: "solid", color: "" }, () =>
+        row.getValue("minimumStock"),
+      ),
   },
   {
     accessorKey: "maximumStock",
     header: "Max",
+    cell: ({ row }) =>
+      h(UBadge, { variant: "solid", color: "" }, () =>
+        row.getValue("maximumStock"),
+      ),
   },
   {
     accessorKey: "reorderQuantity",
@@ -181,7 +193,7 @@ const selectedWarehouse = ref("Todos os Armazéns");
             icon="i-lucide-search"
             size="md"
             variant="outline"
-            placeholder="Pesquisar..."
+            placeholder="Pesquisar estoque..."
           />
           <div class="flex gap-4">
             <USelect
