@@ -82,11 +82,7 @@ const products = ref([
 
 <template>
   <div class="space-y-6">
-    <div class="flex items-center justify-between">
-      <UiH1>Produtos</UiH1>
-
-      <UButton icon="lucide:plus"> Novo produto </UButton>
-    </div>
+    <UiH1>Produtos</UiH1>
 
     <div class="flex items-center justify-between gap-4">
       <UInput
@@ -97,13 +93,14 @@ const products = ref([
       />
 
       <div class="flex gap-4">
-        <USelect v-model="selectedStatus" :items="statusFilters" class="w-52" />
+        <USelect v-model="selectedStatus" :items="statusFilters" class="w-28" />
 
         <USelect
           v-model="selectedCategory"
           :items="categoryFilters"
-          class="w-64"
+          class="w-42"
         />
+        <UButton icon="lucide:plus"> Novo produto </UButton>
       </div>
     </div>
     <div

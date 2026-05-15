@@ -45,8 +45,8 @@ defineProps<{
 
       <div class="absolute top-2 right-2">
         <UBadge
-          :color="product.refrigerated ? 'primary' : 'neutral'"
-          variant="subtle"
+          :color="product.refrigerated ? 'success' : 'neutral'"
+          variant="solid"
         >
           {{ product.refrigerated ? "Refrigerado" : "Normal" }}
         </UBadge>

@@ -63,9 +63,7 @@ const filteredSuppliers = computed(() => {
 <template>
   <div class="space-y-6">
     <div class="flex items-center justify-between">
-      <UiH1 >Fornecedores</UiH1>
-
-      <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
+      <UiH1>Fornecedores</UiH1>
     </div>
 
     <UiTable :data="filteredSuppliers">
@@ -75,8 +73,8 @@ const filteredSuppliers = computed(() => {
             v-model="search"
             icon="i-lucide-search"
             placeholder="Pesquisar fornecedor..."
-            class="max-w-sm w-full"
           />
+          <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
         </div>
       </template>
     </UiTable>

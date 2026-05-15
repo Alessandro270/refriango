@@ -17,13 +17,13 @@ export default defineAppConfig({
     },
     badge: {
       slots: {
-        base: "font-semibold capitalize text-ui-text bg-zinc-200 rounded-sm  ",
+        base: "font-bold uppercase text-ui-text bg-zinc-200 rounded-sm  ",
         label: "truncate",
       },
       defaultVariants: {
         color: "",
         variant: "",
-        size: "md",
+        size: "sm",
       },
     },
     button: {

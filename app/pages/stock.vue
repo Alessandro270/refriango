@@ -9,7 +9,7 @@ const stocks = ref([
     minimumStock: 10,
     maximumStock: 50,
     reorderQuantity: 15,
-    status: "Disponível",
+    status: "normal",
     lastUpdated: "10/05/2026",
   },
   {
@@ -21,7 +21,7 @@ const stocks = ref([
     minimumStock: 10,
     maximumStock: 40,
     reorderQuantity: 20,
-    status: "Baixo",
+    status: "low-stock",
     lastUpdated: "10/05/2026",
   },
   {
@@ -33,7 +33,7 @@ const stocks = ref([
     minimumStock: 5,
     maximumStock: 25,
     reorderQuantity: 10,
-    status: "Esgotado",
+    status: "sold-out",
     lastUpdated: "09/05/2026",
   },
   {
@@ -45,7 +45,7 @@ const stocks = ref([
     minimumStock: 12,
     maximumStock: 60,
     reorderQuantity: 15,
-    status: "Disponível",
+    status: "normal",
     lastUpdated: "10/05/2026",
   },
   {
@@ -57,7 +57,7 @@ const stocks = ref([
     minimumStock: 10,
     maximumStock: 45,
     reorderQuantity: 20,
-    status: "Crítico",
+    status: "overstock",
     lastUpdated: "10/05/2026",
   },
   {
@@ -69,29 +69,90 @@ const stocks = ref([
     minimumStock: 8,
     maximumStock: 30,
     reorderQuantity: 10,
-    status: "Disponível",
+    status: "normal",
     lastUpdated: "10/05/2026",
   },
 ]);
+const UBadge = resolveComponent("UBadge");
 
 const columns = [
-  "#",
-  "produto",
-  "codigo",
-  "armazem",
-  "qtd",
-  "Min",
-  "Max",
-  "qtd. Reposicao",
-  "estado",
-  "ultima Atualizacao",
+  {
+    accessorKey: "id",
+    header: "#",
+  },
+  {
+    accessorKey: "product",
+    header: "produto",
+  },
+  {
+    accessorKey: "sku",
+    header: "codigo",
+  },
+  {
+    accessorKey: "warehouse",
+    header: "armazem",
+  },
+  {
+    accessorKey: "quantity",
+    header: "qtd",
+  },
+  {
+    accessorKey: "minimumStock",
+    header: "Min",
+  },
+  {
+    accessorKey: "maximumStock",
+    header: "Max",
+  },
+  {
+    accessorKey: "reorderQuantity",
+    header: "qtd. Reposicao",
+    cell: ({ row }) =>
+      h(UBadge, { variant: "solid", color: "" }, () =>
+        row.getValue("reorderQuantity"),
+      ),
+  },
+
+  {
+    accessorKey: "status",
+    header: "estado",
+    cell: ({ row }) => {
+      let color = "";
+
+      switch (row.getValue("status")) {
+        case "low-stock":
+          color = "warning";
+          break;
+
+        case "sold-out":
+          color = "error";
+          break;
+
+        case "overstock":
+          color = "info";
+          break;
+
+        default:
+          color = "success";
+      }
+
+      return h(UBadge, { variant: "solid", color }, () =>
+        row.getValue("status"),
+      );
+    },
+  },
+  {
+    accessorKey: "lastUpdated",
+    header: "ultima Atualizacao",
+  },
 ];
+
 const statusFilters = ref([
   "Todos",
-  "Disponível",
-  "Baixo",
-  "Crítico",
-  "Esgotado",
+  "normal",
+  "low-stock",
+  "overstock",
+  "sold-out",
 ]);
 
 const warehouseFilters = ref([
@@ -111,32 +172,35 @@ const selectedWarehouse = ref("Todos os Armazéns");
   <div class="space-y-6">
     <div class="w-full flex justify-between">
       <UiH1>Estoque</UiH1>
-      <UButton icon="lucide:plus">Novo Estoque</UButton>
-    </div>
-    <div class="flex justify-between">
-      <UInput
-        icon="i-lucide-search"
-        size="md"
-        variant="outline"
-        placeholder="Pesquisar..."
-      />
-      <div class="flex gap-4">
-        <USelect
-          v-model="selectedStatus"
-          :items="statusFilters"
-          placeholder="Filtrar por estado"
-          class="w-52"
-        />
-
-        <USelect
-          v-model="selectedWarehouse"
-          :items="warehouseFilters"
-          placeholder="Filtrar por armazém"
-          class="w-64"
-        />
-      </div>
     </div>
 
-    <UTable  :data="stocks" />
+    <UiTable :data="stocks" :columns="columns">
+      <template #header>
+        <div class="flex justify-between">
+          <UInput
+            icon="i-lucide-search"
+            size="md"
+            variant="outline"
+            placeholder="Pesquisar..."
+          />
+          <div class="flex gap-4">
+            <USelect
+              v-model="selectedStatus"
+              :items="statusFilters"
+              placeholder="Filtrar por estado"
+              class="w-28"
+            />
+
+            <USelect
+              v-model="selectedWarehouse"
+              :items="warehouseFilters"
+              placeholder="Filtrar por armazém"
+              class="w-40"
+            />
+            <UButton icon="lucide:plus">Novo Estoque</UButton>
+          </div>
+        </div>
+      </template>
+    </UiTable>
   </div>
 </template>

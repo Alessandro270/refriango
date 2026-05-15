@@ -13,41 +13,94 @@ const orders = ref<Order[]>([
   {
     id: "ORD-001",
     supplierId: "SUP-001",
-    status: "Concluído",
+    status: "completed",
     total: 125000,
     createdAt: "10/05/2026",
   },
   {
     id: "ORD-002",
     supplierId: "SUP-002",
-    status: "Pendente",
+    status: "pending",
     total: 45000,
     createdAt: "09/05/2026",
   },
   {
     id: "ORD-003",
     supplierId: "SUP-003",
-    status: "Cancelado",
+    status: "cancelled",
     total: 98000,
     createdAt: "08/05/2026",
   },
   {
     id: "ORD-004",
     supplierId: "SUP-001",
-    status: "Concluído",
+    status: "completed",
     total: 76000,
     createdAt: "07/05/2026",
   },
   {
     id: "ORD-005",
     supplierId: "SUP-004",
-    status: "Pendente",
+    status: "pending",
     total: 51000,
     createdAt: "06/05/2026",
   },
 ]);
 
-const statusFilters = ref(["Todos", "Concluído", "Pendente", "Cancelado"]);
+const UBadge = resolveComponent("UBadge");
+
+const columns = [
+  {
+    accessorKey: "id",
+    header: "#",
+  },
+  {
+    accessorKey: "supplierId",
+    header: "fornecedor",
+  },
+  {
+    accessorKey: "total",
+    header: "total",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "data",
+  },
+  {
+    accessorKey: "status",
+    header: "estado",
+    cell: ({ row }) => {
+      let color = "";
+
+      switch (row.getValue("status")) {
+        case "pending":
+          color = "warning";
+          break;
+
+        case "completed":
+          color = "success";
+          break;
+
+        case "cancelled":
+          color = "error";
+          break;
+
+        case "processing":
+          color = "info";
+          break;
+
+        default:
+          color = "neutral";
+      }
+
+      return h(UBadge, {  variant: "solid", color }, () =>
+        row.getValue("status"),
+      );
+    },
+  },
+];
+
+const statusFilters = ref(["Todos", "completed", "pending", "cancelled"]);
 
 const selectedStatus = ref("Todos");
 const search = ref("");
@@ -70,7 +123,7 @@ const filteredOrders = computed(() => {
   <div class="space-y-6">
     <UiH1>pedidos</UiH1>
 
-    <UiTable :data="filteredOrders">
+    <UiTable :data="filteredOrders" :columns="columns">
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <UInput
@@ -79,7 +132,7 @@ const filteredOrders = computed(() => {
             placeholder="Pesquisar pedido..."
           />
           <div class="flex items-center gap-4">
-          <USelect v-model="selectedStatus" :items="statusFilters" />
+            <USelect v-model="selectedStatus" :items="statusFilters" />
             <UButton icon="lucide:plus"> Novo Pedido </UButton>
           </div>
         </div>

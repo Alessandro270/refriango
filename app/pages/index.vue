@@ -308,7 +308,7 @@ const columns = [
       }
       console.log(color);
 
-      return h(UBadge, { class: "capitalize", variant: "solid", color }, () =>
+      return h(UBadge, {  variant: "solid", color }, () =>
         row.getValue("status"),
       );
     },
