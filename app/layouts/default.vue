@@ -16,9 +16,15 @@ const items: NavigationMenuItem[] = [
     icon: "material-symbols-light:business-center-outline-sharp",
     to: "/suppliers",
   },
+  
+  {
+    label: "Produtos",
+    icon: "lucide:boxes",
+    to: "/products",
+  },
   {
     label: "Estoque",
-    icon: "lucide:boxes",
+    icon: "lsicon:management-stockout-outline",
     to: "/stock",
   },
   {

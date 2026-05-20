@@ -105,7 +105,7 @@ const stocks = ref([
 const UBadge = resolveComponent("UBadge");
 const UButton = resolveComponent("UButton");
 const UModal = resolveComponent("UModal");
-const UiModalStock = resolveComponent('UiModalStock')
+const UiModalProduct = resolveComponent("UiModalProduct");
 
 const columns = [
   {
@@ -144,24 +144,7 @@ const columns = [
       return h(UBadge, { variant: "solid", color }, () => quantity);
     },
   },
-  {
-    header: "Acoes",
-    cell: ({}) =>
-      h(
-        UModal,
-        {
-          title: "Detalhes do produto",
-        },
-        {
-          default: () =>
-            h(UButton, {
-              variant: "subtle",
-              icon: "material-symbols:edit-outline-sharp",
-            }, ()=>'editar'),
-          body: ()=>h(UiModalStock)
-        },
-      ),
-  },
+
 ];
 
 const statusFilters = ref([
@@ -215,7 +198,13 @@ const selectedWarehouse = ref("Todos os Armazéns");
               placeholder="Filtrar por armazém"
               class="w-40"
             />
-            <UButton icon="lucide:plus">Novo Estoque</UButton>
+
+            <UModal title="Cadastrar entrada">
+              <UButton icon="lucide:plus">Nova entrada</UButton>
+              <template #body>
+                <UiModalEntry />
+              </template>
+            </UModal>
           </div>
         </div>
       </template>

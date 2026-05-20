@@ -51,7 +51,7 @@ export default defineAppConfig({
     variants:{
       fullscreen: {
         false:{
-          content: 'w-[calc(100vw-2rem)] max-w-4xl rounded-sm shadow-lg max-h-120 dark:bg-grays-900 bg-white overflow-y-scroll'
+          content: 'w-[calc(100vw-2rem)] max-w-2xl h-180 rounded-sm shadow-lg  dark:bg-grays-900 bg-white overflow-y-scroll'
         }
       }
     }
