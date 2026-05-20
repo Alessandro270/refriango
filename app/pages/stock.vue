@@ -2,78 +2,110 @@
 const stocks = ref([
   {
     id: "STK-2026-001",
-    product: "MacBook Pro M3",
-    sku: "APL-MBP-M3",
-    warehouse: "Armazém Central",
+    product: "Coca-Cola 2L",
+    category: "Refrigerantes",
+    purchasePrice: 1400,
+    salePrice: 1800,
     quantity: 24,
     minimumStock: 10,
-    maximumStock: 50,
-    reorderQuantity: 15,
-    status: "normal",
-    lastUpdated: "10/05/2026",
+    maximumStock: 40,
   },
   {
     id: "STK-2026-002",
-    product: "Teclado Mecânico RGB",
-    sku: "KEY-RGB-87",
-    warehouse: "Filial Talatona",
-    quantity: 6,
+    product: "Fanta Laranja 2L",
+    category: "Refrigerantes",
+    purchasePrice: 1350,
+    salePrice: 1750,
+    quantity: 8,
     minimumStock: 10,
-    maximumStock: 40,
-    reorderQuantity: 20,
-    status: "low-stock",
-    lastUpdated: "10/05/2026",
+    maximumStock: 35,
   },
   {
     id: "STK-2026-003",
-    product: 'Monitor UltraWide 34"',
-    sku: "MON-UW34",
-    warehouse: "Armazém Viana",
+    product: "Sprite 2L",
+    category: "Refrigerantes",
+    purchasePrice: 1300,
+    salePrice: 1700,
     quantity: 0,
-    minimumStock: 5,
-    maximumStock: 25,
-    reorderQuantity: 10,
-    status: "sold-out",
-    lastUpdated: "09/05/2026",
+    minimumStock: 8,
+    maximumStock: 30,
   },
   {
     id: "STK-2026-004",
-    product: "Mouse Logitech MX",
-    sku: "MSE-MX3",
-    warehouse: "Armazém Central",
-    quantity: 38,
-    minimumStock: 12,
-    maximumStock: 60,
-    reorderQuantity: 15,
-    status: "normal",
-    lastUpdated: "10/05/2026",
+    product: "Água Pura 1.5L",
+    category: "Águas",
+    purchasePrice: 650,
+    salePrice: 900,
+    quantity: 52,
+    minimumStock: 20,
+    maximumStock: 50,
   },
   {
     id: "STK-2026-005",
-    product: "SSD NVMe 1TB",
-    sku: "SSD-NV1TB",
-    warehouse: "Filial Kilamba",
-    quantity: 11,
-    minimumStock: 10,
-    maximumStock: 45,
-    reorderQuantity: 20,
-    status: "overstock",
-    lastUpdated: "10/05/2026",
+    product: "Sumol Ananás",
+    category: "Sumos",
+    purchasePrice: 950,
+    salePrice: 1250,
+    quantity: 14,
+    minimumStock: 6,
+    maximumStock: 25,
   },
   {
     id: "STK-2026-006",
-    product: "Cadeira Gamer Pro",
-    sku: "CHR-GMR-PRO",
-    warehouse: "Armazém Benfica",
-    quantity: 19,
+    product: "Red Bull 250ml",
+    category: "Energéticas",
+    purchasePrice: 1700,
+    salePrice: 2200,
+    quantity: 5,
     minimumStock: 8,
+    maximumStock: 20,
+  },
+  {
+    id: "STK-2026-007",
+    product: "Compal Manga",
+    category: "Sumos",
+    purchasePrice: 1050,
+    salePrice: 1400,
+    quantity: 18,
+    minimumStock: 10,
     maximumStock: 30,
-    reorderQuantity: 10,
-    status: "normal",
-    lastUpdated: "10/05/2026",
+  },
+  {
+    id: "STK-2026-008",
+    product: "Pepsi 2L",
+    category: "Refrigerantes",
+    purchasePrice: 1250,
+    salePrice: 1650,
+    quantity: 11,
+    minimumStock: 10,
+    maximumStock: 35,
+  },
+  {
+    id: "STK-2026-009",
+    product: "Monster Energy",
+    category: "Energéticas",
+    purchasePrice: 1900,
+    salePrice: 2400,
+    quantity: 2,
+    minimumStock: 5,
+    maximumStock: 15,
+  },
+  {
+    id: "STK-2026-010",
+    product: "Água com Gás 500ml",
+    category: "Águas",
+    purchasePrice: 800,
+    salePrice: 1100,
+    quantity: 27,
+    minimumStock: 12,
+    maximumStock: 30,
   },
 ]);
+
 const UBadge = resolveComponent("UBadge");
+const UButton = resolveComponent("UButton");
+const UModal = resolveComponent("UModal");
+const UiModalStock = resolveComponent('UiModalStock')
 
 const columns = [
   {
@@ -85,77 +117,50 @@ const columns = [
     header: "produto",
   },
   {
-    accessorKey: "sku",
-    header: "codigo",
+    accessorKey: "category",
+    header: "categoria",
   },
   {
-    accessorKey: "warehouse",
-    header: "armazem",
+    accessorKey: "purchasePrice",
+    header: "Preco de compra",
+  },
+
+  {
+    accessorKey: "salePrice",
+    header: "Preco de venda",
   },
   {
     accessorKey: "quantity",
-    header: "qtd",
-    cell: ({ row }) =>
-      h(UBadge, { variant: "solid", color: "" }, () =>
-        row.getValue("quantity"),
-      ),
-  },
-  {
-    accessorKey: "minimumStock",
-    header: "Min",
-    cell: ({ row }) =>
-      h(UBadge, { variant: "solid", color: "" }, () =>
-        row.getValue("minimumStock"),
-      ),
-  },
-  {
-    accessorKey: "maximumStock",
-    header: "Max",
-    cell: ({ row }) =>
-      h(UBadge, { variant: "solid", color: "" }, () =>
-        row.getValue("maximumStock"),
-      ),
-  },
-  {
-    accessorKey: "reorderQuantity",
-    header: "qtd. Reposicao",
-    cell: ({ row }) =>
-      h(UBadge, { variant: "solid", color: "" }, () =>
-        row.getValue("reorderQuantity"),
-      ),
-  },
-
-  {
-    accessorKey: "status",
-    header: "estado",
+    header: "stock",
     cell: ({ row }) => {
       let color = "";
+      const { minimumStock, maximumStock, quantity } = row.original;
 
-      switch (row.getValue("status")) {
-        case "low-stock":
-          color = "warning";
-          break;
+      if (quantity <= 0) color = "error";
+      else if (quantity < minimumStock) color = "warning";
+      else if (quantity < maximumStock) color = "success";
+      else color = "warning";
 
-        case "sold-out":
-          color = "error";
-          break;
-
-        case "overstock":
-          color = "info";
-          break;
-
-        default:
-          color = "success";
-      }
-
-      return h(UBadge, { variant: "solid", color }, () =>
-        row.getValue("status"),
-      );
+      return h(UBadge, { variant: "solid", color }, () => quantity);
     },
   },
   {
-    accessorKey: "lastUpdated",
-    header: "ultima Atualizacao",
+    header: "Acoes",
+    cell: ({}) =>
+      h(
+        UModal,
+        {
+          title: "Detalhes do produto",
+        },
+        {
+          default: () =>
+            h(UButton, {
+              variant: "subtle",
+              icon: "material-symbols:edit-outline-sharp",
+            }, ()=>'editar'),
+          body: ()=>h(UiModalStock)
+        },
+      ),
   },
 ];
 
@@ -192,7 +197,8 @@ const selectedWarehouse = ref("Todos os Armazéns");
           <UInput
             icon="i-lucide-search"
             size="md"
-            variant="outline"
+            variant="ghost"
+            color="neutral"
             placeholder="Pesquisar estoque..."
           />
           <div class="flex gap-4">

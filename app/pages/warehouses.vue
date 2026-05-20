@@ -44,7 +44,7 @@ const warehouses = ref<Warehouse[]>([
 ]);
 
 const UBadge = resolveComponent("UBadge");
-
+const UButton = resolveComponent('UButton')
 const columns = [
   {
     accessorKey: "id",
@@ -75,6 +75,11 @@ const columns = [
   {
     accessorKey: "createdAt",
     header: "Criado em",
+  },
+    {
+    header: "Acoes",
+    cell: ({}) =>
+      h(UButton, { variant: "subtle", icon: "material-symbols:edit-outline-sharp"  },()=>'editar'),
   },
 ];
 

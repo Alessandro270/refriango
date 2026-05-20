@@ -28,7 +28,7 @@ export default defineAppConfig({
     },
     button: {
       slots: {
-        base: "bg-grays-800 text-white capitalize",
+        base: " dark:bg-grays-950 dark:text-white capitalize transition dark:hover:bg-grays-950/60 dark:hover:text-slate-50/80",
       },
       defaultVariants: {
         color: "",
@@ -38,13 +38,22 @@ export default defineAppConfig({
    },
    input: {
     slots: {
-      base: "bg-grays-900 text-white placeholder:text-grays-200",
+      base: "dark:bg-grays-950 dark:text-white placeholder:text-grays-200",
       leadingIcon: "text-grays-300"
     },
     defaultVariants: {
       color: "",
       variant: "",
       size: "md"
+    }
+   },
+   modal:{
+    variants:{
+      fullscreen: {
+        false:{
+          content: 'w-[calc(100vw-2rem)] max-w-4xl rounded-sm shadow-lg max-h-120 dark:bg-grays-900 bg-white overflow-y-scroll'
+        }
+      }
     }
    }
   },

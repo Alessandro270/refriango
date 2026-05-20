@@ -29,7 +29,7 @@ const imgSize = computed(() => {
 
 <template>
   <h1
-    class="capitalize font-serif font-medium flex space-x-6 items-center"
+    class="capitalize h-max font-serif font-medium flex space-x-6 items-center"
     :class="actualSize"
   >
     <img src="~/assets/refri.png" alt="refriango" :class="imgSize" />

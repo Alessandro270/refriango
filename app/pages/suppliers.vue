@@ -45,6 +45,8 @@ const suppliers = ref<Supplier[]>([
   },
 ]);
 
+const UButton = resolveComponent('UButton')
+
 const columns = [
   { accessorKey: "id", header: "#" },
   { accessorKey: "name", header: "nome" },
@@ -58,6 +60,11 @@ const columns = [
       h(UBadge, { variant: "solid", color: "" }, () =>
         row.getValue("totalOrders"),
       ),
+  },
+    {
+    header: "Acoes",
+    cell: ({}) =>
+      h(UButton, { variant: "subtle", icon: "material-symbols:edit-outline-sharp"  },()=>'editar'),
   },
 ];
 

@@ -61,18 +61,17 @@ async function onSubmit(payload: Record<string, any>) {
 
 <template>
   <div
-    class="h-screen bg-grays-800 flex flex-col items-center justify-center gap-4 p-4"
+    class="h-screen bg-ui-bg dark:bg-grays-800 flex flex-col items-center justify-center gap-4 p-4"
   >
-    <UPageCard class="w-full max-w-md">
+    <UPageCard class="w-full max-w-md bg-white dark:bg-grays-900" variant="ghost" >
       <UAuthForm
         title="Criar conta"
-        description="Preencha os dados abaixo para criar sua conta"
         :fields="fields"
         variant="ghost"
         :submit="{
           label: 'Criar conta',
-          color: 'error',
-          variant: 'subtle',
+          color: 'neutral',
+          variant: 'solid',
         }"
         @submit="onSubmit"
       >
@@ -83,10 +82,10 @@ async function onSubmit(payload: Record<string, any>) {
         </template>
 
         <template #footer>
-          <div class="text-center text-sm text-gray-400">
+          <div class="text-center text-sm text-ui-text dark:text-gray-400">
             Já possui uma conta?
             <NuxtLink
-              to="/login"
+              to="/auth/login"
               class="text-primary font-medium hover:underline"
             >
               Fazer login

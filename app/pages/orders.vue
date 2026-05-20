@@ -48,6 +48,7 @@ const orders = ref<Order[]>([
 ]);
 
 const UBadge = resolveComponent("UBadge");
+const UButton = resolveComponent('UButton')
 
 const columns = [
   {
@@ -80,19 +81,15 @@ const columns = [
         case "pending":
           color = "warning";
           break;
-
         case "completed":
           color = "success";
           break;
-
         case "cancelled":
           color = "error";
           break;
-
         case "processing":
           color = "info";
           break;
-
         default:
           color = "neutral";
       }
@@ -101,6 +98,11 @@ const columns = [
         row.getValue("status"),
       );
     },
+  },
+    {
+    header: "Acoes",
+    cell: ({}) =>
+      h(UButton, { variant: "subtle", icon: "material-symbols:edit-outline-sharp"  },()=>'editar'),
   },
 ];
 

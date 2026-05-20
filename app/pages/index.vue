@@ -111,208 +111,154 @@ const option = {
   ],
 };
 
-type StockItem = {
-  name: string;
-  category: string;
-  quantity: number;
-  unitPrice: number;
-  weight: string;
-  status: "low-stock" | "normal" | "overstock" | "sold-out";
-  expiresAt: string;
-};
-
-const data = reactive<StockItem[]>([
+const data = ref([
   {
-    name: "Coca-Cola 2L",
-    category: "Soft Drinks",
-    quantity: 45,
-    unitPrice: 2500,
-    weight: "2kg",
-    status: "overstock",
-    expiresAt: "2026-09-15",
+    id: "STK-2026-001",
+    product: "Coca-Cola 2L",
+    category: "Refrigerantes",
+    purchasePrice: 1400,
+    salePrice: 1800,
+    quantity: 24,
+    minimumStock: 10,
+    maximumStock: 40,
   },
   {
-    name: "Fanta Orange 1.5L",
-    category: "Soft Drinks",
-    quantity: 12,
-    unitPrice: 2200,
-    weight: "1.5kg",
-    status: "normal",
-    expiresAt: "2026-08-20",
+    id: "STK-2026-002",
+    product: "Fanta Laranja 2L",
+    category: "Refrigerantes",
+    purchasePrice: 1350,
+    salePrice: 1750,
+    quantity: 8,
+    minimumStock: 10,
+    maximumStock: 35,
   },
   {
-    name: "Sprite 2L",
-    category: "Soft Drinks",
-    quantity: 3,
-    unitPrice: 2400,
-    weight: "2kg",
-    status: "low-stock",
-    expiresAt: "2026-07-10",
-  },
-  {
-    name: "Pepsi 1L",
-    category: "Soft Drinks",
+    id: "STK-2026-003",
+    product: "Sprite 2L",
+    category: "Refrigerantes",
+    purchasePrice: 1300,
+    salePrice: 1700,
     quantity: 0,
-    unitPrice: 1800,
-    weight: "1kg",
-    status: "sold-out",
-    expiresAt: "2026-06-01",
+    minimumStock: 8,
+    maximumStock: 30,
   },
   {
-    name: "Schweppes Tonic 330ml",
-    category: "Soft Drinks",
-    quantity: 20,
-    unitPrice: 950,
-    weight: "330g",
-    status: "normal",
-    expiresAt: "2026-10-05",
-  },
-  {
-    name: "Mirinda Orange 500ml",
-    category: "Soft Drinks",
-    quantity: 60,
-    unitPrice: 700,
-    weight: "500g",
-    status: "overstock",
-    expiresAt: "2026-11-12",
-  },
-  {
-    name: "7UP 1.5L",
-    category: "Soft Drinks",
-    quantity: 5,
-    unitPrice: 2100,
-    weight: "1.5kg",
-    status: "low-stock",
-    expiresAt: "2026-07-30",
-  },
-  {
-    name: "Coca-Cola Zero 330ml",
-    category: "Soft Drinks",
-    quantity: 28,
-    unitPrice: 850,
-    weight: "330g",
-    status: "normal",
-    expiresAt: "2026-12-01",
-  },
-  {
-    name: "Fanta Pineapple 500ml",
-    category: "Soft Drinks",
-    quantity: 0,
-    unitPrice: 750,
-    weight: "500g",
-    status: "sold-out",
-    expiresAt: "2026-05-28",
-  },
-  {
-    name: "Pepsi Black 330ml",
-    category: "Soft Drinks",
-    quantity: 18,
-    unitPrice: 900,
-    weight: "330g",
-    status: "normal",
-    expiresAt: "2026-09-09",
-  },
-  {
-    name: "Red Grapes Soda 1L",
-    category: "Soft Drinks",
-    quantity: 75,
-    unitPrice: 1900,
-    weight: "1kg",
-    status: "overstock",
-    expiresAt: "2027-01-15",
-  },
-  {
-    name: "Schweppes Lemon 330ml",
-    category: "Soft Drinks",
-    quantity: 2,
-    unitPrice: 950,
-    weight: "330g",
-    status: "low-stock",
-    expiresAt: "2026-06-18",
-  },
-  {
-    name: "Mountain Dew 500ml",
-    category: "Soft Drinks",
-    quantity: 14,
-    unitPrice: 1100,
-    weight: "500g",
-    status: "normal",
-    expiresAt: "2026-10-22",
-  },
-  {
-    name: "Big Cola 2L",
-    category: "Soft Drinks",
+    id: "STK-2026-004",
+    product: "Água Pura 1.5L",
+    category: "Águas",
+    purchasePrice: 650,
+    salePrice: 900,
     quantity: 52,
-    unitPrice: 1700,
-    weight: "2kg",
-    status: "overstock",
-    expiresAt: "2026-11-30",
+    minimumStock: 20,
+    maximumStock: 50,
   },
   {
-    name: "Sprite Zero 500ml",
-    category: "Soft Drinks",
-    quantity: 0,
-    unitPrice: 950,
-    weight: "500g",
-    status: "sold-out",
-    expiresAt: "2026-06-25",
+    id: "STK-2026-005",
+    product: "Sumol Ananás",
+    category: "Sumos",
+    purchasePrice: 950,
+    salePrice: 1250,
+    quantity: 14,
+    minimumStock: 6,
+    maximumStock: 25,
+  },
+  {
+    id: "STK-2026-006",
+    product: "Red Bull 250ml",
+    category: "Energéticas",
+    purchasePrice: 1700,
+    salePrice: 2200,
+    quantity: 5,
+    minimumStock: 8,
+    maximumStock: 20,
+  },
+  {
+    id: "STK-2026-007",
+    product: "Compal Manga",
+    category: "Sumos",
+    purchasePrice: 1050,
+    salePrice: 1400,
+    quantity: 18,
+    minimumStock: 10,
+    maximumStock: 30,
+  },
+  {
+    id: "STK-2026-008",
+    product: "Pepsi 2L",
+    category: "Refrigerantes",
+    purchasePrice: 1250,
+    salePrice: 1650,
+    quantity: 11,
+    minimumStock: 10,
+    maximumStock: 35,
+  },
+  {
+    id: "STK-2026-009",
+    product: "Monster Energy",
+    category: "Energéticas",
+    purchasePrice: 1900,
+    salePrice: 2400,
+    quantity: 2,
+    minimumStock: 5,
+    maximumStock: 15,
+  },
+  {
+    id: "STK-2026-010",
+    product: "Água com Gás 500ml",
+    category: "Águas",
+    purchasePrice: 800,
+    salePrice: 1100,
+    quantity: 27,
+    minimumStock: 12,
+    maximumStock: 30,
   },
 ]);
 
 const filteredData = computed(() =>
-  data.filter((el) => el.status == "low-stock" || el.status == "sold-out"),
+  data.value.filter((el) => el.quantity < el.minimumStock),
 );
 
 const UBadge = resolveComponent("UBadge");
+const UButton = resolveComponent("UButton");
 
 const columns = [
   {
-    accessorKey: "name",
-    header: "nome",
+    accessorKey: "id",
+    header: "#",
+  },
+  {
+    accessorKey: "product",
+    header: "produto",
   },
   {
     accessorKey: "category",
     header: "categoria",
   },
   {
-    accessorKey: "quantity",
-    header: "qtd",
-  },
-  {
-    accessorKey: "unitPrice",
-    header: "preco",
-  },
-  {
-    accessorKey: "weight",
-    header: "peso",
+    accessorKey: "purchasePrice",
+    header: "Preco de compra",
   },
 
   {
-    accessorKey: "status",
-    header: "estado",
+    accessorKey: "salePrice",
+    header: "Preco de venda",
+  },
+  {
+    accessorKey: "quantity",
+    header: "stock",
     cell: ({ row }) => {
       let color = "";
+      const { minimumStock, maximumStock, quantity } = row.original;
 
-      switch (row.getValue("status")) {
-        case "low-stock":
-          color = "warning";
-          break;
-        case "sold-out":
-          color = "error";
-          break;
-        case "overstock":
-          color = "info";
-          break;
-        default:
-          color = "success";
-      }
-      console.log(color);
+      if (quantity <= 0) color = "error";
+      else if (quantity < minimumStock) color = "warning";
+      else if (quantity < maximumStock) color = "success";
+      else color = "warning";
 
-      return h(UBadge, {  variant: "solid", color }, () =>
-        row.getValue("status"),
-      );
+      return h(UBadge, { variant: "solid", color }, () => quantity);
     },
   },
+
 ];
 </script>
 

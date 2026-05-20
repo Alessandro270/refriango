@@ -75,10 +75,10 @@ defineProps<{
 
         <span class="font-semibold text-gray-900 flex items-center">
           <span>{{ product.unitPrice.toLocaleString("pt-AO") }} Kz</span>
-          <UIcon
+          <!-- <UIcon
             name="material-symbols:attach-money"
             class="text-green-500 size-5"
-          />
+          /> -->
         </span>
       </div>
 

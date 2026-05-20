@@ -31,25 +31,41 @@ const fields: AuthFormField[] = [
 
 <template>
   <div
-    class="h-screen bg-grays-800 flex flex-col items-center justify-center gap-4 p-4"
+    class="h-screen bg-ui-bg dark:bg-grays-800 flex flex-col items-center justify-center gap-4 p-4"
   >
-    <UPageCard class="w-full max-w-md">
+    <UPageCard
+      class="w-full max-w-md bg-white dark:bg-grays-900"
+      variant="ghost"
+      color="neutral"
+    >
       <UAuthForm
-        description="Coloque suas credenciais para fazer login"
         :fields="fields"
-        variant="ghost"
+        variant="solid"
         :submit="{
           label: 'Fazer login',
-          color: 'error',
-          variant: 'subtle',
+          color: 'neutral',
+          variant: 'solid',
         }"
       >
-        <template #title>
-          <div class="flex items-center justify-center w-full py-3">
+        <template #header>
+          <div class="flex items-center justify-center w-full">
             <UiHeader size="lg" />
           </div>
         </template>
+        
+        <template #footer>
+          <div class="text-center text-sm text-ui-text dark:text-gray-400">
+            Ainda nao possui uma conta?
+            <NuxtLink
+              to="/auth/login"
+              class="text-primary font-medium hover:underline"
+            >
+              Cadastre-se
+            </NuxtLink>
+          </div>
+        </template>
       </UAuthForm>
+      
     </UPageCard>
   </div>
 </template>

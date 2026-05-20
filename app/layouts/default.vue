@@ -7,11 +7,6 @@ const items: NavigationMenuItem[] = [
     to: "/",
   },
   {
-    label: "Produtos",
-    icon: "lucide:boxes",
-    to: "/products",
-  },
-  {
     label: "Pedidos",
     icon: "material-symbols:border-color-outline",
     to: "/orders",
@@ -23,7 +18,7 @@ const items: NavigationMenuItem[] = [
   },
   {
     label: "Estoque",
-    icon: "lsicon:management-stockout-outline",
+    icon: "lucide:boxes",
     to: "/stock",
   },
   {
