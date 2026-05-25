@@ -145,7 +145,7 @@ const products = ref([
             v-model="search"
             icon="i-lucide-search"
             placeholder="Pesquisar produto..."
-            class="max-w-sm"
+            class="max-w-sm bg-white"
           />
 
           <div class="flex gap-4">

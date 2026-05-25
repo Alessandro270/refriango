@@ -9,7 +9,7 @@ export default defineAppConfig({
       slots: {
         base: "bg-white text-default rounded-md",
         th: "text-ui-text capitalize",
-        thead: "text-grays-900 bg-grays-50",
+        thead: "text-grays-900 bg-zinc-50",
         td: "text-grays-600",
         tr: "border-0",
         separator: "bg-transparent",
@@ -26,14 +26,18 @@ export default defineAppConfig({
         size: "sm",
       },
     },
-    input: {
-      base: "transition",
-    },
     button: {
       defaultVariants: {
         color: "neutral",
         variant: "soft",
         size: "md",
+      },
+    },
+    input: {
+      variants: {
+        variant: {
+          outline: "text-zinc-600 bg-transparent ring transition ring-zinc-300",
+        },
       },
     },
   },
