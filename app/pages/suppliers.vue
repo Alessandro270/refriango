@@ -45,7 +45,7 @@ const suppliers = ref<Supplier[]>([
   },
 ]);
 
-const UButton = resolveComponent('UButton')
+const UButton = resolveComponent("UButton");
 
 const columns = [
   { accessorKey: "id", header: "#" },
@@ -53,19 +53,7 @@ const columns = [
   { accessorKey: "email", header: "email" },
   { accessorKey: "phone", header: "telefone" },
   { accessorKey: "address", header: "endereço" },
-  {
-    accessorKey: "totalOrders",
-    header: "pedidos",
-    cell: ({ row }) =>
-      h(UBadge, { variant: "solid", color: "" }, () =>
-        row.getValue("totalOrders"),
-      ),
-  },
-    {
-    header: "Acoes",
-    cell: ({}) =>
-      h(UButton, { variant: "subtle", icon: "material-symbols:edit-outline-sharp"  },()=>'editar'),
-  },
+  { accessorKey: "totalOrders", header: "pedidos" },
 ];
 
 const search = ref("");
@@ -95,7 +83,14 @@ const filteredSuppliers = computed(() => {
             icon="i-lucide-search"
             placeholder="Pesquisar fornecedor..."
           />
-          <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
+          <UModal title="Novo fornecedor">
+            <UButton color="neutral" variant="soft" icon="lucide:plus">
+              Novo Fornecedor
+            </UButton>
+            <template #body>
+              <UiModalSupplier />
+            </template>
+          </UModal>
         </div>
       </template>
     </UiTable>

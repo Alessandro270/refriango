@@ -57,7 +57,7 @@ const fields: AuthFormField[] = [
           <div class="text-center text-sm text-ui-text dark:text-gray-400">
             Ainda nao possui uma conta?
             <NuxtLink
-              to="/auth/login"
+              to="/auth/signup"
               class="text-primary font-medium hover:underline"
             >
               Cadastre-se

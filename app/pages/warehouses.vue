@@ -44,7 +44,7 @@ const warehouses = ref<Warehouse[]>([
 ]);
 
 const UBadge = resolveComponent("UBadge");
-const UButton = resolveComponent('UButton')
+const UButton = resolveComponent("UButton");
 const columns = [
   {
     accessorKey: "id",
@@ -64,22 +64,12 @@ const columns = [
     header: "Refrigerado",
     cell: ({ row }: any) => {
       const refrigerated = row.getValue("refrigerated");
-
-      return h(
-        UBadge,
-        { variant: "solid", color: refrigerated ? "success" : "error" },
-        () => (refrigerated ? "sim" : "nao"),
-      );
+      return refrigerated ? "sim" : "nao";
     },
   },
   {
     accessorKey: "createdAt",
     header: "Criado em",
-  },
-    {
-    header: "Acoes",
-    cell: ({}) =>
-      h(UButton, { variant: "subtle", icon: "material-symbols:edit-outline-sharp"  },()=>'editar'),
   },
 ];
 
@@ -111,7 +101,12 @@ const filteredWarehouses = computed(() => {
           />
           <div class="flex items-center gap-4">
             <USelect v-model="selectedLocation" :items="locationFilters" />
-            <UButton icon="lucide:plus"> Novo Pedido </UButton>
+            <UModal title="Cadastrar armazem">
+              <UButton icon="lucide:plus"> Novo armazem </UButton>
+              <template #body>
+                <UiModalWarehouse />
+              </template>
+            </UModal>
           </div>
         </div>
       </template>

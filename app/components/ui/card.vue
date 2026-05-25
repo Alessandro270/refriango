@@ -12,7 +12,7 @@ defineProps<{
     <div
       class="bg-grays-100 size-14 rounded-md flex items-center justify-center"
     >
-      <UIcon :name="icon" class="size-8 text-grays-300" />
+      <UIcon :name="icon" class="size-8 text-grays-600" />
     </div>
     <h3
       class="uppercase font-semibold text-md flex items-center justify-between text-grays-700"

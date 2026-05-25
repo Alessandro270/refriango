@@ -7,6 +7,7 @@ type Order = {
   status: string;
   total: number;
   createdAt: string;
+  updatedAt: string;
 };
 
 const orders = ref<Order[]>([
@@ -14,41 +15,46 @@ const orders = ref<Order[]>([
     id: "ORD-001",
     supplierId: "SUP-001",
     status: "completed",
-    total: 125000,
+    total: 125,
     createdAt: "10/05/2026",
+    updatedAt: "06/05/2026",
   },
   {
     id: "ORD-002",
     supplierId: "SUP-002",
     status: "pending",
-    total: 45000,
+    total: 45,
     createdAt: "09/05/2026",
+    updatedAt: "06/05/2026",
   },
   {
     id: "ORD-003",
     supplierId: "SUP-003",
     status: "cancelled",
-    total: 98000,
+    total: 98,
     createdAt: "08/05/2026",
+    updatedAt: "06/05/2026",
   },
   {
     id: "ORD-004",
     supplierId: "SUP-001",
     status: "completed",
-    total: 76000,
+    total: 70,
     createdAt: "07/05/2026",
+    updatedAt: "06/05/2026",
   },
   {
     id: "ORD-005",
     supplierId: "SUP-004",
     status: "pending",
-    total: 51000,
+    total: 51,
     createdAt: "06/05/2026",
+    updatedAt: "06/05/2026",
   },
 ]);
 
 const UBadge = resolveComponent("UBadge");
-const UButton = resolveComponent('UButton')
+const UButton = resolveComponent("UButton");
 
 const columns = [
   {
@@ -62,47 +68,40 @@ const columns = [
   {
     accessorKey: "total",
     header: "total",
-        cell: ({ row }) =>
-      h(UBadge, { variant: "solid", color: "" }, () =>
-        row.getValue("total"),
-      ),
   },
   {
     accessorKey: "createdAt",
     header: "data",
   },
   {
+    accessorKey: "updatedAt",
+    header: "Ultima atualizacao",
+  },
+  {
     accessorKey: "status",
     header: "estado",
     cell: ({ row }) => {
       let color = "";
-
+      let value = "";
       switch (row.getValue("status")) {
         case "pending":
           color = "warning";
+          value = "pendente";
           break;
         case "completed":
           color = "success";
+          value = "completo";
           break;
         case "cancelled":
           color = "error";
-          break;
-        case "processing":
-          color = "info";
+          value = "cancelado";
           break;
         default:
           color = "neutral";
       }
 
-      return h(UBadge, {  variant: "solid", color }, () =>
-        row.getValue("status"),
-      );
+      return h(UBadge, { variant: "solid", color }, () => value);
     },
-  },
-    {
-    header: "Acoes",
-    cell: ({}) =>
-      h(UButton, { variant: "subtle", icon: "material-symbols:edit-outline-sharp"  },()=>'editar'),
   },
 ];
 
@@ -139,7 +138,12 @@ const filteredOrders = computed(() => {
           />
           <div class="flex items-center gap-4">
             <USelect v-model="selectedStatus" :items="statusFilters" />
-            <UButton icon="lucide:plus"> Novo Pedido </UButton>
+            <UModal title="Novo pedido">
+              <UButton icon="lucide:plus"> Novo Pedido </UButton>
+              <template #body>
+                <UiModalOrder />
+              </template>
+            </UModal>
           </div>
         </div>
       </template>

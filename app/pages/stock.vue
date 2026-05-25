@@ -105,7 +105,6 @@ const stocks = ref([
 const UBadge = resolveComponent("UBadge");
 const UButton = resolveComponent("UButton");
 const UModal = resolveComponent("UModal");
-const UiModalProduct = resolveComponent("UiModalProduct");
 
 const columns = [
   {
@@ -141,10 +140,13 @@ const columns = [
       else if (quantity < maximumStock) color = "success";
       else color = "warning";
 
-      return h(UBadge, { variant: "solid", color }, () => quantity);
+      return h(
+        UBadge,
+        { variant: "solid", class: "w-full text-center inline-block", color },
+        () => quantity,
+      );
     },
   },
-
 ];
 
 const statusFilters = ref([
@@ -199,10 +201,10 @@ const selectedWarehouse = ref("Todos os Armazéns");
               class="w-40"
             />
 
-            <UModal title="Cadastrar entrada">
-              <UButton icon="lucide:plus">Nova entrada</UButton>
+            <UModal title="Adicionar estoque">
+              <UButton icon="lucide:plus">Novo estoque</UButton>
               <template #body>
-                <UiModalEntry />
+                <UiModalStock />
               </template>
             </UModal>
           </div>

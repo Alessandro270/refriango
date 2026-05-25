@@ -16,9 +16,8 @@ const cards = ref([
     title: "Esgotado",
     description: "41",
     to: "/products",
-    icon: "material-symbols:stroller-rounded",
+    icon: "lucide:briefcase",
   },
-
   {
     title: "Fornecedores",
     description: "21",
@@ -255,17 +254,20 @@ const columns = [
       else if (quantity < maximumStock) color = "success";
       else color = "warning";
 
-      return h(UBadge, { variant: "solid", color }, () => quantity);
+      return h(
+        UBadge,
+        { variant: "solid", class: "w-full text-center inline-block", color },
+        () => quantity,
+      );
     },
   },
-
 ];
 </script>
 
 <template>
   <div class="space-y-4">
     <div>
-      <UiH1 >Dashboard</UiH1>
+      <UiH1>Dashboard</UiH1>
     </div>
     <div class="flex gap-4 w-full h-max">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-1/2">
@@ -289,7 +291,11 @@ const columns = [
       <template #header>
         <div class="flex justify-between items-center">
           <UiH3>produtos em estoque baixo</UiH3>
-          <UButton>ver todos</UButton>
+          <UButton
+            label="ver estoque"
+            to="/stock"
+            icon="lucide:arrow-up-right"
+          />
         </div>
       </template>
     </UiTable>

@@ -45,17 +45,11 @@ const columns = [
   {
     accessorKey: "refrigerated",
     header: "Refrigerado",
-    cell: ({ row }) => {
-      const color = row.original.refrigerated ? "success" : "error";
-
-      return h(UBadge, { size: "sm", variant: "solid", color }, () =>
-        row.original.refrigerated ? "sim" : "nao",
-      );
-    },
+    cell: ({ row }) => (row.original.refrigerated ? "sim" : "nao"),
   },
   {
     header: "Acoes",
-    cell: ({}) =>
+    cell: () =>
       h(
         UModal,
         {
@@ -66,7 +60,8 @@ const columns = [
             h(
               UButton,
               {
-                variant: "subtle",
+                variant: "soft",
+                color: "neutral",
               },
               () => "ver",
             ),
@@ -143,31 +138,39 @@ const products = ref([
 <template>
   <div class="space-y-6">
     <UiH1>Produtos</UiH1>
+    <UiTable :data="products" :columns="columns">
+      <template #header>
+        <div class="flex items-center justify-between gap-4">
+          <UInput
+            v-model="search"
+            icon="i-lucide-search"
+            placeholder="Pesquisar produto..."
+            class="max-w-sm w-full"
+          />
 
-    <div class="flex items-center justify-between gap-4">
-      <UInput
-        v-model="search"
-        icon="i-lucide-search"
-        placeholder="Pesquisar produto..."
-        class="max-w-sm w-full"
-      />
+          <div class="flex gap-4">
+            <USelect
+              v-model="selectedStatus"
+              :items="statusFilters"
+              class="w-28"
+            />
 
-      <div class="flex gap-4">
-        <USelect v-model="selectedStatus" :items="statusFilters" class="w-28" />
-
-        <USelect
-          v-model="selectedCategory"
-          :items="categoryFilters"
-          class="w-42"
-        />
-        <UModal title="Novo produto">
-          <UButton icon="lucide:plus">Novo produto</UButton>
-          <template #body>
-            <UiModalProduct />
-          </template>
-        </UModal>
-      </div>
-    </div>
-    <UiTable :data="products" :columns="columns"> </UiTable>
+            <USelect
+              v-model="selectedCategory"
+              :items="categoryFilters"
+              class="w-42"
+            />
+            <UModal title="Novo produto">
+              <UButton variant="soft" color="neutral" icon="lucide:plus">
+                Novo produto
+              </UButton>
+              <template #body>
+                <UiModalProduct :readonly="false" />
+              </template>
+            </UModal>
+          </div>
+        </div>
+      </template>
+    </UiTable>
   </div>
 </template>

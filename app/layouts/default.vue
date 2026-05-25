@@ -3,20 +3,20 @@ const open = ref<boolean>(true);
 const items: NavigationMenuItem[] = [
   {
     label: "Dashboard",
-    icon: "i-lucide-house",
+    icon: "lucide:house",
     to: "/",
   },
   {
     label: "Pedidos",
-    icon: "material-symbols:border-color-outline",
+    icon: "lucide:van",
     to: "/orders",
   },
   {
     label: "Fornecedores",
-    icon: "material-symbols-light:business-center-outline-sharp",
+    icon: "lucide:briefcase",
     to: "/suppliers",
   },
-  
+
   {
     label: "Produtos",
     icon: "lucide:boxes",
@@ -24,13 +24,18 @@ const items: NavigationMenuItem[] = [
   },
   {
     label: "Estoque",
-    icon: "lsicon:management-stockout-outline",
+    icon: "lucide:box",
     to: "/stock",
   },
   {
     label: "Armazens",
-    icon: "ph:warehouse-duotone",
+    icon: "lucide:warehouse",
     to: "/warehouses",
+  },
+  {
+    label: "Configuracoes",
+    icon: "lucide:cog",
+    to: "/config",
   },
 ];
 
@@ -65,6 +70,29 @@ const user = ref({
       </template>
       <template #default>
         <UNavigationMenu :items="items" orientation="vertical" />
+      </template>
+      <template #footer>
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 pl-2">
+            <UAvatar text="AA" size="xs" />
+
+            <div class="flex flex-col">
+              <span class="inline-block text-xs font-medium text-zinc-400">
+                {{ user.name }}
+              </span>
+              <span class="inline-block text-xs font-semibold text-zinc-400">
+                {{ user.email }}
+              </span>
+            </div>
+          </div>
+
+          <UButton
+            icon="lucide:arrow-right-circle"
+            label="Terminar sessao"
+            variant="ghost"
+            class="w-full flex items-center text-zinc-400 font-semibold"
+          />
+        </div>
       </template>
     </USidebar>
     <div class="min-h-screen h-max bg-ui-bg w-full text-black">
