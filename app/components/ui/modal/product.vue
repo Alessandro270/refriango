@@ -4,7 +4,7 @@ withDefaults(defineProps<{ readonly?: boolean }>(), { readonly: true });
 </script>
 
 <template>
-  <UForm class="w-full space-y-4">
+  <UForm class="w-full space-y-2">
     <div class="grid grid-cols-3 gap-5 w-full">
       <UFormField label="Nome">
         <UInput :disabled="readonly" placeholder="example" class="w-full" />

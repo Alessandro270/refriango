@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const { size } = defineProps<{ size?: "sm" | "md" | "lg" }>();
+const { size } = withDefaults(defineProps<{ showText?: boolean, size?: "sm" | "md" | "lg" }>(),{
+  showText: true,
+  size: 'sm'
+} );
+
 
 const actualSize = computed(() => {
   if (!size) return "text-xl";
@@ -29,10 +33,10 @@ const imgSize = computed(() => {
 
 <template>
   <h1
-    class="capitalize h-max font-serif font-medium flex space-x-6 items-center"
+    class="capitalize h-max font-serif font-medium flex items-center"
     :class="actualSize"
   >
     <img src="~/assets/refri.png" alt="refriango" :class="imgSize" />
-    refriango
+    <span v-if="showText" class="inline-block w-max">refriango</span>
   </h1>
 </template>

@@ -70,8 +70,6 @@ async function onSubmit(payload: Record<string, any>) {
         variant="ghost"
         :submit="{
           label: 'Criar conta',
-          color: 'neutral',
-          variant: 'solid',
         }"
         @submit="onSubmit"
       >

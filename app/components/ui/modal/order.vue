@@ -20,7 +20,7 @@
       </UFormField>
     </div>
 
-    <div class="flex gap-3 mb-2">
+    <div class="flex gap-3">
       <UFormField class="w-full" label="Quantidade">
         <UInputNumber class="w-full" orientation="vertical" placeholder="0" />
       </UFormField>

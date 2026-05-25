@@ -3,28 +3,27 @@ const open = ref<boolean>(true);
 const items: NavigationMenuItem[] = [
   {
     label: "Dashboard",
-    icon: "lucide:house",
+    icon: "lucide:layout-dashboard",
     to: "/",
   },
   {
+    label: "Produtos",
+    icon: "lucide:shopping-cart",
+    to: "/products",
+  },
+  {
     label: "Pedidos",
-    icon: "lucide:van",
+    icon: "lucide:hand-platter",
     to: "/orders",
   },
   {
     label: "Fornecedores",
-    icon: "lucide:briefcase",
+    icon: "lucide:truck",
     to: "/suppliers",
-  },
-
-  {
-    label: "Produtos",
-    icon: "lucide:boxes",
-    to: "/products",
   },
   {
     label: "Estoque",
-    icon: "lucide:box",
+    icon: "lucide:package",
     to: "/stock",
   },
   {
@@ -34,14 +33,14 @@ const items: NavigationMenuItem[] = [
   },
   {
     label: "Configuracoes",
-    icon: "lucide:cog",
+    icon: "lucide:settings",
     to: "/config",
   },
 ];
 
 const user = ref({
-  name: "Alessandro Almeida",
-  email: "alessandro@example.com",
+  name: "Jose Luis",
+  email: "joseluis075@example.com",
 });
 </script>
 
@@ -49,9 +48,9 @@ const user = ref({
   <div class="flex min-h-screen">
     <USidebar v-model:open="open" collapsible="icon">
       <template #title>
-        <div class="flex flex-col items-center w-full">
+        <div class="flex flex-col items-center w-full pb-2">
           <div class="flex justify-between items-center w-full">
-            <UiHeader />
+            <UiHeader :show-text="open" />
 
             <UIcon
               v-if="open"
@@ -69,10 +68,31 @@ const user = ref({
         </div>
       </template>
       <template #default>
-        <UNavigationMenu :items="items" orientation="vertical" />
+        <UNavigationMenu
+          :ui="{ link: 'p-1.5 overflow-hidden' }"
+          :items="items"
+          orientation="vertical"
+        />
       </template>
       <template #footer>
-        <div class="space-y-3">
+        <div class="flex justify-between w-full">
+          <div variant="ghost" class="flex items-center gap-2 pl-2">
+            <UAvatar text="AA" size="xs" />
+
+            <div class="flex flex-col" v-if="open">
+              <span
+                class="inline-block w-max text-xs font-medium text-zinc-400"
+              >
+                {{ user.name }}
+              </span>
+              <span class="inline-block text-xs font-semibold text-zinc-400">
+                Funcionario
+              </span>
+            </div>
+          </div>
+          <UButton icon="lucide:arrow-right-to-line" variant="outline" size="sm"></UButton>
+        </div>
+        <!-- <div class="space-y-3">
           <div class="flex items-center gap-2 pl-2">
             <UAvatar text="AA" size="xs" />
 
@@ -92,7 +112,7 @@ const user = ref({
             variant="ghost"
             class="w-full flex items-center text-zinc-400 font-semibold"
           />
-        </div>
+        </div> -->
       </template>
     </USidebar>
     <div class="min-h-screen h-max bg-ui-bg w-full text-black">

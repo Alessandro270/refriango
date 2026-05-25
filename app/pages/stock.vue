@@ -130,7 +130,7 @@ const columns = [
   },
   {
     accessorKey: "quantity",
-    header: "stock",
+    header: "estoque",
     cell: ({ row }) => {
       let color = "";
       const { minimumStock, maximumStock, quantity } = row.original;
@@ -142,7 +142,7 @@ const columns = [
 
       return h(
         UBadge,
-        { variant: "solid", class: "w-full text-center inline-block", color },
+        { variant: "solid", class: "text-center inline-block", color },
         () => quantity,
       );
     },
@@ -181,9 +181,7 @@ const selectedWarehouse = ref("Todos os Armazéns");
         <div class="flex justify-between">
           <UInput
             icon="i-lucide-search"
-            size="md"
-            variant="ghost"
-            color="neutral"
+            size="md" 
             placeholder="Pesquisar estoque..."
           />
           <div class="flex gap-4">

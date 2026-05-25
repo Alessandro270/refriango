@@ -43,8 +43,6 @@ const fields: AuthFormField[] = [
         variant="solid"
         :submit="{
           label: 'Fazer login',
-          color: 'neutral',
-          variant: 'solid',
         }"
       >
         <template #header>

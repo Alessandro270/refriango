@@ -4,25 +4,25 @@ const cards = ref([
     title: "Total de produtos",
     description: "121",
     to: "/products",
-    icon: "material-symbols:shopping-cart",
+    icon: "lucide:boxes",
   },
   {
     title: "Estoque baixo",
     description: "13",
     to: "/orders",
-    icon: "material-symbols:hourglass-check-outline",
+    icon: "lucide:package-minus",
   },
   {
     title: "Esgotado",
     description: "41",
     to: "/products",
-    icon: "lucide:briefcase",
+    icon: "lucide:package-open",
   },
   {
     title: "Fornecedores",
     description: "21",
     to: "/suppliers",
-    icon: "material-symbols:account-balance-wallet",
+    icon: "lucide:handshake",
   },
 ]);
 
@@ -256,7 +256,7 @@ const columns = [
 
       return h(
         UBadge,
-        { variant: "solid", class: "w-full text-center inline-block", color },
+        { variant: "solid", class: "text-center inline-block", color },
         () => quantity,
       );
     },
