@@ -36,8 +36,13 @@ export default defineAppConfig({
     input: {
       variants: {
         variant: {
-          outline: 'text-zinc-600 bg-transparent ring transition ring-zinc-300'
+          outline: 'text-zinc-600 bg-transparent ring transition ring-zinc-300',
+          solid: 'text-zinc-600 bg-transparent ring transition ring-zinc-800'
         }
+      },
+      defaultVariants: {
+        variant: 'solid',
+        size: 'md'
       }
     }
   }
