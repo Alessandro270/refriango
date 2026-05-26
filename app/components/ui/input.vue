@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-const model = defineModel();
-defineProps<{ placeholder?: string; type?: string; icon?: string }>();
+const model = defineModel()
+defineProps<{ placeholder?: string; type?: string; icon?: string }>()
 </script>
 
 <template>
@@ -13,7 +13,8 @@ defineProps<{ placeholder?: string; type?: string; icon?: string }>();
         v-if="icon"
         :name="icon"
         size="xl"
-    /></label>
+      />
+    </label>
     <input
       id="input"
       :placeholder="placeholder"
