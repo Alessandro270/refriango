@@ -1,47 +1,47 @@
 <script setup lang="ts">
-const open = ref<boolean>(true);
+const open = ref<boolean>(true)
 const items: NavigationMenuItem[] = [
   {
-    label: "Dashboard",
-    icon: "lucide:layout-dashboard",
-    to: "/",
+    label: 'Dashboard',
+    icon: 'lucide:layout-dashboard',
+    to: '/'
   },
   {
-    label: "Produtos",
-    icon: "lucide:shopping-cart",
-    to: "/products",
+    label: 'Produtos',
+    icon: 'lucide:shopping-cart',
+    to: '/products'
   },
   {
-    label: "Pedidos",
-    icon: "lucide:hand-platter",
-    to: "/orders",
+    label: 'Pedidos',
+    icon: 'lucide:hand-platter',
+    to: '/orders'
   },
   {
-    label: "Fornecedores",
-    icon: "lucide:truck",
-    to: "/suppliers",
+    label: 'Fornecedores',
+    icon: 'lucide:truck',
+    to: '/suppliers'
   },
   {
-    label: "Estoque",
-    icon: "lucide:package",
-    to: "/stock",
+    label: 'Estoque',
+    icon: 'lucide:package',
+    to: '/stock'
   },
   {
-    label: "Armazens",
-    icon: "lucide:warehouse",
-    to: "/warehouses",
+    label: 'Armazens',
+    icon: 'lucide:warehouse',
+    to: '/warehouses'
   },
   {
-    label: "Configuracoes",
-    icon: "lucide:settings",
-    to: "/config",
-  },
-];
+    label: 'Configuracoes',
+    icon: 'lucide:settings',
+    to: '/config'
+  }
+]
 
 const user = ref({
-  name: "Jose Luis",
-  email: "joseluis075@example.com",
-});
+  name: 'Jose Luis',
+  email: 'joseluis075@example.com'
+})
 </script>
 
 <template>
@@ -77,7 +77,15 @@ const user = ref({
       <template #footer>
         <div class="flex justify-between w-full">
           <div variant="ghost" class="flex items-center gap-2 pl-2">
-            <UAvatar text="AA" size="xs" />
+            <UAvatar
+              :text="
+                user.name
+                  .split(' ')
+                  .map(name => name.at(0))
+                  .join('')
+              "
+              size="xs"
+            />
 
             <div class="flex flex-col" v-if="open">
               <span
@@ -90,29 +98,12 @@ const user = ref({
               </span>
             </div>
           </div>
-          <UButton icon="lucide:arrow-right-to-line" variant="outline" size="sm"></UButton>
-        </div>
-        <!-- <div class="space-y-3">
-          <div class="flex items-center gap-2 pl-2">
-            <UAvatar text="AA" size="xs" />
-
-            <div class="flex flex-col">
-              <span class="inline-block text-xs font-medium text-zinc-400">
-                {{ user.name }}
-              </span>
-              <span class="inline-block text-xs font-semibold text-zinc-400">
-                {{ user.email }}
-              </span>
-            </div>
-          </div>
-
           <UButton
-            icon="lucide:arrow-right-circle"
-            label="Terminar sessao"
-            variant="ghost"
-            class="w-full flex items-center text-zinc-400 font-semibold"
-          />
-        </div> -->
+            icon="lucide:arrow-right-to-line"
+            variant="outline"
+            size="sm"
+          ></UButton>
+        </div>
       </template>
     </USidebar>
     <div class="min-h-screen h-max bg-ui-bg w-full text-black">
