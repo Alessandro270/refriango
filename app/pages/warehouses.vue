@@ -101,6 +101,7 @@ const filteredWarehouses = computed(() => {
             v-model="search"
             icon="i-lucide-search"
             placeholder="Pesquisar pedido..."
+            variant="outline"
           />
           <div class="flex items-center gap-4">
             <USelect v-model="selectedLocation" :items="locationFilters" />

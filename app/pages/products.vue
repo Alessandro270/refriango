@@ -1,138 +1,138 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 
-const search = ref("");
+const search = ref('')
 
-const statusFilters = ref(["Todos", "Ativo", "Inativo", "Em falta"]);
+const statusFilters = ref(['Todos', 'Ativo', 'Inativo', 'Em falta'])
 
 const categoryFilters = ref([
-  "Todas categorias",
-  "Eletrónicos",
-  "Acessórios",
-  "Armazenamento",
-  "Periféricos",
-  "Mobiliário",
-]);
+  'Todas categorias',
+  'Eletrónicos',
+  'Acessórios',
+  'Armazenamento',
+  'Periféricos',
+  'Mobiliário'
+])
 
-const selectedStatus = ref("Todos");
-const selectedCategory = ref("Todas categorias");
+const selectedStatus = ref('Todos')
+const selectedCategory = ref('Todas categorias')
 
-const UButton = resolveComponent("UButton");
-const UModal = resolveComponent("UModal");
-const UiModalProduct = resolveComponent("UiModalProduct");
-const UBadge = resolveComponent("UBadge");
+const UButton = resolveComponent('UButton')
+const UModal = resolveComponent('UModal')
+const UiModalProduct = resolveComponent('UiModalProduct')
+const UBadge = resolveComponent('UBadge')
 
 const columns = [
   {
-    accessorKey: "name",
-    header: "Produto",
+    accessorKey: 'name',
+    header: 'Produto'
   },
   {
-    accessorKey: "category",
-    header: "Categoria",
+    accessorKey: 'category',
+    header: 'Categoria'
   },
   {
-    accessorKey: "unitPrice",
-    header: "Preço",
+    accessorKey: 'unitPrice',
+    header: 'Preço',
     cell: ({ row }) => {
-      return `Kz ${row.original.unitPrice}`;
-    },
+      return `Kz ${row.original.unitPrice}`
+    }
   },
   {
-    accessorKey: "sku",
-    header: "SKU",
+    accessorKey: 'sku',
+    header: 'SKU'
   },
   {
-    accessorKey: "refrigerated",
-    header: "Refrigerado",
-    cell: ({ row }) => (row.original.refrigerated ? "sim" : "nao"),
+    accessorKey: 'refrigerated',
+    header: 'Refrigerado',
+    cell: ({ row }) => (row.original.refrigerated ? 'sim' : 'nao')
   },
   {
-    header: "Acoes",
+    header: 'Acoes',
     cell: () =>
       h(
         UModal,
         {
-          title: "Detalhes do produto",
+          title: 'Detalhes do produto'
         },
         {
           default: () =>
             h(
               UButton,
               {
-                variant: "soft",
-                color: "neutral",
+                variant: 'soft',
+                color: 'neutral'
               },
-              () => "ver",
+              () => 'ver'
             ),
-          body: () => h(UiModalProduct),
-        },
-      ),
-  },
-];
+          body: () => h(UiModalProduct)
+        }
+      )
+  }
+]
 
 const products = ref([
   {
-    name: "Coca-Cola 350ml",
-    description: "Refrigerante gaseificado clássico.",
+    name: 'Coca-Cola 350ml',
+    description: 'Refrigerante gaseificado clássico.',
     unitPrice: 500,
-    category: "Bebidas",
-    sku: "DRK-COKE-350",
+    category: 'Bebidas',
+    sku: 'DRK-COKE-350',
     weight: 0.35,
     height: 12,
     width: 6,
     refrigerated: true,
-    image: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e",
+    image: 'https://images.unsplash.com/photo-1629203851122-3726ecdf080e'
   },
   {
-    name: "Pepsi 350ml",
-    description: "Refrigerante de cola refrescante.",
+    name: 'Pepsi 350ml',
+    description: 'Refrigerante de cola refrescante.',
     unitPrice: 500,
-    category: "Bebidas",
-    sku: "DRK-PEPSI-350",
+    category: 'Bebidas',
+    sku: 'DRK-PEPSI-350',
     weight: 0.35,
     height: 12,
     width: 6,
     refrigerated: true,
-    image: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e",
+    image: 'https://images.unsplash.com/photo-1629203851122-3726ecdf080e'
   },
   {
-    name: "Fanta Laranja 350ml",
-    description: "Refrigerante com sabor laranja.",
+    name: 'Fanta Laranja 350ml',
+    description: 'Refrigerante com sabor laranja.',
     unitPrice: 450,
-    category: "Bebidas",
-    sku: "DRK-FANTA-350",
+    category: 'Bebidas',
+    sku: 'DRK-FANTA-350',
     weight: 0.35,
     height: 12,
     width: 6,
     refrigerated: true,
-    image: "https://images.unsplash.com/photo-1613478223719-2ab802602423",
+    image: 'https://images.unsplash.com/photo-1613478223719-2ab802602423'
   },
   {
-    name: "Sprite 350ml",
-    description: "Refrigerante de limão refrescante.",
+    name: 'Sprite 350ml',
+    description: 'Refrigerante de limão refrescante.',
     unitPrice: 450,
-    category: "Bebidas",
-    sku: "DRK-SPRITE-350",
+    category: 'Bebidas',
+    sku: 'DRK-SPRITE-350',
     weight: 0.35,
     height: 12,
     width: 6,
     refrigerated: true,
-    image: "https://images.unsplash.com/photo-1624517452488-04869289c4ca",
+    image: 'https://images.unsplash.com/photo-1624517452488-04869289c4ca'
   },
   {
-    name: "Água Mineral 500ml",
-    description: "Água mineral natural engarrafada.",
+    name: 'Água Mineral 500ml',
+    description: 'Água mineral natural engarrafada.',
     unitPrice: 200,
-    category: "Bebidas",
-    sku: "DRK-WATER-500",
+    category: 'Bebidas',
+    sku: 'DRK-WATER-500',
     weight: 0.5,
     height: 20,
     width: 6,
     refrigerated: false,
-    image: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e",
-  },
-]);
+    image: 'https://images.unsplash.com/photo-1629203851122-3726ecdf080e'
+  }
+])
 </script>
 
 <template>
@@ -142,6 +142,7 @@ const products = ref([
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <UInput
+            variant="outline"
             v-model="search"
             icon="i-lucide-search"
             placeholder="Pesquisar produto..."

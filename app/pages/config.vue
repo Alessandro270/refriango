@@ -35,6 +35,7 @@ const formFieldSize = 'lg'
         class="row-start-2 col-start-3 col-span-5"
       >
         <UInput
+          variant="outline"
           :ui="inputStyle"
           placeholder="Exemplo"
           trailing-icon="lucide:user"
@@ -47,6 +48,7 @@ const formFieldSize = 'lg'
         class="row-start-2 col-span-5"
       >
         <UInput
+          variant="outline"
           :ui="inputStyle"
           placeholder="Exemplo"
           trailing-icon="lucide:user"
@@ -65,6 +67,7 @@ const formFieldSize = 'lg'
         class="col-span-10"
       >
         <UInput
+          variant="outline"
           :ui="inputStyle"
           type="email"
           trailing-icon="lucide:at-sign"
@@ -78,6 +81,7 @@ const formFieldSize = 'lg'
         class="col-start-3 col-span-5"
       >
         <UInput
+          variant="outline"
           :ui="inputStyle"
           type="password"
           leading-icon="lucide:user-lock"
@@ -93,6 +97,7 @@ const formFieldSize = 'lg'
         class="col-span-5"
       >
         <UInput
+          variant="outline"
           :ui="inputStyle"
           type="password"
           leading-icon="lucide:user-lock"
@@ -107,6 +112,7 @@ const formFieldSize = 'lg'
         class="col-start-3 col-span-10"
       >
         <UInput
+          variant="outline"
           :ui="inputStyle"
           trailing-icon="lucide:phone-call"
           placeholder="+244 900 000 000"
@@ -118,7 +124,11 @@ const formFieldSize = 'lg'
         label="Data De Nascimento"
         class="col-start-3 col-span-10"
       >
-        <UInput type="date" :ui="{ ...inputStyle, ...inputDateStyle }" />
+        <UInput
+          variant="outline"
+          type="date"
+          :ui="{ ...inputStyle, ...inputDateStyle }"
+        />
       </UFormField>
       <UFormField
         :size="formFieldSize"
@@ -127,6 +137,7 @@ const formFieldSize = 'lg'
         class="col-start-3 col-span-10"
       >
         <UInput
+          variant="outline"
           :ui="inputStyle"
           trailing-icon="lucide:id-card"
           placeholder="000000000LA000"
