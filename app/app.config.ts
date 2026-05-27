@@ -33,7 +33,43 @@ export default defineAppConfig({
         size: 'md'
       }
     },
+    select: {
+      variants: {
+        variant: {
+          outline: 'text-zinc-600 bg-transparent ring transition ring-zinc-300',
+          solid: 'text-zinc-600 bg-transparent ring transition ring-zinc-800'
+        }
+      },
+      defaultVariants: {
+        variant: 'solid',
+        size: 'md'
+      }
+    },
+    textarea: {
+      variants: {
+        variant: {
+          outline: 'text-zinc-600 bg-transparent ring transition ring-zinc-300',
+          solid: 'text-zinc-600 bg-transparent ring transition ring-zinc-800'
+        }
+      },
+      defaultVariants: {
+        variant: 'solid',
+        size: 'md'
+      }
+    },
     input: {
+      variants: {
+        variant: {
+          outline: 'text-zinc-600 bg-transparent ring transition ring-zinc-300',
+          solid: 'text-zinc-600 bg-transparent ring transition ring-zinc-800'
+        }
+      },
+      defaultVariants: {
+        variant: 'solid',
+        size: 'md'
+      }
+    },
+    inputNumber: {
       variants: {
         variant: {
           outline: 'text-zinc-600 bg-transparent ring transition ring-zinc-300',

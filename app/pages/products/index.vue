@@ -161,12 +161,9 @@ const products = ref([
               :items="categoryFilters"
               class="w-42"
             />
-            <UModal title="Novo produto">
-              <UButton icon="lucide:plus"> Novo produto </UButton>
-              <template #body>
-                <UiModalProduct :readonly="false" />
-              </template>
-            </UModal>
+            <UButton to="/products/new" icon="lucide:plus">
+              Novo produto
+            </UButton>
           </div>
         </div>
       </template>

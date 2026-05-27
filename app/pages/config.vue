@@ -5,16 +5,6 @@ const uiStyle = {
   container: 'flex-1 flex flex-col'
 }
 
-const inputStyle = {
-  label: 'text-ui-text',
-  root: 'h-full'
-}
-
-const inputDateStyle = {
-  base: '[&::-webkit-calendar-picker-indicator]:hidden',
-  trailingIcon: 'text-primary size-5'
-}
-
 const fileUploadStyle = { base: 'h-full' }
 const formFieldSize = 'lg'
 </script>
@@ -23,7 +13,7 @@ const formFieldSize = 'lg'
   <div class="space-y-4">
     <UiH1>CONFIGURACOES</UiH1>
     <UForm
-      class="bg-white rounded-md px-6 py-6 gap-4 grid grid-cols-12 auto-rows-max"
+      class="bg-white rounded-md px-6 py-6 gap-4 grid grid-cols-12 auto-rows-min"
     >
       <UiH3 class="col-start-3 col-span-full row-start-1">
         Informacoes Da Conta
@@ -36,7 +26,6 @@ const formFieldSize = 'lg'
       >
         <UInput
           variant="outline"
-          :ui="inputStyle"
           placeholder="Exemplo"
           trailing-icon="lucide:user"
         />
@@ -49,13 +38,12 @@ const formFieldSize = 'lg'
       >
         <UInput
           variant="outline"
-          :ui="inputStyle"
           placeholder="Exemplo"
           trailing-icon="lucide:user"
         />
       </UFormField>
       <UFileUpload
-        class="col-start-1 col-span-2 row-start-1 row-span-4"
+        class="col-start-1 col-span-2 row-span-4"
         label="Foto De Perfil"
         :ui="fileUploadStyle"
         :size="formFieldSize"
@@ -68,7 +56,6 @@ const formFieldSize = 'lg'
       >
         <UInput
           variant="outline"
-          :ui="inputStyle"
           type="email"
           trailing-icon="lucide:at-sign"
           placeholder="exemplo@exemplo.xyz"
@@ -82,7 +69,6 @@ const formFieldSize = 'lg'
       >
         <UInput
           variant="outline"
-          :ui="inputStyle"
           type="password"
           leading-icon="lucide:user-lock"
           trailing-icon="lucide:eye"
@@ -98,7 +84,6 @@ const formFieldSize = 'lg'
       >
         <UInput
           variant="outline"
-          :ui="inputStyle"
           type="password"
           leading-icon="lucide:user-lock"
           trailing-icon="lucide:eye"
@@ -113,7 +98,6 @@ const formFieldSize = 'lg'
       >
         <UInput
           variant="outline"
-          :ui="inputStyle"
           trailing-icon="lucide:phone-call"
           placeholder="+244 900 000 000"
         />
@@ -124,11 +108,7 @@ const formFieldSize = 'lg'
         label="Data De Nascimento"
         class="col-start-3 col-span-10"
       >
-        <UInput
-          variant="outline"
-          type="date"
-          :ui="{ ...inputStyle, ...inputDateStyle }"
-        />
+        <UInput variant="outline" type="date" />
       </UFormField>
       <UFormField
         :size="formFieldSize"
@@ -138,7 +118,6 @@ const formFieldSize = 'lg'
       >
         <UInput
           variant="outline"
-          :ui="inputStyle"
           trailing-icon="lucide:id-card"
           placeholder="000000000LA000"
         />
