@@ -45,7 +45,13 @@ const columns = [
   {
     accessorKey: 'refrigerated',
     header: 'Refrigerado',
-    cell: ({ row }) => (row.original.refrigerated ? 'sim' : 'nao')
+    cell: ({ row }: any) => {
+      const refrigerated = row.getValue('refrigerated')
+      const color = refrigerated ? 'success' : 'error'
+      return h(UBadge, { variant: 'solid', size: 'sm', color }, () =>
+        refrigerated ? 'sim' : 'nao'
+      )
+    }
   },
   {
     header: 'Acoes',
@@ -57,14 +63,11 @@ const columns = [
         },
         {
           default: () =>
-            h(
-              UButton,
-              {
-                variant: 'soft',
-                color: 'neutral'
-              },
-              () => 'ver'
-            ),
+            h(UButton, {
+              variant: 'soft',
+              color: 'neutral',
+              icon: 'lucide:eye'
+            }),
           body: () => h(UiModalProduct)
         }
       )
@@ -141,13 +144,16 @@ const products = ref([
     <UiTable :data="products" :columns="columns">
       <template #header>
         <div class="flex items-center justify-between gap-4">
-          <UInput
-            variant="outline"
-            v-model="search"
-            icon="i-lucide-search"
-            placeholder="Pesquisar produto..."
-            class="max-w-sm bg-white"
-          />
+          <div class="flex items-center gap-4">
+            <UInput
+              variant="outline"
+              v-model="search"
+              icon="i-lucide-search"
+              placeholder="Pesquisar produto..."
+              class="max-w-sm bg-white"
+            />
+            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+          </div>
 
           <div class="flex gap-4">
             <USelect

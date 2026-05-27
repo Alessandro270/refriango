@@ -112,12 +112,15 @@ const filteredcategories = computed(() => {
     <UiTable :data="filteredcategories" :columns="columns">
       <template #header>
         <div class="flex items-center justify-between gap-4">
-          <UInput
-            variant="outline"
-            v-model="search"
-            icon="i-lucide-search"
-            placeholder="Pesquisar fornecedor..."
-          />
+          <div class="flex items-center justify-between gap-4">
+            <UInput
+              variant="outline"
+              v-model="search"
+              icon="i-lucide-search"
+              placeholder="Pesquisar fornecedor..."
+            />
+            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+          </div>
           <UModal title="Nova categoria">
             <UButton icon="lucide:plus"> Nova categoria </UButton>
             <template #body>

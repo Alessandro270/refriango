@@ -97,12 +97,15 @@ const filteredWarehouses = computed(() => {
     <UiTable :data="filteredWarehouses" :columns="columns">
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
-          <UInput
-            v-model="search"
-            icon="i-lucide-search"
-            placeholder="Pesquisar pedido..."
-            variant="outline"
-          />
+          <div class="flex items-center justify-between gap-4">
+            <UInput
+              v-model="search"
+              icon="i-lucide-search"
+              placeholder="Pesquisar pedido..."
+              variant="outline"
+            />
+            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+          </div>
           <div class="flex items-center gap-4">
             <USelect
               variant="outline"

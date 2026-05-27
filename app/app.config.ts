@@ -33,9 +33,23 @@ export default defineAppConfig({
       }
     },
     button: {
+      compoundVariants: [
+        {
+          color: 'neutral',
+          variant: 'outline',
+          class:
+            'text-zinc-600 active:text-zinc-100 bg-transparent ring transition ring-zinc-300 hover:bg-transparent hover:ring-zinc-400 focus:outline-none'
+        },
+        {
+          color: 'neutral',
+          variant: 'solid',
+          class:
+            'text-zinc-100 bg-zinc-800 ring transition ring-zinc-800 hover:text-zinc-500 hover:bg-primary hover:ring-transparent hover:text-ui-text active:bg-zinc-800 active:text-zinc-300 active:ring-transparent'
+        }
+      ],
       defaultVariants: {
         color: 'neutral',
-        variant: 'soft',
+        variant: 'solid',
         size: 'md'
       }
     },

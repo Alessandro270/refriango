@@ -179,12 +179,15 @@ const selectedWarehouse = ref('Todos os Armazéns')
     <UiTable :data="stocks" :columns="columns">
       <template #header>
         <div class="flex justify-between">
-          <UInput
-            icon="i-lucide-search"
-            size="md"
-            placeholder="Pesquisar estoque..."
-            variant="outline"
-          />
+          <div class="flex items-center justify-between gap-4">
+            <UInput
+              icon="i-lucide-search"
+              size="md"
+              placeholder="Pesquisar estoque..."
+              variant="outline"
+            />
+            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+          </div>
           <div class="flex gap-4">
             <USelect
               variant="outline"

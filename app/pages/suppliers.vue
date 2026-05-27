@@ -78,12 +78,15 @@ const filteredSuppliers = computed(() => {
     <UiTable :data="filteredSuppliers" :columns="columns">
       <template #header>
         <div class="flex items-center justify-between gap-4">
-          <UInput
-            variant="outline"
-            v-model="search"
-            icon="i-lucide-search"
-            placeholder="Pesquisar fornecedor..."
-          />
+          <div class="flex items-center justify-between gap-4">
+            <UInput
+              variant="outline"
+              v-model="search"
+              icon="i-lucide-search"
+              placeholder="Pesquisar fornecedor..."
+            />
+            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+          </div>
           <UModal title="Novo fornecedor">
             <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
             <template #body>
