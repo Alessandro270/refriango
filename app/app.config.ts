@@ -44,7 +44,7 @@ export default defineAppConfig({
           color: 'neutral',
           variant: 'solid',
           class:
-            'text-zinc-100 bg-zinc-800 ring transition ring-zinc-800 hover:text-zinc-500 hover:bg-primary hover:ring-transparent hover:text-ui-text active:bg-zinc-800 active:text-zinc-300 active:ring-transparent'
+            'text-zinc-100 bg-zinc-800 ring transition ring-zinc-800 hover:text-zinc-500 hover:bg-primary hover:ring-transparent hover:text-ui-text active:bg-primary/80'
         }
       ],
       defaultVariants: {

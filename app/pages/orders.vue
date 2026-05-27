@@ -122,6 +122,11 @@ const filteredOrders = computed(() => {
     return matchesStatus && matchesSearch
   })
 })
+
+const modalStyle = {
+  content: '!w-210 min-h-120 h-max !max-w-none',
+  body: 'flex-1 flex flex-col p-4 sm:p-6 '
+}
 </script>
 
 <template>
@@ -148,7 +153,7 @@ const filteredOrders = computed(() => {
               variant="outline"
               :items="statusFilters"
             />
-            <UModal title="Novo pedido">
+            <UModal title="Novo pedido" :ui="modalStyle">
               <UButton icon="lucide:plus"> Novo Pedido </UButton>
               <template #body>
                 <UiModalOrder />
