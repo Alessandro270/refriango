@@ -187,6 +187,7 @@ const selectedWarehouse = ref('Todos os Armazéns')
           />
           <div class="flex gap-4">
             <USelect
+              variant="outline"
               v-model="selectedStatus"
               :items="statusFilters"
               placeholder="Filtrar por estado"
@@ -194,6 +195,7 @@ const selectedWarehouse = ref('Todos os Armazéns')
             />
 
             <USelect
+              variant="outline"
               v-model="selectedWarehouse"
               :items="warehouseFilters"
               placeholder="Filtrar por armazém"

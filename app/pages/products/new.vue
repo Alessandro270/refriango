@@ -7,38 +7,27 @@ const uiStyle = {
 
 const fileUploadStyle = { base: 'h-full text-zinc-400' }
 const formFieldSize = 'lg'
+const items = ref(['Sim', 'Nao'])
+const value = ref('System')
+const radioGroupStyle = {}
 </script>
 
 <template>
   <div class="space-y-6">
-    <UiH1>Novo Produto</UiH1>
     <UForm
-      class="bg-white rounded-md px-6 py-6 gap-4 grid grid-cols-12 auto-rows-min"
+      class="bg-white rounded-md px-6 py-6 gap-4 grid grid-cols-10 auto-rows-min"
     >
+      <UiH3 class="col-start-3 col-span-8">Cadastrar novo produto</UiH3>
       <UFileUpload
-        class="w-full row-span-4 row-start-1 col-span-2"
-        label="Imagem Do Produto"
+        class="w-full row-span-6 row-start-1 col-span-2"
+        label="Imagem do produto"
       />
 
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
-        label="Upload *.xsls, *.csv"
-        class="col-start-1 row-start-5 col-span-2 items-center"
-      >
-        <UFileUpload
-          :ui="fileUploadStyle"
-          type="file"
-          label="Upload *.xsls, *.csv"
-          class="w-full"
-          variant="button"
-        />
-      </UFormField>
-      <UFormField
-        :size="formFieldSize"
-        :ui="uiStyle"
         label="Nome"
-        class="col-span-3"
+        class="col-span-4"
       >
         <UInput variant="outline" placeholder="example" class="w-full" />
       </UFormField>
@@ -47,7 +36,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Fornecedor"
-        class="col-span-3"
+        class="col-span-4"
       >
         <USelect
           variant="outline"
@@ -61,7 +50,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Peso"
-        class="col-span-3"
+        class="col-span-4"
       >
         <UInput variant="outline" placeholder="0.0 g" class="w-full" />
       </UFormField>
@@ -70,7 +59,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Categoria"
-        class="col-start-3 col-span-3"
+        class="col-span-4"
       >
         <USelect
           variant="outline"
@@ -83,8 +72,17 @@ const formFieldSize = 'lg'
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
+        label="Dimensoes"
+        class="col-span-4"
+      >
+        <UInput variant="outline" placeholder="L,A,C" />
+      </UFormField>
+
+      <UFormField
+        :size="formFieldSize"
+        :ui="uiStyle"
         label="Unidade de medida"
-        class="col-span-3"
+        class="col-span-4"
       >
         <USelect
           variant="outline"
@@ -93,21 +91,11 @@ const formFieldSize = 'lg'
           class="w-full"
         />
       </UFormField>
-
-      <UFormField
-        :size="formFieldSize"
-        :ui="uiStyle"
-        label="Dimensoes"
-        class="col-span-3"
-      >
-        <UInput variant="outline" placeholder="L,A,C" />
-      </UFormField>
-
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
         label="Codigo SKU"
-        class="col-span-3"
+        class="col-span-4"
       >
         <UInput variant="outline" class="w-full" placeholder="WA-005-26" />
       </UFormField>
@@ -115,8 +103,8 @@ const formFieldSize = 'lg'
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
-        label="Data de expiracao"
-        class="col-span-3"
+        label="Data de validade"
+        class="col-span-4"
       >
         <UInput type="date" variant="outline" class="w-full" />
       </UFormField>
@@ -125,7 +113,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Preco de compra"
-        class="col-span-3"
+        class="col-span-4"
       >
         <UInputNumber
           variant="outline"
@@ -136,21 +124,8 @@ const formFieldSize = 'lg'
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
-        label="Descricao do produto"
-        class="h-full col-span-6 row-span-4"
-      >
-        <UTextarea
-          class="w-full h-full"
-          variant="outline"
-          :rows="6"
-          placeholder="sobre o produto.."
-        />
-      </UFormField>
-      <UFormField
-        :size="formFieldSize"
-        :ui="uiStyle"
         label="Preco de venda"
-        class="col-span-3"
+        class="col-span-4"
       >
         <UInputNumber
           variant="outline"
@@ -158,19 +133,53 @@ const formFieldSize = 'lg'
           placeholder="7500,00 kz"
         />
       </UFormField>
+
+      <UFormField
+        :size="formFieldSize"
+        :ui="uiStyle"
+        label="Descricao do produto"
+        class="h-full col-start-3 col-span-6"
+      >
+        <UTextarea
+          class="w-full h-full"
+          variant="outline"
+          placeholder="sobre o produto.."
+        />
+      </UFormField>
+
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
         label="Refrigerado"
-        class="col-start-9"
+        class="w-full col-span-2"
       >
-        <UCheckbox class="w-full" />
+        <URadioGroup orientation="horizontal" :items="items" v-model="value" />
       </UFormField>
-
+      <UFormField
+        :size="formFieldSize"
+        :ui="uiStyle"
+        label="Fazer upload de *.xsls, *.csv"
+        class="col-start-1 row-start-7 col-span-2 items-center"
+      >
+        <UFileUpload
+          :ui="fileUploadStyle"
+          type="file"
+          label="Upload *.xsls, *.csv"
+          class="w-full"
+          variant="button"
+        />
+      </UFormField>
       <UButton
-        v-if="!readonly"
+        icon="i-lucide-save-off"
+        color="error"
+        variant="soft"
+        class="w-full h-max col-start-3 flex items-center justify-center col-span-2"
+      >
+        Descartar
+      </UButton>
+      <UButton
         icon="i-lucide-save"
-        class="w-full flex items-center justify-center col-span-2"
+        class="w-full flex h-max items-center justify-center col-span-2"
       >
         Salvar
       </UButton>

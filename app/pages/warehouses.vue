@@ -104,7 +104,11 @@ const filteredWarehouses = computed(() => {
             variant="outline"
           />
           <div class="flex items-center gap-4">
-            <USelect v-model="selectedLocation" :items="locationFilters" />
+            <USelect
+              variant="outline"
+              v-model="selectedLocation"
+              :items="locationFilters"
+            />
             <UModal title="Cadastrar armazem">
               <UButton icon="lucide:plus"> Novo armazem </UButton>
               <template #body>

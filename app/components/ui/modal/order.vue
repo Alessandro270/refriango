@@ -1,24 +1,22 @@
 <template>
   <UForm class="flex flex-col w-full gap-2">
-    <div class="flex gap-3">
-      <UFormField class="w-full" label="Produto">
-        <USelectMenu
-          class="w-full"
-          placeholder="Selecionar produto"
-          :search-input="true"
-          :items="produtos"
-        />
-      </UFormField>
+    <UFormField class="w-full" label="Produto">
+      <USelectMenu
+        class="w-full"
+        placeholder="Selecionar produto"
+        :search-input="true"
+        :items="produtos"
+      />
+    </UFormField>
 
-      <UFormField class="w-full" label="Fornecedor">
-        <USelectMenu
-          class="w-full"
-          placeholder="Selecionar fornecedor"
-          :search-input="true"
-          :items="fornecedores"
-        />
-      </UFormField>
-    </div>
+    <UFormField class="w-full" label="Fornecedor">
+      <USelectMenu
+        class="w-full"
+        placeholder="Selecionar fornecedor"
+        :search-input="true"
+        :items="fornecedores"
+      />
+    </UFormField>
 
     <div class="flex gap-3">
       <UFormField class="w-full" label="Quantidade">
@@ -37,24 +35,24 @@
 
 <script setup lang="ts">
 const produtos = [
-  "Leite Integral 1L",
-  "Açúcar 1kg",
-  "Café Moído 500g",
-  "Óleo de Soja 900ml",
-];
-const fornecedores = ["Distribuidora ABC", "Fornecedor XYZ", "Atacado Central"];
+  'Leite Integral 1L',
+  'Açúcar 1kg',
+  'Café Moído 500g',
+  'Óleo de Soja 900ml'
+]
+const fornecedores = ['Distribuidora ABC', 'Fornecedor XYZ', 'Atacado Central']
 const tiposEntrada = [
-  "Compra",
-  "Devolução de cliente",
-  "Transferência interna",
-  "Ajuste de inventário",
-  "Produção própria",
-];
-const unidades = ["un", "kg", "g", "L", "ml", "cx", "pç", "fardo"];
+  'Compra',
+  'Devolução de cliente',
+  'Transferência interna',
+  'Ajuste de inventário',
+  'Produção própria'
+]
+const unidades = ['un', 'kg', 'g', 'L', 'ml', 'cx', 'pç', 'fardo']
 const armazens = [
-  "Armazém Principal",
-  "Armazém Frigorífico",
-  "Armazém Seco",
-  "Depósito B",
-];
+  'Armazém Principal',
+  'Armazém Frigorífico',
+  'Armazém Seco',
+  'Depósito B'
+]
 </script>

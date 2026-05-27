@@ -13,16 +13,16 @@ const formFieldSize = 'lg'
   <div class="space-y-4">
     <UiH1>CONFIGURACOES</UiH1>
     <UForm
-      class="bg-white rounded-md px-6 py-6 gap-4 grid grid-cols-12 auto-rows-min"
+      class="bg-white rounded-md px-6 py-6 gap-4 grid grid-cols-10 auto-rows-min"
     >
-      <UiH3 class="col-start-3 col-span-full row-start-1">
+      <UiH3 class="col-start-3 row-start-1 col-span-8">
         Informacoes Da Conta
       </UiH3>
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
         label="Primeiro Nome"
-        class="row-start-2 col-start-3 col-span-5"
+        class="row-start-2 col-start-3 col-span-4"
       >
         <UInput
           variant="outline"
@@ -34,7 +34,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Ultimo Nome"
-        class="row-start-2 col-span-5"
+        class="row-start-2 col-span-4"
       >
         <UInput
           variant="outline"
@@ -43,7 +43,7 @@ const formFieldSize = 'lg'
         />
       </UFormField>
       <UFileUpload
-        class="col-start-1 col-span-2 row-span-4"
+        class="col-start-1 col-span-2 row-span-6"
         label="Foto De Perfil"
         :ui="fileUploadStyle"
         :size="formFieldSize"
@@ -51,8 +51,8 @@ const formFieldSize = 'lg'
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
-        label="email"
-        class="col-span-10"
+        label="Email"
+        class="col-span-8"
       >
         <UInput
           variant="outline"
@@ -65,7 +65,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Senha"
-        class="col-start-3 col-span-5"
+        class="col-start-3 col-span-4"
       >
         <UInput
           variant="outline"
@@ -80,7 +80,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Confirmar Senha"
-        class="col-span-5"
+        class="col-span-4"
       >
         <UInput
           variant="outline"
@@ -94,7 +94,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Numero De Telefone"
-        class="col-start-3 col-span-10"
+        class="col-start-3 col-span-8"
       >
         <UInput
           variant="outline"
@@ -106,7 +106,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Data De Nascimento"
-        class="col-start-3 col-span-10"
+        class="col-start-3 col-span-8"
       >
         <UInput variant="outline" type="date" />
       </UFormField>
@@ -114,7 +114,7 @@ const formFieldSize = 'lg'
         :size="formFieldSize"
         :ui="uiStyle"
         label="Numero De BI"
-        class="col-start-3 col-span-10"
+        class="col-start-3 col-span-8"
       >
         <UInput
           variant="outline"

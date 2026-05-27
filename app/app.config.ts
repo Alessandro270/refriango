@@ -15,6 +15,12 @@ export default defineAppConfig({
         separator: 'bg-transparent'
       }
     },
+    radioGroup: {
+      slots: {
+        base: 'ring-zinc-400',
+        label: 'block font-medium text-ui-text'
+      }
+    },
     badge: {
       slots: {
         base: 'font-bold uppercase text-ui-text bg-zinc-200 rounded-sm',
@@ -28,15 +34,16 @@ export default defineAppConfig({
     },
     button: {
       defaultVariants: {
-        color: 'primary',
-        variant: 'solid',
+        color: 'neutral',
+        variant: 'soft',
         size: 'md'
       }
     },
     select: {
       variants: {
         variant: {
-          outline: 'text-zinc-600 bg-transparent ring transition ring-zinc-300',
+          outline:
+            'text-zinc-600 bg-transparent ring transition ring-zinc-300 hover:bg-transparent hover:ring-zinc-400',
           solid: 'text-zinc-600 bg-transparent ring transition ring-zinc-800'
         }
       },

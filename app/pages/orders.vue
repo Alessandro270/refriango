@@ -138,7 +138,11 @@ const filteredOrders = computed(() => {
             placeholder="Pesquisar pedido..."
           />
           <div class="flex items-center gap-4">
-            <USelect v-model="selectedStatus" :items="statusFilters" />
+            <USelect
+              v-model="selectedStatus"
+              variant="outline"
+              :items="statusFilters"
+            />
             <UModal title="Novo pedido">
               <UButton icon="lucide:plus"> Novo Pedido </UButton>
               <template #body>

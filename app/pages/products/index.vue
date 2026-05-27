@@ -153,12 +153,14 @@ const products = ref([
             <USelect
               v-model="selectedStatus"
               :items="statusFilters"
+              variant="outline"
               class="w-28"
             />
 
             <USelect
               v-model="selectedCategory"
               :items="categoryFilters"
+              variant="outline"
               class="w-42"
             />
             <UButton to="/products/new" icon="lucide:plus">
