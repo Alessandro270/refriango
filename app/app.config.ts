@@ -28,8 +28,8 @@ export default defineAppConfig({
     },
     button: {
       defaultVariants: {
-        color: 'neutral',
-        variant: 'soft',
+        color: 'primary',
+        variant: 'solid',
         size: 'md'
       }
     },

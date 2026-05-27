@@ -1,13 +1,8 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-
 type Supplier = {
   id: string
   name: string
-  email: string
-  phone: string
-  address: string
-  totalOrders: number
+  description: string
 }
 
 const suppliers = ref<Supplier[]>([
@@ -72,7 +67,7 @@ const filteredSuppliers = computed(() => {
 <template>
   <div class="space-y-6">
     <div class="flex items-center justify-between">
-      <UiH1>Fornecedores</UiH1>
+      <UiH1>Categorias</UiH1>
     </div>
 
     <UiTable :data="filteredSuppliers" :columns="columns">
@@ -84,8 +79,8 @@ const filteredSuppliers = computed(() => {
             icon="i-lucide-search"
             placeholder="Pesquisar fornecedor..."
           />
-          <UModal title="Novo fornecedor">
-            <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
+          <UModal title="Nova categoria">
+            <UButton icon="lucide:plus"> Nova categoria </UButton>
             <template #body>
               <UiModalSupplier />
             </template>

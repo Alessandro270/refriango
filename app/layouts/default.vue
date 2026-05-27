@@ -6,6 +6,12 @@ const items: NavigationMenuItem[] = [
     icon: 'lucide:layout-dashboard',
     to: '/'
   },
+
+  {
+    label: 'Categorias',
+    icon: 'lucide:list-check',
+    to: '/categories'
+  },
   {
     label: 'Produtos',
     icon: 'lucide:shopping-cart',

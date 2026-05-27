@@ -162,9 +162,7 @@ const products = ref([
               class="w-42"
             />
             <UModal title="Novo produto">
-              <UButton variant="soft" color="neutral" icon="lucide:plus">
-                Novo produto
-              </UButton>
+              <UButton icon="lucide:plus"> Novo produto </UButton>
               <template #body>
                 <UiModalProduct :readonly="false" />
               </template>
