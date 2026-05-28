@@ -132,7 +132,7 @@ const formFieldSize = 'lg'
       </UButton>
       <UButton
         icon="lucide:save"
-        class="h-10 col-span-2 h-max flex items-center justify-center"
+        class="col-span-2 h-max flex items-center justify-center"
       >
         Salvar
       </UButton>
