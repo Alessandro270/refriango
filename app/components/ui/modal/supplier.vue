@@ -1,5 +1,5 @@
 <template>
-  <UForm class="w-full space-y-2">
+  <UForm class="w-full flex flex-col flex-1 space-y-2">
     <UFormField label="Nome">
       <UInput class="w-full" placeholder="Example xyz" />
     </UFormField>

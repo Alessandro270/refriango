@@ -1,5 +1,5 @@
 <template>
-  <UForm class="flex flex-col w-full gap-2">
+  <UForm class="flex flex-col w-full flex-1 gap-2">
     <div class="flex gap-3">
       <UFormField class="w-full" label="Produto">
         <USelectMenu
@@ -52,24 +52,24 @@
 
 <script setup lang="ts">
 const produtos = [
-  "Leite Integral 1L",
-  "Açúcar 1kg",
-  "Café Moído 500g",
-  "Óleo de Soja 900ml",
-];
-const fornecedores = ["Distribuidora ABC", "Fornecedor XYZ", "Atacado Central"];
+  'Leite Integral 1L',
+  'Açúcar 1kg',
+  'Café Moído 500g',
+  'Óleo de Soja 900ml'
+]
+const fornecedores = ['Distribuidora ABC', 'Fornecedor XYZ', 'Atacado Central']
 const tiposEntrada = [
-  "Compra",
-  "Devolução de cliente",
-  "Transferência interna",
-  "Ajuste de inventário",
-  "Produção própria",
-];
-const unidades = ["un", "kg", "g", "L", "ml", "cx", "pç", "fardo"];
+  'Compra',
+  'Devolução de cliente',
+  'Transferência interna',
+  'Ajuste de inventário',
+  'Produção própria'
+]
+const unidades = ['un', 'kg', 'g', 'L', 'ml', 'cx', 'pç', 'fardo']
 const armazens = [
-  "Armazém Principal",
-  "Armazém Frigorífico",
-  "Armazém Seco",
-  "Depósito B",
-];
+  'Armazém Principal',
+  'Armazém Frigorífico',
+  'Armazém Seco',
+  'Depósito B'
+]
 </script>

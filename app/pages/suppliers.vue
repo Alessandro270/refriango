@@ -67,6 +67,8 @@ const filteredSuppliers = computed(() => {
     )
   })
 })
+
+const open = ref<boolean>(false)
 </script>
 
 <template>
@@ -87,7 +89,10 @@ const filteredSuppliers = computed(() => {
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>
-          <UModal title="Novo fornecedor">
+          <UModal v-model:open="open">
+            <template #header>
+              <UiModalTitle @close="open = false">Novo Fornecedor</UiModalTitle>
+            </template>
             <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
             <template #body>
               <UiModalSupplier />

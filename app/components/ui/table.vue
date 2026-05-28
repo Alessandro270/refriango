@@ -1,24 +1,24 @@
 <script setup lang="ts">
 const { data, columns } = defineProps<{
-  data: Array<any>;
-  columns: Array<any> | [];
-}>();
+  data: Array<any>
+  columns: Array<any> | []
+}>()
 
-const page = ref(1);
-const limit = ref(8);
-const totalPages = computed(() => data.length);
+const page = ref(1)
+const limit = ref(8)
+const totalPages = computed(() => data.length)
 const currData = computed(() =>
-  data.slice((page.value - 1) * limit.value, page.value * limit.value),
-);
+  data.slice((page.value - 1) * limit.value, page.value * limit.value)
+)
 
-const pages = Math.ceil(totalPages.value / limit.value);
+const pages = Math.ceil(totalPages.value / limit.value)
 
 function next(): void {
-  if (page.value < pages) page.value++;
+  if (page.value < pages) page.value++
 }
 
 function prev(): void {
-  if (page.value > 1) page.value--;
+  if (page.value > 1) page.value--
 }
 </script>
 
@@ -31,6 +31,7 @@ function prev(): void {
       @prev="prev"
       @next="next"
       :page="page"
+      @select="val => (page = val)"
       class="ml-auto"
     />
   </div>

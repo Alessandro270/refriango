@@ -126,15 +126,15 @@ const formFieldSize = 'lg'
         icon="lucide:save-off"
         color="error"
         variant="soft"
-        class="col-start-3 h-9 col-span-2 flex items-center justify-center"
+        class="col-start-3 h-max col-span-2 flex items-center justify-center"
       >
-        Descartar Alteracoes
+        Descartar
       </UButton>
       <UButton
         icon="lucide:save"
-        class="h-10 col-span-2 flex items-center justify-center"
+        class="h-10 col-span-2 h-max flex items-center justify-center"
       >
-        Salvar Alteracoes
+        Salvar
       </UButton>
     </UForm>
   </div>

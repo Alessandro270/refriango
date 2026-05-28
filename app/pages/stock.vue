@@ -168,6 +168,11 @@ const warehouseFilters = ref([
 
 const selectedStatus = ref('Todos')
 const selectedWarehouse = ref('Todos os Armazéns')
+const stockModalStyle = {
+  content: '!w-200 !max-w-none',
+  body: 'flex-1 '
+}
+const open = ref<boolean>(false)
 </script>
 
 <template>
@@ -205,7 +210,13 @@ const selectedWarehouse = ref('Todos os Armazéns')
               class="w-40"
             />
 
-            <UModal title="Adicionar estoque">
+            <UModal :ui="stockModalStyle" v-model:open="open">
+              <template #header>
+                <UiModalTitle @close="open = false">
+                  Adicionar estoque
+                </UiModalTitle>
+              </template>
+
               <UButton icon="lucide:plus">Novo estoque</UButton>
               <template #body>
                 <UiModalStock />

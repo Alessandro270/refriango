@@ -5,6 +5,12 @@ export default defineAppConfig({
       secondary: 'red',
       neutral: 'zinc'
     },
+    modal: {
+      slots: {
+        content: 'md:!min-w-80 min-h-80 h-max !max-w-200',
+        body: 'flex-1 flex flex-col p-4 sm:p-6 '
+      }
+    },
     table: {
       slots: {
         base: 'bg-white text-default rounded-md',
@@ -50,13 +56,13 @@ export default defineAppConfig({
           color: 'neutral',
           variant: 'outline',
           class:
-            'text-zinc-600 active:text-zinc-100 bg-transparent ring transition ring-zinc-300 hover:bg-transparent hover:ring-zinc-400 focus:outline-none'
+            'text-zinc-600 active:text-zinc-100 bg-transparent ring-zinc-300 active:ring-transparent  transition  hover:bg-transparent focus:outline-none'
         },
         {
           color: 'neutral',
           variant: 'solid',
           class:
-            'text-zinc-100 bg-zinc-800 ring transition ring-zinc-800 hover:text-zinc-500 hover:bg-primary hover:ring-transparent hover:text-ui-text active:bg-primary/80'
+            'text-zinc-100 bg-zinc-800 transition hover:text-zinc-500 hover:bg-primary  hover:text-ui-text active:bg-primary/80'
         }
       ],
       defaultVariants: {
@@ -66,11 +72,14 @@ export default defineAppConfig({
       }
     },
     select: {
+      slots: {
+        content: 'ring-transparent'
+      },
       variants: {
         variant: {
           outline:
-            'text-zinc-600 bg-transparent ring transition ring-zinc-300 hover:bg-transparent hover:ring-zinc-400',
-          solid: 'text-zinc-600 bg-transparent ring transition ring-zinc-800'
+            'text-zinc-600 bg-transparent  transition ring-zinc-300 hover:bg-transparent hover:ring-zinc-400',
+          solid: 'text-zinc-600 bg-transparent ring ring-transparent transition'
         }
       },
       defaultVariants: {

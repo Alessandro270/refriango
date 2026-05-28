@@ -101,6 +101,8 @@ const filteredcategories = computed(() => {
     )
   })
 })
+
+const open = ref<boolean>(false)
 </script>
 
 <template>
@@ -121,7 +123,12 @@ const filteredcategories = computed(() => {
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>
-          <UModal title="Nova categoria">
+          <UModal v-model:open="open">
+            <template #header>
+              <UiModalTitle @close="open = false">
+                Nova categoria
+              </UiModalTitle>
+            </template>
             <UButton icon="lucide:plus"> Nova categoria </UButton>
             <template #body>
               <UiModalCategory />

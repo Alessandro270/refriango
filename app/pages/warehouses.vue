@@ -88,6 +88,8 @@ const filteredWarehouses = computed(() => {
     return matchesLocation && matchesSearch
   })
 })
+
+const open = ref<boolean>(false)
 </script>
 
 <template>
@@ -112,7 +114,12 @@ const filteredWarehouses = computed(() => {
               v-model="selectedLocation"
               :items="locationFilters"
             />
-            <UModal title="Cadastrar armazem">
+            <UModal v-model:open="open">
+              <template #header>
+                <UiModalTitle @close="open = false">
+                  Cadastrar Armazem
+                </UiModalTitle>
+              </template>
               <UButton icon="lucide:plus"> Novo armazem </UButton>
               <template #body>
                 <UiModalWarehouse />

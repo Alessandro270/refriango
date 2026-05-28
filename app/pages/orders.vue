@@ -127,6 +127,8 @@ const modalStyle = {
   content: '!w-210 min-h-120 h-max !max-w-none',
   body: 'flex-1 flex flex-col p-4 sm:p-6 '
 }
+
+const open = ref<boolean>(false)
 </script>
 
 <template>
@@ -153,23 +155,9 @@ const modalStyle = {
               variant="outline"
               :items="statusFilters"
             />
-            <UModal :ui="modalStyle">
+            <UModal :ui="modalStyle" v-model:open="open">
               <template #header>
-                <div class="grid grid-cols-12 w-full items-center">
-                  <h3 class="font-semibold col-span-3">Novo Pedido</h3>
-
-                  <UButton
-                    icon="lucide:import"
-                    variant="ghost"
-                    class="col-start-10 col-span-2"
-                    >Fazer upload</UButton
-                  >
-                  <UButton
-                    icon="lucide:x"
-                    variant="ghost"
-                    class="w-max col-start-12 ml-auto"
-                  ></UButton>
-                </div>
+                <UiModalTitle @close="open = false">Novo Pedido</UiModalTitle>
               </template>
               <UButton icon="lucide:plus"> Novo Pedido </UButton>
               <template #body>

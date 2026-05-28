@@ -1,5 +1,5 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ readonly?: boolean }>(), { readonly: true });
+withDefaults(defineProps<{ readonly?: boolean }>(), { readonly: true })
 // const supplier = ref("fanta");
 </script>
 
