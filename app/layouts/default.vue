@@ -15,7 +15,14 @@ const items: NavigationMenuItem[] = [
   {
     label: 'Produtos',
     icon: 'lucide:shopping-cart',
-    to: '/products'
+    to: '/products',
+    children: [
+      {
+        label: 'Novo',
+        icon: 'lucide:plus-circle',
+        to: '/products/new'
+      }
+    ]
   },
   {
     label: 'Pedidos',

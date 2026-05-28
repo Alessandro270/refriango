@@ -43,7 +43,9 @@ function addNewProduct() {
 </script>
 
 <template>
-  <UForm class="flex flex-col w-full max-h-110 flex-1 justify-between">
+  <UForm
+    class="flex flex-col w-full max-h-110 min-h-110 flex-1 justify-between"
+  >
     <div class="flex flex-col gap-5 overflow-y-scroll">
       <UiOrderItem
         v-for="product in orders"
@@ -62,8 +64,11 @@ function addNewProduct() {
       </UButton>
     </div>
 
-    <div class="grid grid-cols-12 gap-3 mt-auto w-full">
+    <div
+      class="grid grid-cols-12 gap-3 mt-auto pt-3 border-t border-t-zinc-500 w-full"
+    >
       <USelectMenu
+        icon="lucide:van"
         class="w-full col-start-1 col-span-4 h-max"
         placeholder="Selecionar fornecedor"
         :search-input="true"

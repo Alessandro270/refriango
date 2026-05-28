@@ -153,7 +153,24 @@ const modalStyle = {
               variant="outline"
               :items="statusFilters"
             />
-            <UModal title="Novo pedido" :ui="modalStyle">
+            <UModal :ui="modalStyle">
+              <template #header>
+                <div class="grid grid-cols-12 w-full items-center">
+                  <h3 class="font-semibold col-span-3">Novo Pedido</h3>
+
+                  <UButton
+                    icon="lucide:import"
+                    variant="ghost"
+                    class="col-start-10 col-span-2"
+                    >Fazer upload</UButton
+                  >
+                  <UButton
+                    icon="lucide:x"
+                    variant="ghost"
+                    class="w-max col-start-12 ml-auto"
+                  ></UButton>
+                </div>
+              </template>
               <UButton icon="lucide:plus"> Novo Pedido </UButton>
               <template #body>
                 <UiModalOrder />
