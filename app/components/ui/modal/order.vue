@@ -1,4 +1,11 @@
 <script setup lang="ts">
+type Product = {
+  id: string
+  quantity: number
+  name: string
+  price: number
+  total: number
+}
 const products = [
   'Leite Integral 1L',
   'Açúcar 1kg',
@@ -21,26 +28,32 @@ const armazens = [
   'Depósito B'
 ]
 
-const orders = reactive([])
-const id = ref(0)
+const orders = reactive<Product[]>([])
+const id = ref<number>(0)
 function addNewProduct() {
-  orders.value.push = { id, name: '', quantity: 0, total: 0 }
-  console.log(orders[currId])
-  id.value++
+  orders.push({
+    id: String(id.value),
+    name: '',
+    price: 0,
+    quantity: 0,
+    total: 0
+  })
+  console.log(id.value++)
 }
 </script>
 
 <template>
-  <UForm class="flex flex-col w-full flex-1 justify-between">
-    <div class="grid grid-cols-4 gap-5">
-      <OrderItem
+  <UForm class="flex flex-col w-full max-h-110 flex-1 justify-between">
+    <div class="flex flex-col gap-5 overflow-y-scroll">
+      <UiOrderItem
         v-for="product in orders"
         :products="products"
         :product="product"
         :key="product.id"
+        @update-name="name => (orders[product.id].name = name)"
       />
       <UButton
-        class="col-start-2 col-span-2 flex items-center justify-center"
+        class="col-span-full flex items-center justify-center"
         icon="lucide:plus"
         variant="ghost"
         @click="addNewProduct"

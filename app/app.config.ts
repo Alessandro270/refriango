@@ -23,12 +23,24 @@ export default defineAppConfig({
     },
     badge: {
       slots: {
-        base: 'font-bold uppercase text-ui-text bg-zinc-200 rounded-sm',
+        base: 'font-bold uppercase text-ui-text bg-transparent bg-zinc-200 rounded-sm',
         label: 'truncate'
       },
+      compoundVariants: [
+        {
+          color: 'neutral',
+          variant: 'solid',
+          class: 'text-inverted bg-inverted'
+        },
+        {
+          color: 'neutral',
+          variant: 'outline',
+          class: 'ring-zinc-300 text-zinc-500 bg-transparent'
+        }
+      ],
       defaultVariants: {
         color: 'neutral',
-        variant: 'soft',
+        variant: 'outline',
         size: 'sm'
       }
     },
@@ -82,7 +94,7 @@ export default defineAppConfig({
       variants: {
         variant: {
           outline: 'text-zinc-600 bg-transparent ring transition ring-zinc-300',
-          solid: 'text-zinc-600 bg-transparent ring transition ring-zinc-800'
+          solid: 'text-zinc-300 bg-transparent ring transition ring-zinc-800'
         }
       },
       defaultVariants: {

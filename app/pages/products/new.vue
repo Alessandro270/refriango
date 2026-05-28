@@ -9,7 +9,6 @@ const fileUploadStyle = { base: 'h-full text-zinc-400' }
 const formFieldSize = 'lg'
 const items = ref(['Sim', 'Nao'])
 const value = ref('System')
-const radioGroupStyle = {}
 </script>
 
 <template>
@@ -29,7 +28,12 @@ const radioGroupStyle = {}
         label="Nome"
         class="col-span-4"
       >
-        <UInput variant="outline" placeholder="example" class="w-full" />
+        <UInput
+          variant="outline"
+          placeholder="example"
+          trailing-icon="lucide:box"
+          class="w-full"
+        />
       </UFormField>
 
       <UFormField
@@ -43,6 +47,7 @@ const radioGroupStyle = {}
           :items="['fanta', 'coca-cola']"
           class="w-full"
           placeholder="escolher.."
+          icon="lucide:van"
         />
       </UFormField>
 
@@ -52,7 +57,12 @@ const radioGroupStyle = {}
         label="Peso"
         class="col-span-4"
       >
-        <UInput variant="outline" placeholder="0.0 g" class="w-full" />
+        <UInput
+          variant="outline"
+          placeholder="0.0kg"
+          class="w-full"
+          trailing-icon="lucide:weight"
+        />
       </UFormField>
 
       <UFormField
@@ -66,6 +76,7 @@ const radioGroupStyle = {}
           :items="['refrigerantes', 'bebidas']"
           placeholder="escolher.."
           class="w-full"
+          icon="lucide:list-check"
         />
       </UFormField>
 
@@ -75,7 +86,11 @@ const radioGroupStyle = {}
         label="Dimensoes"
         class="col-span-4"
       >
-        <UInput variant="outline" placeholder="L,A,C" />
+        <UInput
+          variant="outline"
+          placeholder="L,A,C"
+          trailing-icon="lucide:ruler-dimension-line"
+        />
       </UFormField>
 
       <UFormField
@@ -89,6 +104,7 @@ const radioGroupStyle = {}
           :items="['cm', 'm', 'in']"
           placeholder="escolher.."
           class="w-full"
+          icon="lucide:ruler"
         />
       </UFormField>
       <UFormField
@@ -97,7 +113,11 @@ const radioGroupStyle = {}
         label="Codigo SKU"
         class="col-span-4"
       >
-        <UInput variant="outline" class="w-full" placeholder="WA-005-26" />
+        <UFieldGroup>
+          <UButton icon="lucide:barcode" variant="outline" />
+          <UInput variant="outline" class="w-full" placeholder="WA-005-26" />
+          <UButton icon="lucide:qr-code" variant="outline" />
+        </UFieldGroup>
       </UFormField>
 
       <UFormField
@@ -115,11 +135,20 @@ const radioGroupStyle = {}
         label="Preco de compra"
         class="col-span-4"
       >
-        <UInputNumber
-          variant="outline"
-          orientation="vertical"
-          placeholder="5000,00 kz"
-        />
+        <UFieldGroup>
+          <UBadge
+            icon="lucide:dollar-sign"
+            variant="outline"
+            size="md"
+            color="neutral"
+          />
+          <UInputNumber
+            variant="outline"
+            orientation="vertical"
+            placeholder="5000,00 kz"
+            class="w-full"
+          />
+        </UFieldGroup>
       </UFormField>
       <UFormField
         :size="formFieldSize"
@@ -127,11 +156,20 @@ const radioGroupStyle = {}
         label="Preco de venda"
         class="col-span-4"
       >
-        <UInputNumber
-          variant="outline"
-          orientation="vertical"
-          placeholder="7500,00 kz"
-        />
+        <UFieldGroup>
+          <UBadge
+            icon="lucide:dollar-sign"
+            variant="outline"
+            size="md"
+            color="neutral"
+          />
+          <UInputNumber
+            variant="outline"
+            orientation="vertical"
+            placeholder="7500,00 kz"
+            class="w-full"
+          />
+        </UFieldGroup>
       </UFormField>
 
       <UFormField
