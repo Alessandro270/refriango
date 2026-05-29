@@ -67,15 +67,15 @@ const user = ref({
 
             <UIcon
               v-if="open"
-              name="cuida:sidebar-collapse-outline"
-              class="size-6 text-grays-400 hover:text-grays-200 transition"
+              name="lucide:menu"
+              class="size-6 text-zinc-400 hover:text-zinc-200 transition"
               @click="open = !open"
             ></UIcon>
           </div>
           <UIcon
             v-if="!open"
-            name="cuida:sidebar-collapse-outline"
-            class="size-6 text-grays-400 hover:text-grays-200 transition"
+            name="lucide:menu"
+            class="size-6 text-zinc-400 hover:text-zinc-200 transition"
             @click="open = !open"
           ></UIcon>
         </div>
@@ -112,15 +112,17 @@ const user = ref({
             </div>
           </div>
           <UButton
+            v-if="open"
             icon="lucide:arrow-right-to-line"
-            variant="outline"
+            variant="ghost"
+            color="neutral"
             size="sm"
           ></UButton>
         </div>
       </template>
     </USidebar>
     <div class="min-h-screen h-max bg-ui-bg w-full text-black">
-      <div class="px-50 py-5">
+      <div class="px-4 py-5">
         <slot />
       </div>
     </div>
