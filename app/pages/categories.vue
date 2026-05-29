@@ -119,7 +119,7 @@ const open = ref<boolean>(false)
               variant="outline"
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Pesquisar fornecedor..."
+              placeholder="Pesquisar categoria..."
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>

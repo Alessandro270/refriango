@@ -14,7 +14,7 @@ const items: NavigationMenuItem[] = [
   },
   {
     label: 'Produtos',
-    icon: 'lucide:shopping-cart',
+    icon: 'lucide:box',
     to: '/products',
     children: [
       {
@@ -25,9 +25,26 @@ const items: NavigationMenuItem[] = [
     ]
   },
   {
-    label: 'Pedidos',
-    icon: 'lucide:hand-platter',
-    to: '/orders'
+    label: 'Entrada',
+    icon: 'lucide:shopping-cart',
+    to: '/purchases'
+  },
+  {
+    label: 'Saida',
+    icon: 'material-symbols:point-of-sale-rounded',
+    to: '/sales'
+  },
+  {
+    label: 'Entregas',
+    icon: 'lucide:van',
+    to: '/delivery',
+    children: [
+      {
+        to: '/delivery/new',
+        label: 'Novo',
+        icon: 'lucide:plus-circle'
+      }
+    ]
   },
   {
     label: 'Fornecedores',
@@ -36,7 +53,7 @@ const items: NavigationMenuItem[] = [
   },
   {
     label: 'Estoque',
-    icon: 'lucide:package',
+    icon: 'lucide:boxes',
     to: '/stock'
   },
   {

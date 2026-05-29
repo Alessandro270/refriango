@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-
 type Order = {
   id: string
   supplierId: string
@@ -133,7 +131,7 @@ const open = ref<boolean>(false)
 
 <template>
   <div class="space-y-6">
-    <UiH1>pedidos</UiH1>
+    <UiH1>Entrada de Estoque</UiH1>
 
     <UiTable :data="filteredOrders" :columns="columns">
       <template #header>
@@ -143,7 +141,7 @@ const open = ref<boolean>(false)
               variant="outline"
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Pesquisar pedido..."
+              placeholder="Pesquisar entrada..."
             />
             <UButton icon="lucide:download" variant="outline">
               Exportar
@@ -157,9 +155,11 @@ const open = ref<boolean>(false)
             />
             <UModal :ui="modalStyle" v-model:open="open">
               <template #header>
-                <UiModalTitle @close="open = false">Novo Pedido</UiModalTitle>
+                <UiModalTitle @close="open = false">
+                  Efetuar entrada
+                </UiModalTitle>
               </template>
-              <UButton icon="lucide:plus"> Novo Pedido </UButton>
+              <UButton icon="lucide:plus"> Efetuar entrada</UButton>
               <template #body>
                 <UiModalOrder />
               </template>

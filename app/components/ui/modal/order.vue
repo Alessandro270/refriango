@@ -40,6 +40,10 @@ function addNewProduct() {
   })
   console.log(id.value++)
 }
+
+withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
+  type: 'purchase'
+})
 </script>
 
 <template>
@@ -70,7 +74,9 @@ function addNewProduct() {
       <USelectMenu
         icon="lucide:van"
         class="w-full col-start-1 col-span-4 h-max"
-        placeholder="Selecionar fornecedor"
+        :placeholder="
+          type === 'sale' ? 'Selecionar cliente' : 'Selecionar fornecedor'
+        "
         :search-input="true"
         :items="fornecedores"
       />
@@ -79,7 +85,7 @@ function addNewProduct() {
         class="mt-auto w-full flex items-center justify-center col-start-9 col-span-4"
         icon="i-lucide-save"
       >
-        Fazer pedido
+        {{ type === 'sale' ? 'Efetuar saida' : 'Efetuar entrada' }}
       </UButton>
     </div>
   </UForm>

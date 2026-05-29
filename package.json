@@ -21,6 +21,7 @@
     "vue-echarts": "^8.0.1"
   },
   "devDependencies": {
+    "@iconify-json/material-symbols": "^1.2.75",
     "@nuxt/eslint": "^1.15.2",
     "eslint": "^10.3.0",
     "typescript": "^6.0.3",

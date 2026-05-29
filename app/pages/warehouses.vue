@@ -103,7 +103,7 @@ const open = ref<boolean>(false)
             <UInput
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Pesquisar pedido..."
+              placeholder="Pesquisar armazens..."
               variant="outline"
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
