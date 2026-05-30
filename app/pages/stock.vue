@@ -118,7 +118,7 @@ const columns = [
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:box',
-          class: 'text-amber-400 '
+          class: 'text-amber-500 '
         }),
         row.original.product
       ])
@@ -217,7 +217,7 @@ const open = ref<boolean>(false)
 <template>
   <div class="space-y-6">
     <div class="w-full flex justify-between">
-      <UiH1>Estoque</UiH1>
+      <UiH1 icon="lucide:boxes">Estoque</UiH1>
     </div>
 
     <UiTable :data="stocks" :columns="columns">

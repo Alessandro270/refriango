@@ -211,7 +211,7 @@ const filteredOrders = computed(() => {
 
 <template>
   <div class="space-y-6">
-    <UiH1>Entregas</UiH1>
+    <UiH1 icon="lucide:van">Entregas</UiH1>
 
     <UiTable :data="filteredOrders" :columns="columns">
       <template #header>

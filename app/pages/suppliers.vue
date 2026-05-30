@@ -120,7 +120,7 @@ const open = ref<boolean>(false)
 <template>
   <div class="space-y-6">
     <div class="flex items-center justify-between">
-      <UiH1>Fornecedores</UiH1>
+      <UiH1 icon="lucide:truck">Fornecedores</UiH1>
     </div>
 
     <UiTable :data="filteredSuppliers" :columns="columns">

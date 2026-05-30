@@ -120,7 +120,7 @@ const open = ref<boolean>(false)
 
 <template>
   <div class="space-y-6">
-    <UiH1>Armazens</UiH1>
+    <UiH1 icon="lucide:warehouse">Armazens</UiH1>
 
     <UiTable :data="filteredWarehouses" :columns="columns">
       <template #header>

@@ -227,20 +227,52 @@ const columns = [
   },
   {
     accessorKey: 'product',
-    header: 'produto'
+    header: 'produto',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:box',
+          class: 'text-amber-500 '
+        }),
+        row.original.product
+      ])
   },
   {
     accessorKey: 'category',
-    header: 'categoria'
+    header: 'categoria',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:chart-column-stacked',
+          class: 'text-blue-400'
+        }),
+        row.original.category
+      ])
   },
   {
     accessorKey: 'purchasePrice',
-    header: 'Preco de compra'
+    header: 'Preco de compra',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:dollar-sign',
+          class: 'text-red-400'
+        }),
+        row.original.purchasePrice
+      ])
   },
 
   {
     accessorKey: 'salePrice',
-    header: 'Preco de venda'
+    header: 'Preco de venda',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:dollar-sign',
+          class: 'text-emerald-400'
+        }),
+        row.original.salePrice
+      ])
   },
   {
     accessorKey: 'quantity',
@@ -252,11 +284,17 @@ const columns = [
       if (quantity <= 0) color = 'error'
       else if (quantity < minimumStock) color = 'warning'
       else if (quantity < maximumStock) color = 'success'
-      else color = 'warning'
+      else color = 'info'
 
       return h(
         UBadge,
-        { variant: 'solid', class: 'text-center inline-block', color },
+        {
+          variant: 'solid',
+          class:
+            'flex items-center justify-between w-max rounded-full  min-w-12',
+          color,
+          icon: 'lucide:box'
+        },
         () => quantity
       )
     }
@@ -267,7 +305,7 @@ const columns = [
 <template>
   <div class="space-y-4">
     <div>
-      <UiH1>Dashboard</UiH1>
+      <UiH1 icon="lucide:layout-dashboard"> Dashboard</UiH1>
     </div>
     <div class="flex gap-4 w-full h-max">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-1/2">

@@ -175,7 +175,7 @@ const products = ref([
 
 <template>
   <div class="space-y-6">
-    <UiH1>Produtos</UiH1>
+    <UiH1 icon="lucide:box">Produtos</UiH1>
     <UiTable :data="products" :columns="columns">
       <template #header>
         <div class="flex items-center justify-between gap-4">

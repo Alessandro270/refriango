@@ -166,7 +166,7 @@ const open = ref<boolean>(false)
 
 <template>
   <div class="space-y-6">
-    <UiH1>Pedido de compra</UiH1>
+    <UiH1 icon="lucide:shopping-cart">Pedido de compra</UiH1>
 
     <UiTable :data="filteredOrders" :columns="columns">
       <template #header>

@@ -11,7 +11,7 @@ const formFieldSize = 'lg'
 
 <template>
   <div class="space-y-4">
-    <UiH1>CONFIGURACOES</UiH1>
+    <UiH1 icon="lucide:settings">CONFIGURACOES</UiH1>
     <UForm
       class="bg-white rounded-md px-6 py-6 gap-4 grid grid-cols-10 auto-rows-min"
     >
