@@ -17,7 +17,7 @@ export default defineAppConfig({
         th: 'text-ui-text capitalize',
         thead: 'text-grays-900 bg-zinc-50',
         td: 'text-grays-600',
-        tr: 'border-0',
+        tr: 'border-b  border-b-zinc-100 hover:bg-zinc-50 transition',
         separator: 'bg-transparent'
       }
     },
@@ -29,7 +29,7 @@ export default defineAppConfig({
     },
     badge: {
       slots: {
-        base: 'font-bold uppercase text-ui-text bg-transparent bg-zinc-200 rounded-sm',
+        base: 'font-bold uppercase text-ui-text bg-transparent bg-zinc-200 rounded-md',
         label: 'truncate'
       },
       compoundVariants: [

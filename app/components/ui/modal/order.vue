@@ -85,7 +85,7 @@ withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
         class="mt-auto w-full flex items-center justify-center col-start-9 col-span-4"
         icon="i-lucide-save"
       >
-        {{ type === 'sale' ? 'Efetuar saida' : 'Efetuar entrada' }}
+        {{ type === 'sale' ? 'Nova venda' : 'Nova compra' }}
       </UButton>
     </div>
   </UForm>

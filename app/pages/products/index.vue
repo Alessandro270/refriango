@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const search = ref('')
 
 const statusFilters = ref(['Todos', 'Ativo', 'Inativo', 'Em falta'])
@@ -25,22 +23,51 @@ const UBadge = resolveComponent('UBadge')
 const columns = [
   {
     accessorKey: 'name',
-    header: 'Produto'
+    header: 'Produto',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:box',
+          class: 'text-amber-400 '
+        }),
+        row.original.name
+      ])
   },
   {
     accessorKey: 'category',
-    header: 'Categoria'
+    header: 'Categoria',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:chart-column-stacked',
+          class: 'text-amber-400 '
+        }),
+        row.original.category
+      ])
   },
   {
     accessorKey: 'unitPrice',
     header: 'Preço',
-    cell: ({ row }) => {
-      return `Kz ${row.original.unitPrice}`
-    }
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:dollar-sign',
+          class: 'text-blue-400 '
+        }),
+        `Kz ${row.original.unitPrice}`
+      ])
   },
   {
     accessorKey: 'sku',
-    header: 'SKU'
+    header: 'SKU',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:barcode',
+          class: 'text-blue-400 '
+        }),
+        row.original.sku
+      ])
   },
   {
     accessorKey: 'refrigerated',
@@ -48,8 +75,16 @@ const columns = [
     cell: ({ row }: any) => {
       const refrigerated = row.getValue('refrigerated')
       const color = refrigerated ? 'success' : 'error'
-      return h(UBadge, { variant: 'solid', size: 'sm', color }, () =>
-        refrigerated ? 'sim' : 'nao'
+      return h(
+        UBadge,
+        {
+          variant: 'solid',
+          size: 'sm',
+          color,
+          icon: refrigerated ? 'lucide:check' : 'lucide:x',
+          class: 'rounded-full min-w-13'
+        },
+        () => (refrigerated ? 'sim' : 'nao')
       )
     }
   },

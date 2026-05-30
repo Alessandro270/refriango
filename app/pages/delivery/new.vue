@@ -70,12 +70,7 @@ const formFieldSize = 'lg'
       class="col-span-5"
     >
       <UFieldGroup>
-        <UInput
-          variant="outline"
-          :ui="uiInputStyle"
-          class="w-full"
-          type="date"
-        />
+        <UInput variant="outline" :ui="uiInputStyle" class="w-full" \ />
         <UButton variant="outline" icon="lucide:calendar-clock" />
       </UFieldGroup>
     </UFormField>

@@ -66,24 +66,70 @@ const columns = [
   },
   {
     accessorKey: 'supplierId',
-    header: 'Cliente'
-  },
-  {
-    accessorKey: 'total',
-    header: 'total'
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'Data de entrega'
+    header: 'Cliente',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:user',
+          class: 'text-blue-400 '
+        }),
+        row.original.supplierId
+      ])
   },
 
   {
     accessorKey: 'createdAt',
-    header: 'Data estimada'
+    header: 'Data de entrega',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:calendar-check-2',
+          class: 'text-emerald-400 '
+        }),
+        row.original.createdAt
+      ])
+  },
+
+  {
+    accessorKey: 'createdAt',
+    header: 'Data estimada',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:calendar-days',
+          class: 'text-blue-400 '
+        }),
+        row.original.createdAt
+      ])
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Ultima atualizacao'
+    header: 'Ultima atualizacao',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:calendar-clock',
+          class: 'text-blue-400 '
+        }),
+        row.original.updatedAt
+      ])
+  },
+  {
+    accessorKey: 'status',
+    header: 'Localizacao',
+
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:map-pin',
+          class: 'text-amber-400 '
+        }),
+        row.original.status
+      ])
+  },
+  {
+    accessorKey: 'total',
+    header: 'total'
   },
   {
     accessorKey: 'status',
@@ -91,29 +137,35 @@ const columns = [
     cell: ({ row }) => {
       let color = ''
       let value = ''
+      let icon = ''
       switch (row.getValue('status')) {
         case 'pending':
           color = 'warning'
           value = 'pendente'
+          icon = 'lucide:clock'
           break
         case 'completed':
           color = 'success'
           value = 'completo'
+          icon = 'lucide:check'
           break
         case 'cancelled':
           color = 'error'
           value = 'cancelado'
+          icon = 'lucide:x'
           break
         default:
           color = 'neutral'
+          icon = 'lucide:help-circle'
       }
 
-      return h(UBadge, { variant: 'solid', color }, () => value)
+      return h(
+        UBadge,
+        { variant: 'solid', color, icon, class: 'rounded-full' },
+
+        () => value
+      )
     }
-  },
-  {
-    accessorKey: 'status',
-    header: 'Localizacao'
   },
   {
     header: 'Acoes',

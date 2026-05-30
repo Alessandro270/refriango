@@ -80,8 +80,8 @@ const option = {
   },
   series: [
     {
-      name: '2024',
-      type: 'line',
+      name: 'Entradas',
+      type: 'bar',
       smooth: true,
       showSymbol: false,
       data: [17, 12, 18, 14, 22, 30, 28, 35, 40, 38, 45, 50],
@@ -94,8 +94,8 @@ const option = {
       }
     },
     {
-      name: '2025',
-      type: 'line',
+      name: 'Saidas',
+      type: 'bar',
       smooth: true,
       showSymbol: false,
       data: [12, 20, 25, 19, 35, 40, 42, 48, 55, 60, 58, 70],
@@ -214,7 +214,7 @@ const data = ref([
 ])
 
 const filteredData = computed(() =>
-  data.value.filter((el) => el.quantity < el.minimumStock)
+  data.value.filter(el => el.quantity < el.minimumStock)
 )
 
 const UBadge = resolveComponent('UBadge')
@@ -282,7 +282,7 @@ const columns = [
       </div>
 
       <div class="bg-white py-4 px-4 rounded-md min-h-96 w-2/4">
-        <UiH3>Entradas de estoque</UiH3>
+        <UiH3>Entradas vs saidas</UiH3>
         <VChart class="w-full" :option="option" />
       </div>
     </div>

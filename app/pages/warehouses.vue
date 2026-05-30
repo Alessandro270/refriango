@@ -45,10 +45,11 @@ const warehouses = ref<Warehouse[]>([
 
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
+const UIcon = resolveComponent('UIcon')
 const columns = [
   {
     accessorKey: 'id',
-    header: '#'
+    header: 'ID'
   },
   {
     accessorKey: 'name',
@@ -57,7 +58,15 @@ const columns = [
   {
     accessorKey: 'location',
     header: 'Localização',
-    cell: ({ row }: any) => row.getValue('location')
+    cell: ({ row }: any) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:map-pin',
+          class: 'text-amber-500 '
+        }),
+
+        row.getValue('location')
+      ])
   },
   {
     accessorKey: 'refrigerated',
@@ -65,8 +74,16 @@ const columns = [
     cell: ({ row }: any) => {
       const refrigerated = row.getValue('refrigerated')
       const color = refrigerated ? 'success' : 'error'
-      return h(UBadge, { variant: 'solid', size: 'sm', color }, () =>
-        refrigerated ? 'sim' : 'nao'
+      return h(
+        UBadge,
+        {
+          variant: 'solid',
+          size: 'sm',
+          icon: refrigerated ? 'lucide:check' : 'lucide:x',
+          color,
+          class: 'rounded-full min-w-13'
+        },
+        () => (refrigerated ? 'sim' : 'nao')
       )
     }
   },

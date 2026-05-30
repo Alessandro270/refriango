@@ -48,11 +48,57 @@ const suppliers = ref<Supplier[]>([
 const UButton = resolveComponent('UButton')
 
 const columns = [
-  { accessorKey: 'id', header: '#' },
-  { accessorKey: 'name', header: 'nome' },
-  { accessorKey: 'email', header: 'email' },
-  { accessorKey: 'phone', header: 'telefone' },
-  { accessorKey: 'address', header: 'endereço' },
+  { accessorKey: 'id', header: 'ID' },
+  {
+    accessorKey: 'name',
+    header: 'nome',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:users',
+          class: 'text-blue-400 '
+        }),
+        row.original.name
+      ])
+  },
+  {
+    accessorKey: 'email',
+    header: 'email',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:at-sign',
+          class: 'text-red-400 '
+        }),
+        row.original.email
+      ])
+  },
+  {
+    accessorKey: 'phone',
+    header: 'telefone',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:phone-call',
+          class: 'text-emerald-500 '
+        }),
+
+        row.original.phone
+      ])
+  },
+  {
+    accessorKey: 'address',
+    header: 'Localizacao',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:map-pin',
+          class: 'text-amber-500 '
+        }),
+
+        row.original.address
+      ])
+  },
   { accessorKey: 'totalOrders', header: 'pedidos' }
 ]
 
