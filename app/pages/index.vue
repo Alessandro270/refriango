@@ -232,7 +232,7 @@ const columns = [
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:box',
-          class: 'text-amber-500 '
+          class: 'text-blue-400 '
         }),
         row.original.product
       ])
@@ -305,7 +305,7 @@ const columns = [
 <template>
   <div class="space-y-4">
     <div>
-      <UiH1 icon="lucide:layout-dashboard"> Dashboard</UiH1>
+      <UiH1 icon="lucide:layout-dashboard"> Dashboard </UiH1>
     </div>
     <div class="flex gap-4 w-full h-max">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-1/2">

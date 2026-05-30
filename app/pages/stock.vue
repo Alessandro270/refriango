@@ -118,7 +118,7 @@ const columns = [
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:box',
-          class: 'text-amber-500 '
+          class: 'text-blue-400 '
         }),
         row.original.product
       ])
