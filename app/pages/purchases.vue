@@ -65,7 +65,7 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
-          name: 'lucide:user',
+          name: 'lucide:users',
           class: 'text-blue-400 '
         }),
         row.original.supplierId

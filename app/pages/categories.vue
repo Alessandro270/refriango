@@ -84,7 +84,18 @@ const UButton = resolveComponent('UButton')
 
 const columns = [
   { accessorKey: 'id', header: '#' },
-  { accessorKey: 'name', header: 'nome' },
+  {
+    accessorKey: 'name',
+    header: 'nome',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:chart-column-stacked',
+          class: 'text-blue-400 '
+        }),
+        row.original.name
+      ])
+  },
   { accessorKey: 'description', header: 'descricao' },
   {
     accessorKey: 'productCount',

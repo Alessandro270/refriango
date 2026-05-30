@@ -40,7 +40,7 @@ const columns = [
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:chart-column-stacked',
-          class: 'text-amber-400 '
+          class: 'text-blue-400 '
         }),
         row.original.category
       ])

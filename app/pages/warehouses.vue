@@ -53,7 +53,16 @@ const columns = [
   },
   {
     accessorKey: 'name',
-    header: 'Nome'
+    header: 'Nome',
+    cell: ({ row }: any) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:warehouse',
+          class: 'text-amber-500 '
+        }),
+
+        row.getValue('name')
+      ])
   },
   {
     accessorKey: 'location',

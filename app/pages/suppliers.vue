@@ -68,7 +68,7 @@ const columns = [
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:at-sign',
-          class: 'text-red-400 '
+          class: 'text-blue-400 '
         }),
         row.original.email
       ])
