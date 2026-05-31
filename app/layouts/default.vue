@@ -68,10 +68,10 @@ const items: NavigationMenuItem[] = [
   }
 ]
 
-const user = ref({
-  name: 'Jose Luis',
-  email: 'joseluis075@example.com'
-})
+const authStore = useAuthStore()
+const fullName = computed(
+  () => `${authStore.user?.firstname} ${authStore.user?.lastname}`
+)
 </script>
 
 <template>
@@ -109,7 +109,7 @@ const user = ref({
           <div variant="ghost" class="flex items-center gap-2 pl-2">
             <UAvatar
               :text="
-                user.name
+                fullName
                   .split(' ')
                   .map(name => name.at(0))
                   .join('')
@@ -121,10 +121,10 @@ const user = ref({
               <span
                 class="inline-block w-max text-xs font-medium text-zinc-400"
               >
-                {{ user.name }}
+                {{ fullName }}
               </span>
               <span class="inline-block text-xs font-semibold text-zinc-400">
-                Funcionario
+                {{ authStore.user.role }}
               </span>
             </div>
           </div>

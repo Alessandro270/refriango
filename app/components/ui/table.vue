@@ -25,7 +25,13 @@ function prev(): void {
 <template>
   <div class="bg-white rounded-md flex flex-col pt-3 pb-2 px-3 space-y-3">
     <slot name="header" />
-    <UTable :data="currData" :columns="columns" />
+    <UTable v-if="totalPages > 0" :data="currData" :columns="columns" />
+    <div v-else class="min-h-90 flex justify-center items-center">
+      <div class="space-y-4 flex items-center justify-center flex-col">
+        <UIcon name="lucide:file-plus-corner" class="size-30 bg-zinc-300" />
+        <UiH3 class="text-zinc-400">Sem dados no momento..</UiH3>
+      </div>
+    </div>
     <UiPagination
       :pages="pages"
       @prev="prev"

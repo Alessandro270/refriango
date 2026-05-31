@@ -1,6 +1,11 @@
+const TOKEN_KEY = 'auth_token'
+const USER_KEY = 'auth_user'
+const REFRESH_TOKEN_KEY = 'auth_refresh_token'
+
 export const useAuthStore = defineStore('auth', {
   state: () => {
     return {
+      refreshToken: null,
       token: null,
       user: null,
       initialized: false
@@ -12,9 +17,28 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     init() {
       if (this.initialized) return
-      this.token = useCookie('auth_token').value
-      this.user = useCookie('auth_user').value
+      const userJson = useCookie(USER_KEY).value
+      const token = useCookie(TOKEN_KEY).value
+      const refreshToken = useCookie(REFRESH_TOKEN_KEY).value
+
+      this.token = token || null
+      this.refreshToken = refreshToken || null
+      this.user = userJson ? JSON.parse(userJson) : null
       this.initialized = true
+    },
+    async refreshToken() {
+      const config = useRuntimeConfig()
+      try {
+        if (!this.token) throw new Error('Nao autenticado')
+        const result = await $fetch('/auth/refresh', {
+          method: 'POST',
+          body: { refreshToken: this.refreshToken },
+          baseURL: config.public.apiUrl
+        })
+        if (!result) throw new Error('Nao autenticado')
+      } catch (e) {
+        throw new Error(e.message)
+      }
     },
     async validateToken() {
       const config = useRuntimeConfig()
@@ -22,7 +46,8 @@ export const useAuthStore = defineStore('auth', {
         if (!this.token) throw new Error('Nao autenticado')
         const result = await $fetch('/auth/validate-token', {
           method: 'POST',
-          baseURL: config.public.apiUrl
+          baseURL: config.public.apiUrl,
+          body: { token: this.token }
         })
         if (!result) throw new Error('Nao autenticado')
       } catch (e) {
@@ -48,17 +73,19 @@ export const useAuthStore = defineStore('auth', {
       try {
         const config = useRuntimeConfig()
 
-        const { token } = await $fetch('/auth/login', {
+        const { token, user, refreshToken } = await $fetch('/auth/login', {
           method: 'POST',
           baseURL: config.public.apiUrl,
           body: payload
         })
-        const tokenCookie = useCookie('auth_token')
-        const userCookie = useCookie('auth_user')
+
         this.token = token
-        await this.getAuthUser()
-        tokenCookie.value = token
-        userCookie.value = JSON.stringify(this.user)
+        this.user = user
+        this.refreshToken = refreshToken
+
+        useCookie(TOKEN_KEY).value = token
+        useCookie(USER_KEY).value = JSON.stringify(this.user)
+        useCookie(REFRESH_TOKEN_KEY).value = this.refreshToken
         const toast = useToast()
         toast.add({
           title: 'Login efetuado com sucesso',
@@ -67,6 +94,17 @@ export const useAuthStore = defineStore('auth', {
       } catch (e) {
         throw new Error(e.message)
       }
+    },
+    logout() {
+      this.user = null
+      this.token = null
+      this.refreshToken = null
+      this.initialized = false
+
+      useCookie(TOKEN_KEY).value = undefined
+      useCookie(REFRESH_TOKEN_KEY).value = undefined
+      useCookie(USER_KEY).value = undefined
+      navigateTo('/auth/login')
     }
   }
 })
