@@ -6,23 +6,29 @@ export const useCategoryStore = defineStore('category', {
     async getCategories() {
       const config = useRuntimeConfig()
       try {
-        const token = localStorage.getItem('auth_token')
+        const token = useCookie(AUTH_TOKEN_KEY).value
+
         if (!token) throw new Error('Nao autenticado')
+
         const categories = await $fetch('/category', {
           headers: {
             authorization: `Bearer ${token}`
           },
           baseURL: config.public.apiUrl
         })
-        this.categories = categories
+
+        categories?.forEach(category => {
+          this.categories.push(category)
+        })
       } catch (e) {
         throw new Error(e.message)
       }
     },
+
     async getCategory(id: string) {
       const config = useRuntimeConfig()
       try {
-        const token = useCookie('auth_token').value
+        const token = useCookie(AUTH_TOKEN_KEY).value
         if (!token) throw new Error('Nao autenticado')
         const category = await $fetch(`/category/${id}`, {
           headers: {
@@ -39,7 +45,7 @@ export const useCategoryStore = defineStore('category', {
       const config = useRuntimeConfig()
       const toast = useToast()
       try {
-        const token = useCookie('auth_token').value
+        const token = useCookie(AUTH_TOKEN_KEY).value
         if (!token) throw new Error('Nao autenticado')
         const category = await $fetch('/category', {
           method: 'POST',
@@ -50,8 +56,6 @@ export const useCategoryStore = defineStore('category', {
           baseURL: config.public.apiUrl
         })
         this.categories.push(category)
-        console.log(category)
-
         toast.add({
           title: 'Categoria criada com sucesso!',
           icon: 'lucide:file-check'

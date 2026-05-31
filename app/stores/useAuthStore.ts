@@ -1,6 +1,6 @@
-const TOKEN_KEY = 'auth_token'
-const USER_KEY = 'auth_user'
-const REFRESH_TOKEN_KEY = 'auth_refresh_token'
+export const AUTH_TOKEN_KEY = 'auth_token'
+export const AUTH_USER_KEY = 'auth_user'
+export const AUTH_REFRESH_TOKEN_KEY = 'auth_refresh_token'
 
 export const useAuthStore = defineStore('auth', {
   state: () => {
@@ -17,9 +17,9 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     init() {
       if (this.initialized) return
-      const userJson = useCookie(USER_KEY).value
-      const token = useCookie(TOKEN_KEY).value
-      const refreshToken = useCookie(REFRESH_TOKEN_KEY).value
+      const userJson = useCookie(AUTH_USER_KEY).value
+      const token = useCookie(AUTH_TOKEN_KEY).value
+      const refreshToken = useCookie(AUTH_REFRESH_TOKEN_KEY).value
 
       this.token = token || null
       this.refreshToken = refreshToken || null
@@ -83,9 +83,9 @@ export const useAuthStore = defineStore('auth', {
         this.user = user
         this.refreshToken = refreshToken
 
-        useCookie(TOKEN_KEY).value = token
-        useCookie(USER_KEY).value = JSON.stringify(this.user)
-        useCookie(REFRESH_TOKEN_KEY).value = this.refreshToken
+        useCookie(AUTH_TOKEN_KEY).value = token
+        useCookie(AUTH_USER_KEY).value = JSON.stringify(this.user)
+        useCookie(AUTH_REFRESH_TOKEN_KEY).value = this.refreshToken
         const toast = useToast()
         toast.add({
           title: 'Login efetuado com sucesso',
@@ -101,9 +101,9 @@ export const useAuthStore = defineStore('auth', {
       this.refreshToken = null
       this.initialized = false
 
-      useCookie(TOKEN_KEY).value = undefined
-      useCookie(REFRESH_TOKEN_KEY).value = undefined
-      useCookie(USER_KEY).value = undefined
+      useCookie(AUTH_TOKEN_KEY).value = undefined
+      useCookie(AUTH_REFRESH_TOKEN_KEY).value = undefined
+      useCookie(AUTH_USER_KEY).value = undefined
       navigateTo('/auth/login')
     }
   }

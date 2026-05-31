@@ -13,6 +13,10 @@ const isLoading = ref(false)
 const toast = useToast()
 const categoryStore = useCategoryStore()
 const state = reactive({ name: '', description: '' })
+const emit = defineEmits<{
+  close: []
+}>()
+
 async function handleSubmit() {
   isLoading.value = true
   try {
@@ -25,6 +29,7 @@ async function handleSubmit() {
     })
   } finally {
     isLoading.value = false
+    emit('close')
   }
 }
 const uiStyle = {

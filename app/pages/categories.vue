@@ -3,6 +3,15 @@ const categoryStore = useCategoryStore()
 
 const UButton = resolveComponent('UButton')
 
+const toast = useToast()
+onBeforeMount(async () => {
+  try {
+    await categoryStore.getCategories()
+  } catch {
+    toast.add({ title: 'Nao foi possivel carregar as categorias' })
+  }
+})
+
 const columns = [
   { accessorKey: 'id', header: '#' },
   {
@@ -47,7 +56,7 @@ const columns = [
 const search = ref('')
 
 const filteredcategories = computed(() => {
-  return categoryStore.categories.filter(category => {
+  return categoryStore.categories?.filter(category => {
     return (
       category.name.toLowerCase().includes(search.value.toLowerCase()) ||
       category.email.toLowerCase().includes(search.value.toLowerCase()) ||
@@ -85,7 +94,7 @@ const open = ref<boolean>(false)
             </template>
             <UButton icon="lucide:plus"> Nova categoria </UButton>
             <template #body>
-              <UiModalCategory />
+              <UiModalCategory @close="open = false" />
             </template>
           </UModal>
         </div>
