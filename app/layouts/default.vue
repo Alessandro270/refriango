@@ -138,7 +138,8 @@ const user = ref({
         </div>
       </template>
     </USidebar>
-    <div class="min-h-screen h-max bg-ui-bg w-full text-black">
+
+    <div class="min-h-screen h-max bg-ui-bg w-full text-ui-text">
       <div class="px-4 py-5">
         <slot />
       </div>
