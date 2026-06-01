@@ -1,6 +1,6 @@
 export const useCategoryStore = defineStore('category', {
   state: () => {
-    return { categories: [] }
+    return { categories: [], isLoading: true, hasLoaded: false }
   },
   actions: {
     async getCategories() {

@@ -20,6 +20,23 @@ const UModal = resolveComponent('UModal')
 const UiModalProduct = resolveComponent('UiModalProduct')
 const UBadge = resolveComponent('UBadge')
 
+const toast = useToast()
+const productStore = useProductStore()
+
+onMounted(async () => {
+  try {
+    if (!productStore.hasLoaded) {
+      productStore.isLoading = true
+      await productStore.getProducts()
+    }
+  } catch (e) {
+    toast.add({ title: 'Nao foi possivel carregar os produtos' })
+  } finally {
+    productStore.hasLoaded = true
+    productStore.isLoading = false
+  }
+})
+
 const columns = [
   {
     accessorKey: 'name',
@@ -42,21 +59,34 @@ const columns = [
           name: 'lucide:chart-column-stacked',
           class: 'text-blue-400 '
         }),
-        row.original.category
+        row.original.category.name
       ])
   },
   {
-    accessorKey: 'unitPrice',
-    header: 'Preço',
+    accessorKey: 'purchasePrice',
+    header: 'Preço de compra',
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:dollar-sign',
-          class: 'text-blue-400 '
+          class: 'text-red-400 '
         }),
-        `Kz ${row.original.unitPrice}`
+        row.original.purchasePrice
       ])
   },
+  {
+    accessorKey: 'salePrice',
+    header: 'Preço de venda',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:dollar-sign',
+          class: 'text-emerald-400 '
+        }),
+        `${row.original.salePrice} Kz `
+      ])
+  },
+
   {
     accessorKey: 'sku',
     header: 'SKU',
@@ -66,7 +96,7 @@ const columns = [
           name: 'lucide:barcode',
           class: 'text-blue-400 '
         }),
-        row.original.sku
+        row.original.purchasePrice
       ])
   },
   {
@@ -108,75 +138,16 @@ const columns = [
       )
   }
 ]
-
-const products = ref([
-  {
-    name: 'Coca-Cola 350ml',
-    description: 'Refrigerante gaseificado clássico.',
-    unitPrice: 500,
-    category: 'Bebidas',
-    sku: 'DRK-COKE-350',
-    weight: 0.35,
-    height: 12,
-    width: 6,
-    refrigerated: true,
-    image: 'https://images.unsplash.com/photo-1629203851122-3726ecdf080e'
-  },
-  {
-    name: 'Pepsi 350ml',
-    description: 'Refrigerante de cola refrescante.',
-    unitPrice: 500,
-    category: 'Bebidas',
-    sku: 'DRK-PEPSI-350',
-    weight: 0.35,
-    height: 12,
-    width: 6,
-    refrigerated: true,
-    image: 'https://images.unsplash.com/photo-1629203851122-3726ecdf080e'
-  },
-  {
-    name: 'Fanta Laranja 350ml',
-    description: 'Refrigerante com sabor laranja.',
-    unitPrice: 450,
-    category: 'Bebidas',
-    sku: 'DRK-FANTA-350',
-    weight: 0.35,
-    height: 12,
-    width: 6,
-    refrigerated: true,
-    image: 'https://images.unsplash.com/photo-1613478223719-2ab802602423'
-  },
-  {
-    name: 'Sprite 350ml',
-    description: 'Refrigerante de limão refrescante.',
-    unitPrice: 450,
-    category: 'Bebidas',
-    sku: 'DRK-SPRITE-350',
-    weight: 0.35,
-    height: 12,
-    width: 6,
-    refrigerated: true,
-    image: 'https://images.unsplash.com/photo-1624517452488-04869289c4ca'
-  },
-  {
-    name: 'Água Mineral 500ml',
-    description: 'Água mineral natural engarrafada.',
-    unitPrice: 200,
-    category: 'Bebidas',
-    sku: 'DRK-WATER-500',
-    weight: 0.5,
-    height: 20,
-    width: 6,
-    refrigerated: false,
-    image: 'https://images.unsplash.com/photo-1629203851122-3726ecdf080e'
-  }
-])
 </script>
 
 <template>
   <div class="space-y-6">
     <UiH1 icon="lucide:box">Produtos</UiH1>
-    <UiTable :data="products" :columns="columns">
+    <UiTable
+      :data="productStore.products"
+      :columns="columns"
+      :loading="productStore.isLoading"
+    >
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center gap-4">

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-
 type Warehouse = {
   id: string
   name: string
@@ -19,33 +17,28 @@ const locationFilters = [
   { label: 'Cacuaco', value: 'cacuaco' }
 ]
 
-const warehouses = ref<Warehouse[]>([
-  {
-    id: 'WH-001',
-    name: 'Armazém Central',
-    refrigerated: true,
-    location: 'luanda_centro',
-    createdAt: '2026-05-10'
-  },
-  {
-    id: 'WH-002',
-    name: 'Depósito Viana',
-    refrigerated: false,
-    location: 'viana',
-    createdAt: '2026-05-12'
-  },
-  {
-    id: 'WH-003',
-    name: 'Armazém Frio Norte',
-    refrigerated: true,
-    location: 'cacuaco',
-    createdAt: '2026-05-14'
-  }
-])
-
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 const UIcon = resolveComponent('UIcon')
+
+const toast = useToast()
+
+const warehouseStore = useWarehouseStore()
+
+onMounted(async () => {
+  try {
+    if (!warehouseStore.hasLoaded) {
+      warehouseStore.isLoading = true
+      await warehouseStore.getWarehouses()
+      warehouseStore.hasLoaded = true
+    }
+  } catch (e) {
+    toast.add({ title: 'Nao foi possivel carregar os armazens' })
+  } finally {
+    warehouseStore.isLoading = false
+  }
+})
+
 const columns = [
   {
     accessorKey: 'id',
@@ -103,7 +96,7 @@ const columns = [
 ]
 
 const filteredWarehouses = computed(() => {
-  return warehouses.value.filter(warehouse => {
+  return warehouseStore.warehouses.filter(warehouse => {
     const matchesLocation =
       !selectedLocation.value || warehouse.location === selectedLocation.value
 
@@ -122,7 +115,11 @@ const open = ref<boolean>(false)
   <div class="space-y-6">
     <UiH1 icon="lucide:warehouse">Armazens</UiH1>
 
-    <UiTable :data="filteredWarehouses" :columns="columns">
+    <UiTable
+      :data="filteredWarehouses"
+      :columns="columns"
+      :loading="warehouseStore.isLoading"
+    >
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">

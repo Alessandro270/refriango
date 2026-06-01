@@ -1,28 +1,125 @@
+<script setup lang="ts">
+import * as z from 'zod'
+
+const schema = z.object({
+  name: z.string().min(3, 'Deve conter mais de 3 digitos'),
+  email: z.email('Deve ser um email valido'),
+  phone: z.e164('Formato +244900000000'),
+  address: z.string().optional(),
+  capacity: z.number().positive('Deve ser maior que zero'),
+  refrigerated: z.boolean().default(false)
+})
+
+const state = reactive({
+  name: '',
+  email: '',
+  phone: '',
+  address: '',
+  capacity: 0,
+  refrigerated: false
+})
+
+const warehouseStore = useWarehouseStore()
+const isLoading = ref(false)
+const toast = useToast()
+
+const emit = defineEmits<{ close: [] }>()
+
+async function handleSubmit() {
+  try {
+    isLoading.value = true
+    const data = schema.parse(state)
+    await warehouseStore.createWarehouse(data)
+  } catch (e) {
+    toast.add({
+      title: 'Nao foi possivel adicionar armazem',
+      icon: 'lucide:file-x'
+    })
+  } finally {
+    isLoading.value = false
+    emit('close')
+  }
+}
+</script>
+
 <template>
-  <UForm class="w-full flex flex-col flex-1 space-y-2">
-    <UFormField label="Nome ">
-      <UInput class="w-full" placeholder="Example xyz" />
+  <UForm
+    class="w-full flex flex-col flex-1 space-y-2"
+    :state="state"
+    :schema="schema"
+    @submit="handleSubmit"
+  >
+    <UFormField label="Nome" name="name">
+      <UInput
+        v-model="state.name"
+        class="w-full"
+        placeholder="Example xyz"
+        trailing-icon="lucide:warehouse"
+      />
     </UFormField>
 
-    <UFormField label="Email">
-      <UInput class="w-full" placeholder="example@example.xyz" />
+    <UFormField label="Email" name="email">
+      <UInput
+        v-model="state.email"
+        class="w-full"
+        placeholder="example@example.xyz"
+        trailing-icon="lucide:mail"
+      />
     </UFormField>
-    <UFormField label="Telefone">
-      <UInput class="w-full" placeholder="+244 900 000 000" />
+    <UFormField label="Telefone" name="phone">
+      <UInput
+        v-model="state.phone"
+        class="w-full"
+        placeholder="+244900000000"
+        trailing-icon="lucide:phone-call"
+      />
     </UFormField>
 
-    <UFormField label="Localizacao">
-      <UInput class="w-full" placeholder="example, avenida xyz" />
+    <UFormField label="Localizacao" name="address">
+      <UInput
+        v-model="state.address"
+        class="w-full"
+        placeholder="example, avenida xyz"
+        trailing-icon="lucide:map-pin"
+      />
     </UFormField>
 
-    <UFormField label="Capacidade">
-      <UInput class="w-full" placeholder="example, avenida xyz" />
-    </UFormField>
+    <div class="flex gap-4">
+      <UFormField label="Capacidade" name="capacity" class="flex-2">
+        <UFieldGroup class="flex items-center justify-center">
+          <UButton
+            variant="outline"
+            icon="lucide:boxes"
+            :ui="{
+              base: 'ring-zinc-800 text-zinc-500 h-8.5'
+            }"
+          />
+          <UInputNumber
+            v-model="state.capacity"
+            class="w-full"
+            variant="solid"
+            color="neutral"
+            placeholder="example, avenida xyz"
+            orientation="vertical"
+          />
+        </UFieldGroup>
+      </UFormField>
+
+      <UFormField label="Refrigerado" name="refrigerated" class="flex-1">
+        <UCheckbox
+          v-model="state.refrigerated"
+          class="w-full"
+          placeholder="example, avenida xyz"
+        />
+      </UFormField>
+    </div>
     <UButton
-      icon="i-lucide-save"
-      class="w-full flex justify-center items-center"
+      :icon="isLoading ? '' : 'lucide:save'"
+      class="w-full flex mt-auto justify-center items-center"
+      type="submit"
     >
-      Salvar
+      <template v-if="!isLoading"> Salvar </template>
+      <UiLoader v-else />
     </UButton>
   </UForm>
 </template>

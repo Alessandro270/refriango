@@ -1,33 +1,4 @@
 <script setup lang="ts">
-type Product = {
-  id: string
-  quantity: number
-  name: string
-  price: number
-  total: number
-}
-const products = [
-  'Leite Integral 1L',
-  'Açúcar 1kg',
-  'Café Moído 500g',
-  'Óleo de Soja 900ml'
-]
-const fornecedores = ['Distribuidora ABC', 'Fornecedor XYZ', 'Atacado Central']
-const tiposEntrada = [
-  'Compra',
-  'Devolução de cliente',
-  'Transferência interna',
-  'Ajuste de inventário',
-  'Produção própria'
-]
-const unidades = ['un', 'kg', 'g', 'L', 'ml', 'cx', 'pç', 'fardo']
-const armazens = [
-  'Armazém Principal',
-  'Armazém Frigorífico',
-  'Armazém Seco',
-  'Depósito B'
-]
-
 const orders = reactive<Product[]>([])
 const id = ref<number>(0)
 function addNewProduct() {
@@ -40,7 +11,7 @@ function addNewProduct() {
   })
   console.log(id.value++)
 }
-
+const products = reactive([])
 withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
   type: 'purchase'
 })
@@ -67,7 +38,6 @@ withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
         Adicionar produto
       </UButton>
     </div>
-
     <div
       class="grid grid-cols-12 gap-3 mt-auto pt-3 border-t border-t-zinc-500 w-full"
     >
@@ -78,7 +48,6 @@ withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
           type === 'sale' ? 'Selecionar cliente' : 'Selecionar fornecedor'
         "
         :search-input="true"
-        :items="fornecedores"
       />
 
       <UButton

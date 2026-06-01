@@ -1,9 +1,12 @@
-export const useProductStore = defineStore('product', {
+export const useSupplierStore = defineStore('supplier', {
   state: () => {
-    return { products: [], hasLoaded: false, isLoading: true }
+    return { suppliers: [], isLoading: true, hasLoaded: false }
+  },
+  getters: {
+    suppliersCount: () => this.suppliers.length
   },
   actions: {
-    async getProducts() {
+    async getSuppliers() {
       const config = useRuntimeConfig()
       const authStore = useAuthStore()
 
@@ -14,30 +17,28 @@ export const useProductStore = defineStore('product', {
 
         await authStore.checkToken()
 
-        const products = await $fetch('/product', {
+        const suppliers = await $fetch('/supplier', {
           headers: {
             authorization: `Bearer ${authStore.token}`
           },
           baseURL: config.public.apiUrl
         })
 
-        products?.forEach(product => {
-          this.products.push(product)
+        suppliers?.forEach(supplier => {
+          this.suppliers.push(supplier)
         })
       } catch (e) {
         throw new Error(e.message)
       }
     },
-    async create(body) {
+    async createSupplier(body) {
       const config = useRuntimeConfig()
       const toast = useToast()
       const authStore = useAuthStore()
       try {
-        const token = useCookie(AUTH_TOKEN_KEY).value
-        if (!token) throw new Error('Nao autenticado')
         await authStore.checkToken()
 
-        const product = await $fetch('/product', {
+        const supplier = await $fetch('/supplier', {
           method: 'POST',
           headers: {
             authorization: `Bearer ${authStore.token}`
@@ -46,10 +47,10 @@ export const useProductStore = defineStore('product', {
           baseURL: config.public.apiUrl
         })
 
-        this.products.push(product)
+        this.suppliers.push(supplier)
 
         toast.add({
-          title: 'Produto criado com sucesso!',
+          title: 'Fornecedor criado com sucesso!',
           icon: 'lucide:file-check'
         })
       } catch (e) {

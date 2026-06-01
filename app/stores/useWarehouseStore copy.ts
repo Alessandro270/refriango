@@ -1,43 +1,37 @@
-export const useProductStore = defineStore('product', {
+export const useWarehouseStore = defineStore('warehouse', {
   state: () => {
-    return { products: [], hasLoaded: false, isLoading: true }
+    return { warehouses: [], hasLoaded: false, isLoading: true }
   },
   actions: {
-    async getProducts() {
+    async getWarehouses() {
       const config = useRuntimeConfig()
       const authStore = useAuthStore()
 
       try {
-        const token = useCookie(AUTH_TOKEN_KEY).value
-
-        if (!token) throw new Error('Nao autenticado')
-
         await authStore.checkToken()
 
-        const products = await $fetch('/product', {
+        const warehouses = await $fetch('/warehouse', {
           headers: {
             authorization: `Bearer ${authStore.token}`
           },
           baseURL: config.public.apiUrl
         })
 
-        products?.forEach(product => {
-          this.products.push(product)
+        warehouses?.forEach(warehouse => {
+          this.warehouses.push(warehouse)
         })
       } catch (e) {
         throw new Error(e.message)
       }
     },
-    async create(body) {
+    async createWarehouse(body) {
       const config = useRuntimeConfig()
       const toast = useToast()
       const authStore = useAuthStore()
       try {
-        const token = useCookie(AUTH_TOKEN_KEY).value
-        if (!token) throw new Error('Nao autenticado')
         await authStore.checkToken()
 
-        const product = await $fetch('/product', {
+        const warehouse = await $fetch('/warehouse', {
           method: 'POST',
           headers: {
             authorization: `Bearer ${authStore.token}`
@@ -46,10 +40,10 @@ export const useProductStore = defineStore('product', {
           baseURL: config.public.apiUrl
         })
 
-        this.products.push(product)
+        this.warehouses.push(warehouse)
 
         toast.add({
-          title: 'Produto criado com sucesso!',
+          title: 'Armazem criado com sucesso!',
           icon: 'lucide:file-check'
         })
       } catch (e) {

@@ -15,44 +15,88 @@ const schema = z.object({
   supplier: z.string().nonempty('O fornecedor é obrigatório'),
   weight: z.number().gte(0, 'O peso deve ser um número positivo'),
   category: z.string().nonempty('A categoria é obrigatória'),
-  dimensions: z.object({
-    width: z.number().gte(0, 'A largura deve ser um número positivo'),
-    height: z.number().gte(0, 'A altura deve ser um número positivo'),
-    length: z.number().gte(0, 'O comprimento deve ser um número positivo')
-  }),
-  expirationDate: z
+  width: z.number().gte(0, 'A largura deve ser um número positivo'),
+  height: z.number().gte(0, 'A altura deve ser um número positivo'),
+  length: z.number().gte(0, 'O comprimento deve ser um número positivo'),
+  expiresAt: z
     .string()
     .refine(date => !isNaN(Date.parse(date)), 'Data de validade inválida'),
   salePrice: z.number().gte(0, 'O preço de venda deve ser um número positivo'),
   purchasePrice: z
     .number()
     .gte(0, 'O preço de compra deve ser um número positivo'),
-  description: z.string(),
-  refrigerated: z.boolean()
+  description: z.string().optional(),
+  refrigerated: z.boolean().optional()
 })
 
 const state = reactive({
   name: '',
   supplier: '',
-  weight: 0,
+  weight: null,
   category: '',
-  dimensions: {
-    width: 0,
-    height: 0,
-    length: 0
-  },
-  expirationDate: '',
-  salePrice: 0,
-  purchasePrice: 0,
+  width: null,
+  height: null,
+  length: null,
+  expiresAt: '',
+  salePrice: null,
+  purchasePrice: null,
   description: '',
   refrigerated: false
 })
-const isLoading = ref(false)
+
+const isLoading = ref(true)
 const toast = useToast()
+const productStore = useProductStore()
+const categoryStore = useCategoryStore()
+const supplierStore = useSupplierStore()
+
+onMounted(async () => {
+  try {
+    isLoading.value = true
+    if (!categoryStore.hasLoaded) {
+      categoryStore.isLoading = true
+      await categoryStore.getCategories()
+      categoryStore.hasLoaded = true
+    }
+    if (!supplierStore.hasLoaded) {
+      supplierStore.isLoading = true
+      await supplierStore.getSuppliers()
+      supplierStore.hasLoaded = true
+    }
+  } catch (e) {
+    toast.add({ title: 'Nao foi possivel carregar os recursos' })
+  } finally {
+    supplierStore.isLoading = false
+    categoryStore.isLoading = false
+    isLoading.value = false
+  }
+})
 
 async function handleSubmit() {
   try {
     isLoading.value = true
+
+    const data = schema.parse(state)
+    console.log(data)
+
+    const supplierId = supplierStore.suppliers.find(
+      supplier => data.supplier === supplier.name
+    )?.id
+    const categoryId = categoryStore.categories.find(
+      category => data.category === category.name
+    )?.id
+
+    console.log(categoryId, supplierId)
+
+    const body = {
+      ...data,
+      supplierId,
+      categoryId,
+      category: undefined,
+      supplier: undefined
+    }
+    console.log(body)
+    await productStore.create(body)
   } catch (e) {
     const message = e.message.split(' ').slice(2).join(' ')
     toast.add({ title: 'Ocorreu um erro', description: message })
@@ -60,6 +104,14 @@ async function handleSubmit() {
     isLoading.value = false
   }
 }
+
+const categories = computed(() =>
+  categoryStore.categories.map(category => category.name)
+)
+
+const suppliers = computed(() =>
+  supplierStore.suppliers.map(supplier => supplier.name)
+)
 </script>
 
 <template>
@@ -67,6 +119,7 @@ async function handleSubmit() {
     class="bg-white rounded-md px-6 py-6 gap-4 grid grid-cols-10 auto-rows-min"
     :state="state"
     :schema="schema"
+    @submit="handleSubmit"
   >
     <UiH3 class="col-start-3 col-span-8">Cadastrar novo produto</UiH3>
     <UFileUpload
@@ -100,7 +153,7 @@ async function handleSubmit() {
       <USelect
         v-model="state.supplier"
         variant="outline"
-        :items="['fanta', 'coca-cola']"
+        :items="suppliers"
         class="w-full"
         placeholder="escolher.."
         icon="lucide:van"
@@ -142,7 +195,7 @@ async function handleSubmit() {
       <USelect
         v-model="state.category"
         variant="outline"
-        :items="['refrigerantes', 'bebidas']"
+        :items="categories"
         placeholder="escolher.."
         class="w-full"
         icon="lucide:list-check"
@@ -152,72 +205,63 @@ async function handleSubmit() {
     <UFormField
       :size="formFieldSize"
       :ui="uiStyle"
-      label="Dimensoes"
+      label="Largura"
       class="col-span-4"
-      name="dimensions"
+      name="width"
     >
-      <UFieldGroup class="w-full">
-        <UInput
-          v-model="state.dimensions.width"
-          variant="outline"
-          placeholder="Largura (m)"
-          class="w-full"
-        />
-        <UInput
-          v-model="state.dimensions.height"
-          variant="outline"
-          placeholder="Altura (m)"
-          class="w-full"
-        />
-        <UInput
-          v-model="state.dimensions.length"
-          class="w-full"
-          variant="outline"
-          placeholder="Comprimento (m)"
-          trailing-icon="lucide:ruler-dimension-line"
-        />
-      </UFieldGroup>
+      <UInputNumber
+        v-model="state.width"
+        orientation="vertical"
+        variant="outline"
+        placeholder="Largura (cm)"
+        class="w-full"
+      />
     </UFormField>
 
-    <!-- <UFormField
+    <UFormField
       :size="formFieldSize"
       :ui="uiStyle"
-      label="Unidade de medida"
+      label="Altura"
       class="col-span-4"
+      name="height"
     >
-      <USelect
+      <UInputNumber
+        v-model="state.height"
         variant="outline"
-        :items="['cm', 'm', 'in']"
-        placeholder="escolher.."
+        orientation="vertical"
+        placeholder="Altura (cm)"
         class="w-full"
-        icon="lucide:ruler"
       />
-    </UFormField> -->
-    <!-- <UFormField
+    </UFormField>
+
+    <UFormField
       :size="formFieldSize"
       :ui="uiStyle"
-      label="Codigo SKU"
+      label="Comprimento"
       class="col-span-4"
+      name="length"
     >
-      <UFieldGroup>
-        <UButton icon="lucide:barcode" variant="outline" />
-        <UInput variant="outline" class="w-full" placeholder="WA-005-26" />
-        <UButton icon="lucide:qr-code" variant="outline" />
-      </UFieldGroup>
-    </UFormField> -->
+      <UInputNumber
+        v-model="state.length"
+        class="w-full"
+        variant="outline"
+        orientation="vertical"
+        placeholder="Comprimento (cm)"
+      />
+    </UFormField>
 
     <UFormField
       :size="formFieldSize"
       :ui="uiStyle"
       label="Data de validade"
       class="col-span-4"
-      name="expirationDate"
+      name="expiresAt"
     >
       <UInput
-        v-model="state.expirationDate"
+        v-model="state.expiresAt"
         type="date"
         variant="outline"
-        class="w-full"
+        class="w-full text-zinc-950"
       />
     </UFormField>
 
@@ -292,7 +336,7 @@ async function handleSubmit() {
       class="w-full col-span-2"
       name="refrigerated"
     >
-      <UCheckbox v-model="state.refrigeratedvalue" orientation="horizontal" />
+      <UCheckbox v-model="state.refrigerated" orientation="horizontal" />
     </UFormField>
     <UFormField
       :size="formFieldSize"
@@ -317,10 +361,12 @@ async function handleSubmit() {
       Descartar
     </UButton>
     <UButton
-      icon="i-lucide-save"
-      class="w-full flex h-max items-center justify-center col-span-2"
+      :icon="isLoading ? '' : 'lucide:save'"
+      class="w-full flex h-max items-center disabled:bg-zinc-950 justify-center col-span-2"
+      type="submit"
     >
-      Salvar
+      <template v-if="!isLoading"> Salvar </template>
+      <UiLoader v-else />
     </UButton>
   </UForm>
 </template>

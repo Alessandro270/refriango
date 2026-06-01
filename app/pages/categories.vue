@@ -6,10 +6,16 @@ const UButton = resolveComponent('UButton')
 
 onMounted(async () => {
   try {
-    await categoryStore.getCategories()
+    if (!categoryStore.hasLoaded) {
+      categoryStore.isLoading = true
+      await categoryStore.getCategories()
+      categoryStore.hasLoaded = true
+    }
   } catch (e) {
     console.log(e)
     toast.add({ title: 'Nao foi possivel carregar as categorias' })
+  } finally {
+    categoryStore.isLoading = false
   }
 })
 
@@ -67,7 +73,11 @@ const categoryCount = computed(() => categoryStore.categories.length)
       <UiH1 icon="lucide:list-check">Categorias</UiH1>
     </div>
 
-    <UiTable :data="categoryStore.categories" :columns="columns">
+    <UiTable
+      :data="categoryStore.categories"
+      :columns="columns"
+      :loading="categoryStore.isLoading"
+    >
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center justify-between gap-4">
@@ -78,9 +88,9 @@ const categoryCount = computed(() => categoryStore.categories.length)
               placeholder="Pesquisar categoria..."
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
-            <span class="text-sm text-zinc-500"
-              >Categorias: {{ categoryCount }}</span
-            >
+            <span class="text-sm text-zinc-500">
+              Categorias: {{ categoryCount }}
+            </span>
           </div>
           <UModal v-model:open="open">
             <template #header>

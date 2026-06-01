@@ -1,64 +1,9 @@
 <script lang="ts" setup>
-type Order = {
-  id: string
-  supplierId: string
-  status: string
-  total: number
-  createdAt: string
-  updatedAt: string
-}
-
-const orders = ref<Order[]>([
-  {
-    id: 'ORD-001',
-    supplierId: 'SUP-001',
-    status: 'completed',
-    total: 125,
-    createdAt: '10/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-002',
-    supplierId: 'SUP-002',
-    status: 'pending',
-    total: 45,
-    createdAt: '09/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-003',
-    supplierId: 'SUP-003',
-    status: 'cancelled',
-    total: 98,
-    createdAt: '08/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-004',
-    supplierId: 'SUP-001',
-    status: 'completed',
-    total: 70,
-    createdAt: '07/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-005',
-    supplierId: 'SUP-004',
-    status: 'pending',
-    total: 51,
-    createdAt: '06/05/2026',
-    updatedAt: '06/05/2026'
-  }
-])
-
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 
 const columns = [
-  {
-    accessorKey: 'id',
-    header: 'ID'
-  },
+  { accessorKey: 'id', header: 'ID' },
   {
     accessorKey: 'supplierId',
     header: 'fornecedor',
@@ -71,7 +16,6 @@ const columns = [
         row.original.supplierId
       ])
   },
-
   {
     accessorKey: 'createdAt',
     header: 'data',
@@ -96,11 +40,7 @@ const columns = [
         row.original.updatedAt
       ])
   },
-  {
-    accessorKey: 'total',
-    header: 'total'
-  },
-
+  { accessorKey: 'total', header: 'total' },
   {
     accessorKey: 'status',
     header: 'estado',
@@ -138,19 +78,42 @@ const columns = [
   }
 ]
 
+const purchaseStore = usePurchaseStore()
+const supplierStore = useSupplierStore()
+const toast = useToast()
+
+onMounted(async () => {
+  try {
+    if (!purchaseStore.hasLoaded) {
+      purchaseStore.isLoading = true
+      await purchaseStore.getAll()
+      await supplierStore.getSuppliers()
+      purchaseStore.hasLoaded = true
+    }
+  } catch (e) {
+    toast.add({
+      title: 'Nao foi possivel carregar os pedidos',
+      description: e.message
+    })
+  } finally {
+    purchaseStore.isLoading = false
+  }
+})
+
 const statusFilters = ref(['Todos', 'completed', 'pending', 'cancelled'])
 
 const selectedStatus = ref('Todos')
 const search = ref('')
 
 const filteredOrders = computed(() => {
-  return orders.value.filter(order => {
+  return purchaseStore.purchases.filter(purchase => {
     const matchesStatus =
-      selectedStatus.value === 'Todos' || order.status === selectedStatus.value
+      selectedStatus.value === 'Todos' ||
+      purchase.status === selectedStatus.value
 
     const matchesSearch =
-      order.id.toLowerCase().includes(search.value.toLowerCase()) ||
-      order.supplierId.toLowerCase().includes(search.value.toLowerCase())
+      purchase.id.toLowerCase().includes(search.value.toLowerCase()) ||
+      purchase.supplierId.toLowerCase().includes(search.value.toLowerCase())
 
     return matchesStatus && matchesSearch
   })

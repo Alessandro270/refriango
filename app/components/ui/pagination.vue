@@ -19,7 +19,7 @@ const btnStyle = {
     <UButton
       variant="outline"
       :ui="btnStyle"
-      class="capitalize"
+      class="capitalize mr-auto"
       icon="lucide:arrow-left"
       @click="emit('prev')"
       v-if="page > 1"
@@ -32,31 +32,43 @@ const btnStyle = {
         variant="outline"
         color="neutral"
         class="w-7.5! h-7.5!"
-        v-for="idx in Math.min(pages, 3)"
+        v-for="idx in Math.min(pages, 2)"
+        :key="idx"
         :ui="btnStyle"
         :class="{
           'bg-zinc-800 ring-transparent text-zinc-50 hover:text-zinc-500 hover:ring-zinc-500':
             idx === page
         }"
         @click="emit('select', idx)"
-        :key="idx"
       >
         {{ idx }}
       </UButton>
-      <UButton variant="outline" v-if="pages > 3">...</UButton>
-      <UButton
-        variant="outline"
-        color="neutral"
-        v-for="idx in Math.max(Math.min(pages - 3, 3), 0)"
-        :ui="btnStyle"
-        :class="{
-          'bg-zinc-800 ring-transparent text-zinc-50 hover:text-zinc-500 hover:ring-zinc-500':
-            idx === page
-        }"
-        :key="idx"
-      >
-        {{ idx }}
-      </UButton>
+
+      <template v-if="pages > 2">
+        <UButton
+          variant="outline"
+          color="neutral"
+          class="w-7.5! h-7.5! bg-zinc-800 ring-transparent text-zinc-50 hover:text-zinc-500 hover:ring-zinc-500"
+          disabled
+          >...</UButton
+        >
+
+        <UButton
+          variant="outline"
+          color="neutral"
+          class="w-7.5! h-7.5!"
+          v-for="idx in pages - 2"
+          :key="idx + 2"
+          :ui="btnStyle"
+          :class="{
+            'bg-zinc-800 ring-transparent text-zinc-50 hover:text-zinc-500 hover:ring-zinc-500':
+              idx + 2 === page
+          }"
+          @click="emit('select', idx + 2)"
+        >
+          {{ idx + 2 }}
+        </UButton>
+      </template>
     </div>
     <UButton
       variant="outline"

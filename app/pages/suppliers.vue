@@ -1,50 +1,4 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-
-type Supplier = {
-  id: string
-  name: string
-  email: string
-  phone: string
-  address: string
-  totalOrders: number
-}
-
-const suppliers = ref<Supplier[]>([
-  {
-    id: 'SUP-001',
-    name: 'Distribuidora Viana',
-    email: 'viana@supplier.com',
-    phone: '+244 923 111 222',
-    address: 'Luanda - Viana',
-    totalOrders: 12
-  },
-  {
-    id: 'SUP-002',
-    name: 'AngoFoods',
-    email: 'contact@angofoods.co.ao',
-    phone: '+244 922 333 444',
-    address: 'Luanda - Talatona',
-    totalOrders: 8
-  },
-  {
-    id: 'SUP-003',
-    name: 'Fresh Supply',
-    email: 'fresh@supply.com',
-    phone: '+244 921 555 666',
-    address: 'Luanda - Benfica',
-    totalOrders: 15
-  },
-  {
-    id: 'SUP-004',
-    name: 'Bebidas Angola',
-    email: 'bebidas@angola.co.ao',
-    phone: '+244 924 777 888',
-    address: 'Luanda - Kilamba',
-    totalOrders: 5
-  }
-])
-
 const UButton = resolveComponent('UButton')
 
 const columns = [
@@ -65,7 +19,7 @@ const columns = [
     accessorKey: 'email',
     header: 'email',
     cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+      h('div', { class: 'flex items-center gap-2 lowercase' }, [
         h(UIcon, {
           name: 'lucide:at-sign',
           class: 'text-blue-400 '
@@ -103,9 +57,25 @@ const columns = [
 ]
 
 const search = ref('')
+const supplierStore = useSupplierStore()
+const toast = useToast()
+
+onMounted(async () => {
+  try {
+    if (!supplierStore.hasLoaded) {
+      supplierStore.isLoading = true
+      await supplierStore.getSuppliers()
+      supplierStore.hasLoaded = true
+    }
+  } catch (e) {
+    toast.add({ title: 'Nao foi possivel adicionar fornecedor' })
+  } finally {
+    supplierStore.isLoading = false
+  }
+})
 
 const filteredSuppliers = computed(() => {
-  return suppliers.value.filter(supplier => {
+  return supplierStore.suppliers.filter(supplier => {
     return (
       supplier.name.toLowerCase().includes(search.value.toLowerCase()) ||
       supplier.email.toLowerCase().includes(search.value.toLowerCase()) ||
@@ -141,7 +111,7 @@ const open = ref<boolean>(false)
             </template>
             <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
             <template #body>
-              <UiModalSupplier />
+              <UiModalSupplier @close="open = false" />
             </template>
           </UModal>
         </div>

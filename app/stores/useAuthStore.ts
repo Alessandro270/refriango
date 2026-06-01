@@ -7,8 +7,7 @@ export const useAuthStore = defineStore('auth', {
     return {
       refreshToken: null,
       token: null,
-      user: null,
-      initialized: false
+      user: null
     }
   },
   getters: {
@@ -16,10 +15,6 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     init() {
-      console.log('before init')
-      if (this.initialized) return
-      console.log('after init')
-
       const userJson = useCookie(AUTH_USER_KEY).value
       const token = useCookie(AUTH_TOKEN_KEY).value
       const refreshToken = useCookie(AUTH_REFRESH_TOKEN_KEY).value
@@ -27,7 +22,6 @@ export const useAuthStore = defineStore('auth', {
       this.token = token || null
       this.refreshToken = refreshToken || null
       this.user = userJson ? JSON.parse(userJson) : null
-      this.initialized = true
     },
     async refresh() {
       const config = useRuntimeConfig()
