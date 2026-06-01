@@ -7,7 +7,8 @@ const UButton = resolveComponent('UButton')
 onMounted(async () => {
   try {
     await categoryStore.getCategories()
-  } catch {
+  } catch (e) {
+    console.log(e)
     toast.add({ title: 'Nao foi possivel carregar as categorias' })
   }
 })

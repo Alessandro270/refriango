@@ -16,7 +16,10 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     init() {
+      console.log('before init')
       if (this.initialized) return
+      console.log('after init')
+
       const userJson = useCookie(AUTH_USER_KEY).value
       const token = useCookie(AUTH_TOKEN_KEY).value
       const refreshToken = useCookie(AUTH_REFRESH_TOKEN_KEY).value
@@ -29,34 +32,45 @@ export const useAuthStore = defineStore('auth', {
     async refresh() {
       const config = useRuntimeConfig()
       try {
-        if (!this.token) throw new Error('Nao autenticado')
-        const result = await $fetch('/auth/refresh', {
+        const { token } = await $fetch('/auth/refresh', {
           method: 'POST',
           body: { refreshToken: this.refreshToken },
           baseURL: config.public.apiUrl
         })
-        if (!result) throw new Error('Nao autenticado')
-        this.token = result
-        useCookie(AUTH_TOKEN_KEY).value = result
-        await navigateTo('/')
+
+        if (!token) throw new Error('Nao autenticado')
+
+        this.token = token
+        useCookie(AUTH_TOKEN_KEY).value = token
       } catch (e) {
         throw new Error(e.message)
       }
     },
-    async validateToken(token: string) {
+    async validateToken(token: string | null) {
       const config = useRuntimeConfig()
-
+      let result = false
       try {
-        if (!token) throw new Error('Nao autenticado')
-        const result = await $fetch('/auth/validate-token', {
+        if (!token) return false
+
+        result = await $fetch('/auth/validate-token', {
           method: 'POST',
           baseURL: config.public.apiUrl,
           body: { token }
         })
+
         if (!result) return false
         return true
       } catch (e) {
-        throw new Error(e.message)
+        return false
+      }
+    },
+    async checkToken() {
+      this.init()
+      try {
+        const result = await this.validateToken(this.token)
+        if (!result) await this.refresh()
+      } catch (e) {
+        console.log(e)
       }
     },
     async getAuthUser() {
