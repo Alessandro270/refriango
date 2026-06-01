@@ -26,7 +26,7 @@ export const useAuthStore = defineStore('auth', {
       this.user = userJson ? JSON.parse(userJson) : null
       this.initialized = true
     },
-    async refreshToken() {
+    async refresh() {
       const config = useRuntimeConfig()
       try {
         if (!this.token) throw new Error('Nao autenticado')
@@ -36,20 +36,25 @@ export const useAuthStore = defineStore('auth', {
           baseURL: config.public.apiUrl
         })
         if (!result) throw new Error('Nao autenticado')
+        this.token = result
+        useCookie(AUTH_TOKEN_KEY).value = result
+        await navigateTo('/')
       } catch (e) {
         throw new Error(e.message)
       }
     },
-    async validateToken() {
+    async validateToken(token: string) {
       const config = useRuntimeConfig()
+
       try {
-        if (!this.token) throw new Error('Nao autenticado')
+        if (!token) throw new Error('Nao autenticado')
         const result = await $fetch('/auth/validate-token', {
           method: 'POST',
           baseURL: config.public.apiUrl,
-          body: { token: this.token }
+          body: { token }
         })
-        if (!result) throw new Error('Nao autenticado')
+        if (!result) return false
+        return true
       } catch (e) {
         throw new Error(e.message)
       }
@@ -96,14 +101,20 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     logout() {
+      const toast = useToast()
       this.user = null
       this.token = null
       this.refreshToken = null
       this.initialized = false
 
-      useCookie(AUTH_TOKEN_KEY).value = undefined
-      useCookie(AUTH_REFRESH_TOKEN_KEY).value = undefined
-      useCookie(AUTH_USER_KEY).value = undefined
+      useCookie(AUTH_TOKEN_KEY).value = null
+      useCookie(AUTH_REFRESH_TOKEN_KEY).value = null
+      useCookie(AUTH_USER_KEY).value = null
+      toast.add({
+        title: 'Logout',
+        description: 'Terminando a sessao',
+        icon: 'lucide:arrow-right-to-line'
+      })
       navigateTo('/auth/login')
     }
   }

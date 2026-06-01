@@ -55,7 +55,9 @@ export const useCategoryStore = defineStore('category', {
           body,
           baseURL: config.public.apiUrl
         })
+
         this.categories.push(category)
+
         toast.add({
           title: 'Categoria criada com sucesso!',
           icon: 'lucide:file-check'

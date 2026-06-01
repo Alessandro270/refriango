@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { data, columns } = defineProps<{
-  data: Array<any>
-  columns: Array<any> | []
+  data: any[]
+  columns: any[]
 }>()
 
 const page = ref(1)
@@ -11,10 +11,10 @@ const currData = computed(() =>
   data.slice((page.value - 1) * limit.value, page.value * limit.value)
 )
 
-const pages = Math.ceil(totalPages.value / limit.value)
+const pages = computed(() => Math.ceil(totalPages.value / limit.value))
 
 function next(): void {
-  if (page.value < pages) page.value++
+  if (page.value < pages.value) page.value++
 }
 
 function prev(): void {

@@ -45,7 +45,12 @@ const uiStyle = {
     @submit="handleSubmit"
   >
     <UFormField label="Nome" name="name" required>
-      <UInput v-model="state.name" class="w-full" placeholder="Example xyz" />
+      <UInput
+        v-model="state.name"
+        class="w-full"
+        placeholder="Example xyz"
+        trailing-icon="lucide:chart-column-stacked"
+      />
     </UFormField>
     <UFormField label="Descricao" name="description">
       <UTextarea

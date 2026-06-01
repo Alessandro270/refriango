@@ -9,13 +9,13 @@ const cards = ref([
   {
     title: 'Estoque baixo',
     description: '13',
-    to: '/orders',
+    to: '/stock',
     icon: 'lucide:package-minus'
   },
   {
     title: 'Esgotado',
     description: '41',
-    to: '/products',
+    to: '/stock',
     icon: 'lucide:package-open'
   },
   {

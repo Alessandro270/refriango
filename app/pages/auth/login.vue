@@ -20,27 +20,19 @@ const state = reactive({
   password: undefined
 })
 
-// onMounted(async () => {
-//   authStore.init()
-//   try {
-//     await authStore.validateToken()
-//     if (authStore.isAuth) navigateTo('/')
-//   } catch (e) {
-//     console.log(e)
-
-//     toast.add({ title: e.message })
-//   }
-// })
-
 const authStore = useAuthStore()
 async function handleSubmit() {
   try {
     isLoading.value = true
+
     const body = schema.parse(state)
+
     await authStore.login(body)
     await navigateTo('/')
   } catch (e) {
-    const message = e.message.split(' ').at(-1)
+    const tokens = e.message.split(' ')
+    const message = tokens.slice(2).join(' ')
+
     toast.add({
       title: 'Nao foi possivel efetuar o login',
       description: message,

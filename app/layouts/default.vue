@@ -85,16 +85,16 @@ const fullName = computed(
             <UIcon
               v-if="open"
               name="lucide:menu"
-              class="size-6 text-zinc-400 hover:text-zinc-200 transition"
+              class="size-6 text-zinc-400 hover:text-zinc-200 transition hidden lg:inline-block"
               @click="open = !open"
-            ></UIcon>
+            />
           </div>
           <UIcon
             v-if="!open"
             name="lucide:menu"
             class="size-6 text-zinc-400 hover:text-zinc-200 transition"
             @click="open = !open"
-          ></UIcon>
+          />
         </div>
       </template>
       <template #default>
@@ -134,12 +134,23 @@ const fullName = computed(
             variant="ghost"
             color="neutral"
             size="sm"
+            @click="authStore.logout()"
           ></UButton>
         </div>
       </template>
     </USidebar>
 
-    <div class="min-h-screen h-max bg-ui-bg w-full text-ui-text">
+    <div class="min-h-screen h-max bg-ui-bg w-full text-ui-text relative">
+      <div
+        @click="open = !open"
+        class="size-10 flex items-center justify-center bg-zinc-900 rounded-md lg:hidden absolute left-4 top-4 z-10 hover:bg-zinc-800"
+      >
+        <UIcon
+          v-if="!open"
+          name="lucide:menu"
+          class="size-6 text-zinc-500 hover:text-zinc-300 transition"
+        />
+      </div>
       <div class="px-4 py-5">
         <slot />
       </div>

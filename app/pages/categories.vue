@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+const toast = useToast()
 const categoryStore = useCategoryStore()
 
 const UButton = resolveComponent('UButton')
 
-const toast = useToast()
-onBeforeMount(async () => {
+onMounted(async () => {
   try {
     await categoryStore.getCategories()
   } catch {
@@ -13,7 +13,7 @@ onBeforeMount(async () => {
 })
 
 const columns = [
-  { accessorKey: 'id', header: '#' },
+  { accessorKey: 'id', header: 'ID' },
   {
     accessorKey: 'name',
     header: 'nome',
@@ -48,24 +48,16 @@ const columns = [
           name: 'lucide:calendar-days',
           class: 'text-blue-400 '
         }),
-        row.original.createdAt
+
+        new Date(row.original.createdAt).toLocaleDateString()
       ])
   }
 ]
 
 const search = ref('')
 
-const filteredcategories = computed(() => {
-  return categoryStore.categories?.filter(category => {
-    return (
-      category.name.toLowerCase().includes(search.value.toLowerCase()) ||
-      category.email.toLowerCase().includes(search.value.toLowerCase()) ||
-      category.id.toLowerCase().includes(search.value.toLowerCase())
-    )
-  })
-})
-
 const open = ref<boolean>(false)
+const categoryCount = computed(() => categoryStore.categories.length)
 </script>
 
 <template>
@@ -74,7 +66,7 @@ const open = ref<boolean>(false)
       <UiH1 icon="lucide:list-check">Categorias</UiH1>
     </div>
 
-    <UiTable :data="filteredcategories" :columns="columns">
+    <UiTable :data="categoryStore.categories" :columns="columns">
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center justify-between gap-4">
@@ -85,6 +77,9 @@ const open = ref<boolean>(false)
               placeholder="Pesquisar categoria..."
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <span class="text-sm text-zinc-500"
+              >Categorias: {{ categoryCount }}</span
+            >
           </div>
           <UModal v-model:open="open">
             <template #header>
