@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { data, columns, loading } = defineProps<{
-  data: any[]
-  columns: any[]
+  data: any[] | []
+  columns: any[] | []
   loading?: boolean
 }>()
 

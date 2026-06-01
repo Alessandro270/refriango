@@ -1,106 +1,33 @@
 <script setup lang="ts">
-const stocks = ref([
-  {
-    id: 'STK-2026-001',
-    product: 'Coca-Cola 2L',
-    category: 'Refrigerantes',
-    purchasePrice: 1400,
-    salePrice: 1800,
-    quantity: 24,
-    minimumStock: 10,
-    maximumStock: 40
-  },
-  {
-    id: 'STK-2026-002',
-    product: 'Fanta Laranja 2L',
-    category: 'Refrigerantes',
-    purchasePrice: 1350,
-    salePrice: 1750,
-    quantity: 8,
-    minimumStock: 10,
-    maximumStock: 35
-  },
-  {
-    id: 'STK-2026-003',
-    product: 'Sprite 2L',
-    category: 'Refrigerantes',
-    purchasePrice: 1300,
-    salePrice: 1700,
-    quantity: 0,
-    minimumStock: 8,
-    maximumStock: 30
-  },
-  {
-    id: 'STK-2026-004',
-    product: 'Água Pura 1.5L',
-    category: 'Águas',
-    purchasePrice: 650,
-    salePrice: 900,
-    quantity: 52,
-    minimumStock: 20,
-    maximumStock: 50
-  },
-  {
-    id: 'STK-2026-005',
-    product: 'Sumol Ananás',
-    category: 'Sumos',
-    purchasePrice: 950,
-    salePrice: 1250,
-    quantity: 14,
-    minimumStock: 6,
-    maximumStock: 25
-  },
-  {
-    id: 'STK-2026-006',
-    product: 'Red Bull 250ml',
-    category: 'Energéticas',
-    purchasePrice: 1700,
-    salePrice: 2200,
-    quantity: 5,
-    minimumStock: 8,
-    maximumStock: 20
-  },
-  {
-    id: 'STK-2026-007',
-    product: 'Compal Manga',
-    category: 'Sumos',
-    purchasePrice: 1050,
-    salePrice: 1400,
-    quantity: 18,
-    minimumStock: 10,
-    maximumStock: 30
-  },
-  {
-    id: 'STK-2026-008',
-    product: 'Pepsi 2L',
-    category: 'Refrigerantes',
-    purchasePrice: 1250,
-    salePrice: 1650,
-    quantity: 11,
-    minimumStock: 10,
-    maximumStock: 35
-  },
-  {
-    id: 'STK-2026-009',
-    product: 'Monster Energy',
-    category: 'Energéticas',
-    purchasePrice: 1900,
-    salePrice: 2400,
-    quantity: 2,
-    minimumStock: 5,
-    maximumStock: 15
-  },
-  {
-    id: 'STK-2026-010',
-    product: 'Água com Gás 500ml',
-    category: 'Águas',
-    purchasePrice: 800,
-    salePrice: 1100,
-    quantity: 27,
-    minimumStock: 12,
-    maximumStock: 30
+const stockStore = useStockStore()
+const productStore = useProductStore()
+const warehouseStore = useWarehouseStore()
+const toast = useToast()
+
+onMounted(async () => {
+  try {
+    if (!stockStore.hasLoaded) {
+      stockStore.isLoading = true
+      await stockStore.getAll()
+      stockStore.hasLoaded = true
+    }
+    if (!productStore.hasLoaded) {
+      productStore.isLoading = true
+      await productStore.getProducts()
+      productStore.hasLoaded = true
+    }
+    if (!warehouseStore.hasLoaded) {
+      warehouseStore.isLoading = true
+      await warehouseStore.getWarehouses()
+      warehouseStore.hasLoaded = true
+    }
+  } catch (e) {
+    toast.add({ title: 'Nao foi possivel carregar o estoque' })
+  } finally {
+    stockStore.isLoading = false
+    productStore.isLoading = false
   }
-])
+})
 
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
@@ -120,21 +47,21 @@ const columns = [
           name: 'lucide:box',
           class: 'text-blue-400 '
         }),
-        row.original.product
+        row.original.product?.name
       ])
   },
-  {
-    accessorKey: 'category',
-    header: 'categoria',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:chart-column-stacked',
-          class: 'text-blue-400 '
-        }),
-        row.original.category
-      ])
-  },
+  // {
+  //   accessorKey: 'category',
+  //   header: 'categoria',
+  //   cell: ({ row }) =>
+  //     h('div', { class: 'flex items-center gap-2 capitalize' }, [
+  //       h(UIcon, {
+  //         name: 'lucide:chart-column-stacked',
+  //         class: 'text-blue-400 '
+  //       }),
+  //       row.original.product?.category
+  //     ])
+  // },
   {
     accessorKey: 'purchasePrice',
     header: 'Preco de compra',
@@ -144,7 +71,7 @@ const columns = [
           name: 'lucide:dollar-sign',
           class: 'text-red-400 '
         }),
-        row.original.purchasePrice
+        row.original.product?.purchasePrice
       ])
   },
 
@@ -158,7 +85,7 @@ const columns = [
           class: 'text-emerald-400 '
         }),
 
-        row.original.salePrice
+        row.original.product?.salePrice
       ])
   },
   {
@@ -220,7 +147,11 @@ const open = ref<boolean>(false)
       <UiH1 icon="lucide:boxes">Estoque</UiH1>
     </div>
 
-    <UiTable :data="stocks" :columns="columns">
+    <UiTable
+      :data="stockStore.stocks"
+      :columns="columns"
+      :loading="stockStore.isLoading"
+    >
       <template #header>
         <div class="flex justify-between">
           <div class="flex items-center justify-between gap-4">
@@ -234,8 +165,8 @@ const open = ref<boolean>(false)
           </div>
           <div class="flex gap-4">
             <USelect
-              variant="outline"
               v-model="selectedStatus"
+              variant="outline"
               :items="statusFilters"
               placeholder="Filtrar por estado"
               class="w-28"
@@ -258,7 +189,7 @@ const open = ref<boolean>(false)
 
               <UButton icon="lucide:plus">Novo estoque</UButton>
               <template #body>
-                <UiModalStock />
+                <UiModalStock @close="open = false" />
               </template>
             </UModal>
           </div>

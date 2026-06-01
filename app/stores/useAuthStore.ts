@@ -113,7 +113,6 @@ export const useAuthStore = defineStore('auth', {
       this.user = null
       this.token = null
       this.refreshToken = null
-      this.initialized = false
 
       useCookie(AUTH_TOKEN_KEY).value = null
       useCookie(AUTH_REFRESH_TOKEN_KEY).value = null

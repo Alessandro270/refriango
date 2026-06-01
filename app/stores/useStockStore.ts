@@ -1,24 +1,24 @@
-export const useProductStore = defineStore('product', {
+export const useStockStore = defineStore('stock', {
   state: () => {
-    return { products: [], hasLoaded: false, isLoading: true }
+    return { stocks: [], hasLoaded: false, isLoading: true }
   },
   actions: {
-    async getProducts() {
+    async getAll() {
       const config = useRuntimeConfig()
       const authStore = useAuthStore()
 
       try {
         await authStore.checkToken()
 
-        const products = await $fetch('/product', {
+        const stocks = await $fetch('/stock', {
           headers: {
             authorization: `Bearer ${authStore.token}`
           },
           baseURL: config.public.apiUrl
         })
 
-        products?.forEach(product => {
-          this.products.push(product)
+        stocks?.forEach(stock => {
+          this.stocks.push(stock)
         })
       } catch (e) {
         throw new Error(e.message)
@@ -31,7 +31,7 @@ export const useProductStore = defineStore('product', {
       try {
         await authStore.checkToken()
 
-        const product = await $fetch('/product', {
+        const stock = await $fetch('/stock', {
           method: 'POST',
           headers: {
             authorization: `Bearer ${authStore.token}`
@@ -40,7 +40,7 @@ export const useProductStore = defineStore('product', {
           baseURL: config.public.apiUrl
         })
 
-        this.products.push(product)
+        this.stocks.push(stock)
 
         toast.add({
           title: 'Produto criado com sucesso!',

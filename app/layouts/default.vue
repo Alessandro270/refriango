@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const open = ref<boolean>(true)
+const open = ref<boolean>(false)
 const items: NavigationMenuItem[] = [
   {
     label: 'Dashboard',
@@ -143,10 +143,10 @@ const fullName = computed(
     <div class="min-h-screen h-max bg-ui-bg w-full text-ui-text relative">
       <div
         @click="open = !open"
+        v-if="!open"
         class="size-10 flex items-center justify-center bg-zinc-900 rounded-md lg:hidden absolute left-4 top-4 z-10 hover:bg-zinc-800"
       >
         <UIcon
-          v-if="!open"
           name="lucide:menu"
           class="size-6 text-zinc-500 hover:text-zinc-300 transition"
         />

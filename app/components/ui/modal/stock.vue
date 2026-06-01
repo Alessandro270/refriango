@@ -1,75 +1,143 @@
+<script setup lang="ts">
+import * as z from 'zod'
+
+const schema = z.object({
+  quantity: z
+    .number('Deve conter um numero')
+    .positive('Deve ser um numero positivo'),
+  minimumStock: z
+    .number('Deve conter um numero')
+    .positive('Deve ser um numero positivo'),
+  maximumStock: z
+    .number('Deve conter um numero')
+    .positive('Deve ser um numero positivo'),
+  reorderQuantity: z
+    .number('Deve conter um numero')
+    .positive('Deve ser um numero positivo'),
+  productId: z
+    .string('Deve ser uma string')
+    .min(3, 'Deve ter pelo menos 3 digitos')
+    .nonempty('Deve ter um produto'),
+  warehouseId: z
+    .string('Deve ser uma string')
+    .min(3, 'Deve ter pelo menos 3 digitos')
+    .nonempty('Deve ter um armazem')
+})
+
+const state = reactive({
+  quantity: null,
+  minimumStock: null,
+  maximumStock: null,
+  reorderQuantity: null,
+  warehouseId: undefined,
+  productId: undefined
+})
+
+const productStore = useProductStore()
+const warehouseStore = useWarehouseStore()
+const stockStore = useStockStore()
+const toast = useToast()
+
+const isLoading = ref(false)
+const emit = defineEmits<{ close: [] }>()
+
+async function handleSubmit() {
+  try {
+    isLoading.value = true
+    const data = schema.parse(state)
+    await stockStore.create(data)
+  } catch (e) {
+    toast.add({
+      title: 'Nao foi possivel adicionar estoque',
+      icon: 'lucide:file-x'
+    })
+  } finally {
+    isLoading.value = false
+    emit('close')
+  }
+}
+</script>
+
 <template>
-  <UForm class="flex flex-col w-full flex-1 gap-2">
+  <UForm
+    class="flex flex-col w-full flex-1 gap-2"
+    :state="state"
+    :schema="schema"
+    @submit="handleSubmit"
+  >
     <div class="flex gap-3">
-      <UFormField class="w-full" label="Produto">
+      <UFormField class="w-full" label="Produto" name="productId">
         <USelectMenu
+          v-model="state.productId"
+          label-key="name"
           class="w-full"
           placeholder="Selecionar produto"
           :search-input="true"
-          :items="produtos"
-        />
-      </UFormField>
-
-      <UFormField class="w-full" label="Fornecedor">
-        <USelectMenu
-          class="w-full"
-          placeholder="Selecionar fornecedor"
-          :search-input="true"
-          :items="fornecedores"
+          value-key="id"
+          :items="productStore.products"
         />
       </UFormField>
     </div>
 
-    <UFormField class="w-full" label="Armazem">
+    <UFormField class="w-full" label="Armazem" name="warehouseId">
       <USelectMenu
+        v-model="state.warehouseId"
+        label-key="name"
+        value-key="id"
         class="w-full"
         placeholder="Selecionar armazem"
         :search-input="true"
-        :items="armazens"
+        :items="warehouseStore.warehouses"
       />
     </UFormField>
     <div class="flex gap-3 mb-2">
-      <UFormField class="w-full" label="Quantidade">
-        <UInputNumber class="w-full" orientation="vertical" placeholder="0" />
+      <UFormField class="w-full" label="Quantidade" name="quantity">
+        <UInputNumber
+          v-model="state.quantity"
+          class="w-full"
+          orientation="vertical"
+          placeholder="0"
+        />
       </UFormField>
-      <UFormField class="w-full" label="Quantidade de restoque">
-        <UInputNumber class="w-full" orientation="vertical" placeholder="0" />
+      <UFormField
+        class="w-full"
+        label="Quantidade de restoque"
+        name="reorderQuantity"
+      >
+        <UInputNumber
+          v-model="state.reorderQuantity"
+          class="w-full"
+          orientation="vertical"
+          placeholder="0"
+        />
       </UFormField>
     </div>
+    <div class="flex gap-3 mb-2">
+      <UFormField class="w-full" label="Estoque maximo" name="maximumStock">
+        <UInputNumber
+          v-model="state.maximumStock"
+          class="w-full"
+          orientation="vertical"
+          placeholder="0"
+        />
+      </UFormField>
 
-    <UFormField class="w-full" label="Estoque maximo">
-      <UInputNumber class="w-full" orientation="vertical" placeholder="0" />
-    </UFormField>
-
+      <UFormField class="w-full" label="Estoque minimo" name="minimumStock">
+        <UInputNumber
+          v-model="state.minimumStock"
+          class="w-full"
+          orientation="vertical"
+          placeholder="0"
+        />
+      </UFormField>
+    </div>
     <UButton
-      class="mt-auto w-full flex items-center justify-center"
-      icon="i-lucide-save"
+      :icon="isLoading ? '' : 'lucide:save'"
+      class="w-full flex mt-auto justify-center items-center"
+      type="submit"
     >
-      Registar entrada
+      <template v-if="!isLoading"> Salvar </template>
+      <UiLoader v-else />
     </UButton>
   </UForm>
 </template>
-
-<script setup lang="ts">
-const produtos = [
-  'Leite Integral 1L',
-  'Açúcar 1kg',
-  'Café Moído 500g',
-  'Óleo de Soja 900ml'
-]
-const fornecedores = ['Distribuidora ABC', 'Fornecedor XYZ', 'Atacado Central']
-const tiposEntrada = [
-  'Compra',
-  'Devolução de cliente',
-  'Transferência interna',
-  'Ajuste de inventário',
-  'Produção própria'
-]
-const unidades = ['un', 'kg', 'g', 'L', 'ml', 'cx', 'pç', 'fardo']
-const armazens = [
-  'Armazém Principal',
-  'Armazém Frigorífico',
-  'Armazém Seco',
-  'Depósito B'
-]
-</script>

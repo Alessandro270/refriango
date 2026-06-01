@@ -11,10 +11,6 @@ export const useSupplierStore = defineStore('supplier', {
       const authStore = useAuthStore()
 
       try {
-        const token = useCookie(AUTH_TOKEN_KEY).value
-
-        if (!token) throw new Error('Nao autenticado')
-
         await authStore.checkToken()
 
         const suppliers = await $fetch('/supplier', {

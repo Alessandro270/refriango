@@ -28,11 +28,11 @@ onMounted(async () => {
     if (!productStore.hasLoaded) {
       productStore.isLoading = true
       await productStore.getProducts()
+      productStore.hasLoaded = true
     }
   } catch (e) {
     toast.add({ title: 'Nao foi possivel carregar os produtos' })
   } finally {
-    productStore.hasLoaded = true
     productStore.isLoading = false
   }
 })
@@ -87,18 +87,18 @@ const columns = [
       ])
   },
 
-  {
-    accessorKey: 'sku',
-    header: 'SKU',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:barcode',
-          class: 'text-blue-400 '
-        }),
-        row.original.purchasePrice
-      ])
-  },
+  // {
+  //   accessorKey: 'sku',
+  //   header: 'SKU',
+  //   cell: ({ row }) =>
+  //     h('div', { class: 'flex items-center gap-2 capitalize' }, [
+  //       h(UIcon, {
+  //         name: 'lucide:barcode',
+  //         class: 'text-blue-400 '
+  //       }),
+  //       row.original.purchasePrice
+  //     ])
+  // },
   {
     accessorKey: 'refrigerated',
     header: 'Refrigerado',
@@ -120,7 +120,7 @@ const columns = [
   },
   {
     header: 'Acoes',
-    cell: () =>
+    cell: ({ row }) =>
       h(
         UModal,
         {
@@ -133,7 +133,7 @@ const columns = [
               color: 'neutral',
               icon: 'lucide:eye'
             }),
-          body: () => h(UiModalProduct)
+          body: () => h(UiModalProduct, { product: row.original })
         }
       )
   }

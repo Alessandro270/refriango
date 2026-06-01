@@ -1,109 +1,85 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ readonly?: boolean }>(), { readonly: true })
+type Product = {
+  name: string
+  supplier: string
+  weight: number
+  category: object
+  width: number
+  height: number
+  length: number
+  expiresAt: string
+  salePrice: number
+  purchasePrice: number
+  description: string
+  refrigerated: false
+}
+
+const { product } = withDefaults(
+  defineProps<{ readonly?: boolean; product: Product }>(),
+  {
+    readonly: true
+  }
+)
+
 // const supplier = ref("fanta");
 </script>
 
 <template>
-  <UForm class="w-full space-y-2">
-    <div class="grid grid-cols-3 gap-5 w-full">
-      <UFormField label="Nome">
-        <UInput :disabled="readonly" placeholder="example" class="w-full" />
-      </UFormField>
-      <UFormField label="Fornecedor">
-        <USelect
-          :disabled="readonly"
-          :items="['fanta', 'coca-cola']"
-          class="w-full"
-          placeholder="escolher.."
-        />
-      </UFormField>
-      <UFormField label="Peso">
-        <UInput :disabled="readonly" placeholder="0.0 g" class="w-full" />
-      </UFormField>
-    </div>
-    <div class="grid grid-cols-3 gap-5 w-full">
-      <UFormField label="Categoria">
-        <USelect
-          :disabled="readonly"
-          :items="['refrigerantes', 'bebidas']"
-          placeholder="escolher.."
-          class="w-full"
-        />
-      </UFormField>
-      <UFormField label="Unidade de medida">
-        <USelect
-          :disabled="readonly"
-          :items="['cm', 'm', 'in']"
-          placeholder="escolher.."
-          class="w-full"
-        />
-      </UFormField>
-      <UFormField label="Dimensoes">
-        <UInput :disabled="readonly" placeholder="L,A,C" />
-      </UFormField>
-    </div>
-
-    <div class="grid grid-cols-3 gap-5 w-full">
-      <UFormField label="Codigo SKU">
-        <UInput :disabled="readonly" class="w-full" placeholder="WA-005-26" />
-      </UFormField>
-      <UFormField label="Data de expiracao">
-        <UInputDate :disabled="readonly" class="w-full" />
-      </UFormField>
-
-      <UFormField label="Refrigerado">
-        <UCheckbox :disabled="readonly" class="w-full" />
-      </UFormField>
-    </div>
-    <div class="flex gap-5 w-full h-max">
-      <UFileUpload
-        class="w-1/3"
-        :disabled="readonly"
-        label="imagem do produto"
-      />
-
-      <div class="w-2/3 space-y-4">
-        <div class="flex gap-5">
-          <UFormField label="Preco de compra">
-            <UInputNumber
-              :disabled="readonly"
-              orientation="vertical"
-              placeholder="5000,00 kz"
-            />
-          </UFormField>
-
-          <UFormField label="Preco de venda">
-            <UInputNumber
-              :disabled="readonly"
-              orientation="vertical"
-              placeholder="7500,00 kz"
-            />
-          </UFormField>
-        </div>
-        <UFormField label="Descricao do produto" class="h-full">
-          <UTextarea
-            :disabled="readonly"
-            class="w-full"
-            placeholder="sobre o produto.."
-          />
-        </UFormField>
+  <div class="w-full space-y-2 grid grid-cols-3">
+    <UFormField label="Nome">
+      <div class="text-zinc-400">
+        {{ product.purchasePrice }}
       </div>
-    </div>
-    <div class="w-full grid grid-cols-4 gap-4">
-      <UFormField
-        label="Upload *.xsls, *.csv"
-        class="flex gap-4 col-span-2 items-center"
-        v-if="!readonly"
-      >
-        <UFileUpload type="file" class="w-20" variant="button" />
-      </UFormField>
-      <UButton
-        v-if="!readonly"
-        icon="i-lucide-save"
-        class="w-full flex items-center justify-center col-span-2"
-      >
-        Salvar
-      </UButton>
-    </div>
-  </UForm>
+    </UFormField>
+    <UFormField label="Fornecedor">
+      <div class="text-zinc-400">
+        {{ product.purchasePrice }}
+      </div>
+    </UFormField>
+    <UFormField label="Peso">
+      <div class="text-zinc-400">
+        {{ product.weight }}
+      </div>
+    </UFormField>
+    <UFormField label="Categoria">
+      <div class="text-zinc-400">
+        {{ product.category?.name }}
+      </div>
+    </UFormField>
+    <UFormField label="Dimensoes">
+      <div class="text-zinc-400">
+        {{ `${product.width},${product.height},${product.length}` }}
+      </div>
+    </UFormField>
+
+    <UFormField label="Data de expiracao">
+      <div class="text-zinc-400">
+        {{ new Date(product.expiresAt).toLocaleDateString() }}
+      </div>
+    </UFormField>
+
+    <UFormField label="Refrigerado">
+      <UCheckbox
+        :value="product.refrigerated"
+        :disabled="readonly"
+        class="w-full"
+      />
+    </UFormField>
+    <UFormField label="Preco de compra">
+      <div class="text-zinc-400">
+        {{ product.purchasePrice }}
+      </div>
+    </UFormField>
+
+    <UFormField label="Preco de venda">
+      <div class="text-zinc-400">
+        {{ product.salePrice }}
+      </div>
+    </UFormField>
+    <UFormField label="Descricao do produto" class="h-full col-span-full">
+      <div class="text-zinc-400">
+        {{ product.description }}
+      </div>
+    </UFormField>
+  </div>
 </template>
