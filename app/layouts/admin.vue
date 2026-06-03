@@ -4,50 +4,60 @@ const items: NavigationMenuItem[] = [
   {
     label: 'Dashboard',
     icon: 'lucide:layout-dashboard',
-    to: '/'
+    to: '/admin/'
   },
 
   {
     label: 'Categorias',
     icon: 'lucide:list-check',
-    to: '/categories'
+    to: '/admin/categories'
   },
   {
     label: 'Produtos',
     icon: 'lucide:shopping-cart',
-    to: '/products',
+    to: '/admin/products',
     children: [
       {
         label: 'Novo',
         icon: 'lucide:plus-circle',
-        to: '/products/new'
+        to: '/admin/products/new'
       }
     ]
   },
   {
     label: 'Pedidos',
     icon: 'lucide:hand-platter',
-    to: '/orders'
+    to: '/admin/orders'
   },
   {
     label: 'Fornecedores',
     icon: 'lucide:truck',
-    to: '/suppliers'
+    to: '/admin/suppliers'
   },
   {
     label: 'Estoque',
     icon: 'lucide:package',
-    to: '/stock'
+    to: '/admin/stock'
   },
   {
     label: 'Armazens',
     icon: 'lucide:warehouse',
-    to: '/warehouses'
+    to: '/admin/warehouses'
+  },
+  {
+    label: 'Usuarios',
+    icon: 'lucide:users',
+    to: '/admin/users'
+  },
+  {
+    label: 'Relatorios',
+    icon: 'lucide:scroll-text',
+    to: '/admin/logs'
   },
   {
     label: 'Configuracoes',
     icon: 'lucide:settings',
-    to: '/config'
+    to: '/admin/config'
   }
 ]
 
