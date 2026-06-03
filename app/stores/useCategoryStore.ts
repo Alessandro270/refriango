@@ -2,6 +2,9 @@ export const useCategoryStore = defineStore('category', {
   state: () => {
     return { categories: [], isLoading: true, hasLoaded: false }
   },
+  getters: {
+    categoryCount: state => state.categories.length || 0
+  },
   actions: {
     async getCategories() {
       const config = useRuntimeConfig()
@@ -26,6 +29,7 @@ export const useCategoryStore = defineStore('category', {
 
     async getCategory(id: string) {
       const config = useRuntimeConfig()
+      const authStore = useAuthStore()
       try {
         await authStore.checkToken()
 
@@ -42,7 +46,9 @@ export const useCategoryStore = defineStore('category', {
     },
     async createCategory(body) {
       const config = useRuntimeConfig()
+      const authStore = useAuthStore()
       const toast = useToast()
+
       try {
         await authStore.checkToken()
 

@@ -11,36 +11,34 @@ const fileUploadStyle = { base: 'h-full text-zinc-400' }
 const formFieldSize = 'lg'
 
 const schema = z.object({
-  name: z.string().min(3, 'O nome deve conter pelo menos 3 caracteres'),
-  supplier: z.string().nonempty('O fornecedor é obrigatório'),
-  weight: z.number().gte(0, 'O peso deve ser um número positivo'),
-  category: z.string().nonempty('A categoria é obrigatória'),
-  width: z.number().gte(0, 'A largura deve ser um número positivo'),
-  height: z.number().gte(0, 'A altura deve ser um número positivo'),
-  length: z.number().gte(0, 'O comprimento deve ser um número positivo'),
+  name: z.string().min(3, 'Deve conter pelo 3 digitos'),
+  supplierId: z.string('Obrigatório').nonempty('Obrigatório'),
+  categoryId: z.string('Obrigatório').nonempty('Obrigatório'),
+  weight: z.number('Obrigatório').gte(0, 'Peso deve ser  positivo'),
+  width: z.number('Obrigatório').gte(0, 'Deve ser positiva'),
+  height: z.number('Obrigatório').gte(0, 'Deve ser positiva'),
+  length: z.number('Obrigatório').gte(0, 'Deve ser positivo'),
   expiresAt: z
-    .string()
+    .string('Obrigatório')
     .refine(date => !isNaN(Date.parse(date)), 'Data de validade inválida'),
-  salePrice: z.number().gte(0, 'O preço de venda deve ser um número positivo'),
-  purchasePrice: z
-    .number()
-    .gte(0, 'O preço de compra deve ser um número positivo'),
-  description: z.string().optional(),
+  salePrice: z.number('Obrigatório').gte(0, 'Deve ser positivo'),
+  purchasePrice: z.number('Obrigatório').gte(0, 'Deve ser positivo'),
+  description: z.string().nullable().optional(),
   refrigerated: z.boolean().optional()
 })
 
 const state = reactive({
   name: '',
-  supplier: '',
+  supplierId: null,
+  categoryId: null,
   weight: null,
-  category: '',
   width: null,
   height: null,
   length: null,
-  expiresAt: '',
+  expiresAt: null,
   salePrice: null,
   purchasePrice: null,
-  description: '',
+  description: null,
   refrigerated: false
 })
 
@@ -65,6 +63,7 @@ onMounted(async () => {
     }
   } catch (e) {
     toast.add({ title: 'Nao foi possivel carregar os recursos' })
+    console.log(e)
   } finally {
     supplierStore.isLoading = false
     categoryStore.isLoading = false
@@ -77,26 +76,9 @@ async function handleSubmit() {
     isLoading.value = true
 
     const data = schema.parse(state)
-    console.log(data)
 
-    const supplierId = supplierStore.suppliers.find(
-      supplier => data.supplier === supplier.name
-    )?.id
-    const categoryId = categoryStore.categories.find(
-      category => data.category === category.name
-    )?.id
-
-    console.log(categoryId, supplierId)
-
-    const body = {
-      ...data,
-      supplierId,
-      categoryId,
-      category: undefined,
-      supplier: undefined
-    }
-    console.log(body)
-    await productStore.create(body)
+    await productStore.create(data)
+    await navigateTo('/products')
   } catch (e) {
     const message = e.message.split(' ').slice(2).join(' ')
     toast.add({ title: 'Ocorreu um erro', description: message })
@@ -104,14 +86,6 @@ async function handleSubmit() {
     isLoading.value = false
   }
 }
-
-const categories = computed(() =>
-  categoryStore.categories.map(category => category.name)
-)
-
-const suppliers = computed(() =>
-  supplierStore.suppliers.map(supplier => supplier.name)
-)
 </script>
 
 <template>
@@ -146,20 +120,29 @@ const suppliers = computed(() =>
     <UFormField
       :size="formFieldSize"
       :ui="uiStyle"
-      label="Fornecedor"
+      label="Fornecedores"
       class="col-span-4"
-      name="supplier"
+      name="supplierId"
     >
       <USelect
-        v-model="state.supplier"
+        v-model="state.supplierId"
         variant="outline"
-        :items="suppliers"
+        color="neutral"
+        value-key="id"
+        label-key="name"
+        :items="supplierStore.suppliers"
+        :placeholder="
+          supplierStore.isLoading
+            ? 'carregando..'
+            : supplierStore.suppliersCount > 0
+              ? 'escolher..'
+              : 'sem fornecedores'
+        "
         class="w-full"
-        placeholder="escolher.."
-        icon="lucide:van"
+        icon="lucide:handshake"
+        :disabled="supplierStore.suppliersCount <= 0 || supplierStore.isLoading"
       />
     </UFormField>
-
     <UFormField
       :size="formFieldSize"
       :ui="uiStyle"
@@ -190,15 +173,25 @@ const suppliers = computed(() =>
       :ui="uiStyle"
       label="Categoria"
       class="col-span-4"
-      name="category"
+      name="categoryId"
     >
       <USelect
-        v-model="state.category"
+        v-model="state.categoryId"
         variant="outline"
-        :items="categories"
-        placeholder="escolher.."
+        color="neutral"
+        value-key="id"
+        label-key="name"
+        :items="categoryStore.categories"
+        :placeholder="
+          categoryStore.isLoading
+            ? 'carregando..'
+            : categoryStore.categoryCount > 0
+              ? 'escolher..'
+              : 'Sem categorias'
+        "
         class="w-full"
         icon="lucide:list-check"
+        :disabled="categoryStore.categoryCount <= 0 || categoryStore.isLoading"
       />
     </UFormField>
 

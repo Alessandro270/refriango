@@ -12,7 +12,6 @@ onMounted(async () => {
       categoryStore.hasLoaded = true
     }
   } catch (e) {
-    console.log(e)
     toast.add({ title: 'Nao foi possivel carregar as categorias' })
   } finally {
     categoryStore.isLoading = false

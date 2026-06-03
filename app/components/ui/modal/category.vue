@@ -27,6 +27,7 @@ async function handleSubmit() {
       title: 'Categoria nao adicionada',
       icon: 'lucide:file-x'
     })
+    console.log(e)
   } finally {
     isLoading.value = false
     emit('close')

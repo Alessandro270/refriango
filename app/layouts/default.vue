@@ -68,7 +68,7 @@ const items = reactive([
   }
 ])
 const authStore = useAuthStore()
-if (authStore.user.role === 'admin')
+if (authStore.user?.role === 'admin')
   items.push({
     label: 'Cadastrar usuario',
     icon: 'lucide:user',

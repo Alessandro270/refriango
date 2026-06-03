@@ -73,17 +73,19 @@ export default defineAppConfig({
     },
     select: {
       slots: {
-        content: 'ring-transparent'
+        content: 'ring-transparent',
+        base: 'ring-none bg-transparent'
       },
       variants: {
         variant: {
           outline:
-            'text-zinc-600 bg-transparent  transition ring-zinc-300 hover:bg-transparent hover:ring-zinc-400',
+            'text-zinc-600 bg-transparent disabled:bg-transparent ring-transparent border transition hover:bg-transparent  border-zinc-300 hover:border-zinc-400',
           solid: 'text-zinc-600 bg-transparent ring ring-transparent transition'
         }
       },
       defaultVariants: {
         variant: 'solid',
+        color: 'neutral',
         size: 'md'
       }
     },

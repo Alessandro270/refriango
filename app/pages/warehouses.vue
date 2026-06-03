@@ -67,7 +67,7 @@ const columns = [
           class: 'text-amber-500 '
         }),
 
-        row.getValue('location')
+        row.original.address
       ])
   },
   {
@@ -92,7 +92,7 @@ const columns = [
   {
     accessorKey: 'createdAt',
     header: 'Criado em',
-    cell:({row})=> new Date(row.original.createdAt).toLocaleDateString()
+    cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString()
   }
 ]
 
@@ -146,7 +146,7 @@ const open = ref<boolean>(false)
               </template>
               <UButton icon="lucide:plus"> Novo armazem </UButton>
               <template #body>
-                <UiModalWarehouse />
+                <UiModalWarehouse @close="open = false" />
               </template>
             </UModal>
           </div>

@@ -2,20 +2,22 @@
 import * as z from 'zod'
 
 const schema = z.object({
-  name: z.string().min(3, 'Deve conter mais de 3 digitos'),
+  name: z.string('Obrigatório').min(3, 'Deve conter mais de 3 digitos'),
   email: z.email('Deve ser um email valido'),
   phone: z.e164('Formato +244900000000'),
-  address: z.string().optional(),
-  capacity: z.number().positive('Deve ser maior que zero'),
+  address: z
+    .string('Deve ter uma localizacao')
+    .nonempty('Deve ter uma localizacao'),
+  capacity: z.number('Obrigatório').positive('Deve ser maior que zero'),
   refrigerated: z.boolean().default(false)
 })
 
 const state = reactive({
-  name: '',
-  email: '',
-  phone: '',
-  address: '',
-  capacity: 0,
+  name: null,
+  email: null,
+  phone: null,
+  address: null,
+  capacity: null,
   refrigerated: false
 })
 
@@ -49,7 +51,7 @@ async function handleSubmit() {
     :schema="schema"
     @submit="handleSubmit"
   >
-    <UFormField label="Nome" name="name">
+    <UFormField label="Nome" name="name" required>
       <UInput
         v-model="state.name"
         class="w-full"
@@ -58,7 +60,7 @@ async function handleSubmit() {
       />
     </UFormField>
 
-    <UFormField label="Email" name="email">
+    <UFormField label="Email" name="email" required>
       <UInput
         v-model="state.email"
         class="w-full"
@@ -66,7 +68,7 @@ async function handleSubmit() {
         trailing-icon="lucide:mail"
       />
     </UFormField>
-    <UFormField label="Telefone" name="phone">
+    <UFormField label="Telefone" name="phone" required>
       <UInput
         v-model="state.phone"
         class="w-full"
@@ -75,7 +77,7 @@ async function handleSubmit() {
       />
     </UFormField>
 
-    <UFormField label="Localizacao" name="address">
+    <UFormField label="Localizacao" name="address" required>
       <UInput
         v-model="state.address"
         class="w-full"
@@ -85,7 +87,7 @@ async function handleSubmit() {
     </UFormField>
 
     <div class="flex gap-4">
-      <UFormField label="Capacidade" name="capacity" class="flex-2">
+      <UFormField label="Capacidade" name="capacity" class="flex-2" required>
         <UFieldGroup class="flex items-center justify-center">
           <UButton
             variant="outline"

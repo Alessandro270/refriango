@@ -3,7 +3,7 @@ export const useSupplierStore = defineStore('supplier', {
     return { suppliers: [], isLoading: true, hasLoaded: false }
   },
   getters: {
-    suppliersCount: () => this.suppliers.length
+    suppliersCount: state => state.suppliers.length || 0
   },
   actions: {
     async getSuppliers() {
@@ -19,7 +19,6 @@ export const useSupplierStore = defineStore('supplier', {
           },
           baseURL: config.public.apiUrl
         })
-
         suppliers?.forEach(supplier => {
           this.suppliers.push(supplier)
         })

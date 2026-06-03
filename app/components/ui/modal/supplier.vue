@@ -8,14 +8,14 @@ const schema = z.object({
     .nonempty('Nome obrigatorio'),
   email: z.email('Email invalido').nonempty('Deve ter um email'),
   phone: z.e164('Formato +244900000000').optional(),
-  address: z.string().optional()
+  address: z.string().nullable().optional()
 })
 
 const state = reactive({
-  name: '',
-  email: '',
-  phone: '',
-  address: undefined
+  name: null,
+  email: null,
+  phone: null,
+  address: null
 })
 const emit = defineEmits<{ close: [] }>()
 

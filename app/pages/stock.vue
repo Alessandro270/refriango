@@ -62,6 +62,7 @@ const columns = [
   //       row.original.product?.category
   //     ])
   // },
+
   {
     accessorKey: 'purchasePrice',
     header: 'Preco de compra',
@@ -86,6 +87,18 @@ const columns = [
         }),
 
         row.original.product?.salePrice
+      ])
+  },
+
+  {
+    header: 'Min - Max',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:boxes',
+          class: 'text-blue-400'
+        }),
+        [`${row.original.minimumStock} - ${row.original.maximumStock}`]
       ])
   },
   {
