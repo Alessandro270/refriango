@@ -7,7 +7,7 @@ type Product = {
   total: number
 }
 
-defineProps<{ product: Product; products: string[] | [] }>()
+defineProps<{ product: Product; products: any[] | [] }>()
 
 const emits = defineEmits<{
   updateQuantity: [quantity: number]
@@ -24,7 +24,8 @@ const emits = defineEmits<{
         :search-input="true"
         :items="products"
         @update:model-value="val => emits('updateName', val)"
-        :value-key="product.name"
+        label-key="name"
+        value-key="id"
       />
     </UFormField>
 

@@ -15,61 +15,52 @@ const productStore = useProductStore()
 withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
   type: 'purchase'
 })
-
-const schema = z.object({
-  quantity: z.number('Obrigatório').positive('Deve ser positivo'),
-  supplierId: z.string('Obrigatório'),
-  expectedDate: z.string('Obrigatório'),
-  productId: z.string('Obrigatório')
-})
-
-const state = reactive({
-  quantity: null,
-  supplierId: null,
-  expectedDate: null,
-  productId: null
-})
 </script>
 
 <template>
-  <UForm
-    class="flex flex-col w-full max-h-110 min-h-110 flex-1 justify-between"
-  >
-    <div class="flex flex-col gap-5 overflow-y-scroll">
-      <UiOrderItem
-        v-for="product in orders"
-        :products="productStore.products"
-        :product="product"
-        :key="product.id"
-        @update-name="name => (orders[product.id].name = name)"
-      />
-      <UButton
-        class="col-span-full flex items-center justify-center"
-        icon="lucide:plus"
-        variant="ghost"
-        @click="addNewProduct"
-      >
-        Adicionar produto
-      </UButton>
-    </div>
-    <div
-      class="grid grid-cols-12 gap-3 mt-auto pt-3 border-t border-t-zinc-500 w-full"
-    >
+  <UForm class="w-full gap-2 grid grid-cols-10 min-h-110 flex-1">
+    <UFormField class="w-full col-span-2" label="Produto">
       <USelectMenu
-        icon="lucide:van"
-        class="w-full col-start-1 col-span-4 h-max"
-        :placeholder="
-          type === 'sale' ? 'Selecionar cliente' : 'Selecionar fornecedor'
-        "
+        class="w-full"
+        placeholder="Selecionar produto"
         :search-input="true"
+        :items="products"
+        label-key="name"
+        value-key="id"
       />
+    </UFormField>
+    <UFormField class="w-full" label="Fornecedor">
+      <USelectMenu
+        class="w-full"
+        placeholder="Selecionar fornecedor"
+        :search-input="true"
+        :items="products"
+        label-key="name"
+        value-key="id"
+      />
+    </UFormField>
 
-      <UButton
-        class="mt-auto w-full flex items-center justify-center col-start-9 col-span-4"
-        icon="i-lucide-save"
-      >
-        {{ type === 'sale' ? 'Vender estoque' : 'Efetuar pedido' }}
-      </UButton>
-    </div>
+    <UFormField class="w-full" label="Data prevista">
+      <UInputNumber class="w-full" orientation="vertical" placeholder="0" />
+    </UFormField>
+    <UFormField class="w-full" label="Quantidade">
+      <UInputNumber class="w-full" orientation="vertical" placeholder="0" />
+    </UFormField>
+    <UFormField class="w-full" label="Preco unitario">
+      <UInputNumber
+        class="w-full"
+        orientation="vertical"
+        placeholder="0"
+        :disabled="true"
+      />
+    </UFormField>
+    <UFormField class="w-full" label="Total">
+      <UInputNumber
+        class="w-full"
+        orientation="vertical"
+        placeholder="0"
+        :disabled="true"
+      />
+    </UFormField>
   </UForm>
 </template>
