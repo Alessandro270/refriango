@@ -108,6 +108,28 @@ export const useAuthStore = defineStore('auth', {
         throw new Error(e.message)
       }
     },
+    async signup(payload) {
+      const toast = useToast()
+      const config = useRuntimeConfig()
+      try {
+        await this.checkToken()
+        const result = await $fetch('/auth/signup', {
+          method: 'POST',
+          baseURL: config.public.apiUrl,
+          body: payload,
+          headers: {
+            authorization: `Bearer ${this.token}`
+          }
+        })
+
+        toast.add({
+          title: 'Usuario criado com sucesso',
+          icon: 'lucide:user-check'
+        })
+      } catch (e) {
+        throw new Error(e.message)
+      }
+    },
     logout() {
       const toast = useToast()
       this.user = null

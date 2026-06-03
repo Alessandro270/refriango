@@ -52,8 +52,7 @@ const columns = [
 
         row.original.address
       ])
-  },
-  { accessorKey: 'totalOrders', header: 'pedidos' }
+  }
 ]
 
 const search = ref('')
@@ -93,7 +92,11 @@ const open = ref<boolean>(false)
       <UiH1 icon="lucide:truck">Fornecedores</UiH1>
     </div>
 
-    <UiTable :data="filteredSuppliers" :columns="columns">
+    <UiTable
+      :data="filteredSuppliers"
+      :columns="columns"
+      :loading="supplierStore.isLoading"
+    >
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center justify-between gap-4">

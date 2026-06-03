@@ -119,6 +119,8 @@ const formFieldSize = 'lg'
           </template>
         </UButton>
       </UForm>
+
+      <!--
       <div class="text-center text-sm text-ui-text dark:text-zinc-500">
         Ainda nao possui uma conta?
         <NuxtLink
@@ -128,6 +130,7 @@ const formFieldSize = 'lg'
           Cadastre-se
         </NuxtLink>
       </div>
+      -->
     </UPageCard>
   </div>
 </template>

@@ -91,7 +91,8 @@ const columns = [
   },
   {
     accessorKey: 'createdAt',
-    header: 'Criado em'
+    header: 'Criado em',
+    cell:({row})=> new Date(row.original.createdAt).toLocaleDateString()
   }
 ]
 

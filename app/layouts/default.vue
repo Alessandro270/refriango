@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const open = ref<boolean>(false)
-const items: NavigationMenuItem[] = [
+const open = ref<boolean>(true)
+const items = reactive([
   {
     label: 'Dashboard',
     icon: 'lucide:layout-dashboard',
@@ -66,9 +66,14 @@ const items: NavigationMenuItem[] = [
     icon: 'lucide:settings',
     to: '/config'
   }
-]
-
+])
 const authStore = useAuthStore()
+if (authStore.user.role === 'admin')
+  items.push({
+    label: 'Cadastrar usuario',
+    icon: 'lucide:user',
+    to: '/auth/signup'
+  })
 const fullName = computed(
   () => `${authStore.user?.firstname} ${authStore.user?.lastname}`
 )
