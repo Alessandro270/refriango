@@ -62,7 +62,6 @@ const columns = [
   //       row.original.product?.category
   //     ])
   // },
-
   {
     accessorKey: 'purchasePrice',
     header: 'Preco de compra',
@@ -75,7 +74,6 @@ const columns = [
         row.original.product?.purchasePrice
       ])
   },
-
   {
     accessorKey: 'salePrice',
     header: 'Preco de venda',
@@ -89,7 +87,6 @@ const columns = [
         row.original.product?.salePrice
       ])
   },
-
   {
     header: 'Min - Max',
     cell: ({ row }) =>
@@ -155,7 +152,7 @@ const open = ref<boolean>(false)
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 flex flex-col h-full">
     <div class="w-full flex justify-between">
       <UiH1 icon="lucide:boxes">Estoque</UiH1>
     </div>

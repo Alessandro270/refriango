@@ -13,19 +13,7 @@ const columns = [
           name: 'lucide:users',
           class: 'text-blue-400 '
         }),
-        row.original.supplierId
-      ])
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'data',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:calendar-days',
-          class: 'text-blue-400 '
-        }),
-        row.original.createdAt
+        row.original.supplierName
       ])
   },
   {
@@ -37,7 +25,19 @@ const columns = [
           name: 'lucide:calendar-clock',
           class: 'text-blue-400 '
         }),
-        row.original.updatedAt
+        new Date(row.original.updatedAt).toLocaleDateString()
+      ])
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'data de pedido',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:calendar-days',
+          class: 'text-blue-400 '
+        }),
+        new Date(row.original.createdAt).toLocaleDateString()
       ])
   },
   { accessorKey: 'total', header: 'total' },
@@ -80,6 +80,7 @@ const columns = [
 
 const purchaseStore = usePurchaseStore()
 const supplierStore = useSupplierStore()
+const productStore = useProductStore()
 const toast = useToast()
 
 onMounted(async () => {
@@ -87,13 +88,23 @@ onMounted(async () => {
     if (!purchaseStore.hasLoaded) {
       purchaseStore.isLoading = true
       await purchaseStore.getAll()
-      await supplierStore.getSuppliers()
       purchaseStore.hasLoaded = true
     }
+    if (!supplierStore.hasLoaded) {
+      supplierStore.isLoading = true
+      await supplierStore.getSuppliers()
+      supplierStore.hasLoaded = true
+    }
+    if (!productStore.hasLoaded) {
+      productStore.isLoading = true
+      await productStore.getProducts()
+      productStore.hasLoaded = true
+    }
   } catch (e) {
+    const message = e.split(' ').slice(2).join(' ')
     toast.add({
       title: 'Nao foi possivel carregar os pedidos',
-      description: e.message
+      description: message
     })
   } finally {
     purchaseStore.isLoading = false
@@ -113,7 +124,7 @@ const filteredOrders = computed(() => {
 
     const matchesSearch =
       purchase.id.toLowerCase().includes(search.value.toLowerCase()) ||
-      purchase.supplierId.toLowerCase().includes(search.value.toLowerCase())
+      purchase.supplierName.toLowerCase().includes(search.value.toLowerCase())
 
     return matchesStatus && matchesSearch
   })
@@ -128,10 +139,14 @@ const open = ref<boolean>(false)
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 flex flex-col h-full">
     <UiH1 icon="lucide:shopping-cart">Pedido de compra</UiH1>
 
-    <UiTable :data="filteredOrders" :columns="columns">
+    <UiTable
+      :data="filteredOrders"
+      :columns="columns"
+      :loading="purchaseStore.isLoading"
+    >
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
@@ -157,7 +172,7 @@ const open = ref<boolean>(false)
               </template>
               <UButton icon="lucide:plus"> Nova compra</UButton>
               <template #body>
-                <UiModalOrder />
+                <UiModalOrder @close="open = false" />
               </template>
             </UModal>
           </div>

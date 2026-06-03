@@ -1,19 +1,33 @@
 <script setup lang="ts">
+import * as z from 'zod'
+
 const orders = reactive<Product[]>([])
 const id = ref<number>(0)
 function addNewProduct() {
   orders.push({
     id: String(id.value),
     name: '',
-    price: 0,
-    quantity: 0,
-    total: 0
+    quantity: 0
   })
   console.log(id.value++)
 }
-const products = reactive([])
+const productStore = useProductStore()
 withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
   type: 'purchase'
+})
+
+const schema = z.object({
+  quantity: z.number('Obrigatório').positive('Deve ser positivo'),
+  supplierId: z.string('Obrigatório'),
+  expectedDate: z.string('Obrigatório'),
+  productId: z.string('Obrigatório')
+})
+
+const state = reactive({
+  quantity: null,
+  supplierId: null,
+  expectedDate: null,
+  productId: null
 })
 </script>
 
@@ -24,7 +38,7 @@ withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
     <div class="flex flex-col gap-5 overflow-y-scroll">
       <UiOrderItem
         v-for="product in orders"
-        :products="products"
+        :products="productStore.products"
         :product="product"
         :key="product.id"
         @update-name="name => (orders[product.id].name = name)"
@@ -54,7 +68,7 @@ withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
         class="mt-auto w-full flex items-center justify-center col-start-9 col-span-4"
         icon="i-lucide-save"
       >
-        {{ type === 'sale' ? 'Nova venda' : 'Nova compra' }}
+        {{ type === 'sale' ? 'Vender estoque' : 'Efetuar pedido' }}
       </UButton>
     </div>
   </UForm>

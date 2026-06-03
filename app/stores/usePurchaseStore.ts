@@ -42,7 +42,7 @@ export const usePurchaseStore = defineStore('purchase', {
         this.purchases.push(purchase)
 
         toast.add({
-          title: 'Pedido efetuado criado com sucesso!',
+          title: 'Pedido efetuado com sucesso!',
           icon: 'lucide:file-check'
         })
       } catch (e) {

@@ -156,7 +156,7 @@ const fullName = computed(
           class="size-6 text-zinc-500 hover:text-zinc-300 transition"
         />
       </div>
-      <div class="px-4 py-5">
+      <div class="px-4 py-5 h-screen">
         <slot />
       </div>
     </div>

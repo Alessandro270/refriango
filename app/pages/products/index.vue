@@ -38,6 +38,7 @@ onMounted(async () => {
 })
 
 const columns = [
+  { accessorKey: 'id', header: 'ID' },
   {
     accessorKey: 'name',
     header: 'Produto',
@@ -86,19 +87,6 @@ const columns = [
         `${row.original.salePrice} Kz `
       ])
   },
-
-  // {
-  //   accessorKey: 'sku',
-  //   header: 'SKU',
-  //   cell: ({ row }) =>
-  //     h('div', { class: 'flex items-center gap-2 capitalize' }, [
-  //       h(UIcon, {
-  //         name: 'lucide:barcode',
-  //         class: 'text-blue-400 '
-  //       }),
-  //       row.original.purchasePrice
-  //     ])
-  // },
   {
     accessorKey: 'refrigerated',
     header: 'Refrigerado',
@@ -119,7 +107,7 @@ const columns = [
     }
   },
   {
-    header: 'Acoes',
+    header: 'Detalhes',
     cell: ({ row }) =>
       h(
         UModal,
@@ -129,9 +117,9 @@ const columns = [
         {
           default: () =>
             h(UButton, {
-              variant: 'soft',
+              variant: 'outline',
               color: 'neutral',
-              icon: 'lucide:eye'
+              icon: 'lucide:ellipsis-vertical'
             }),
           body: () => h(UiModalProduct, { product: row.original })
         }
@@ -141,7 +129,7 @@ const columns = [
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 flex flex-col h-full">
     <UiH1 icon="lucide:box">Produtos</UiH1>
     <UiTable
       :data="productStore.products"

@@ -24,7 +24,9 @@ function prev(): void {
 </script>
 
 <template>
-  <div class="bg-white rounded-md flex flex-col pt-3 pb-2 px-3 space-y-3">
+  <div
+    class="bg-white rounded-md flex flex-col pt-3 pb-2 flex-1 px-3 space-y-3"
+  >
     <slot name="header" />
     <div v-if="loading" class="mt-4 space-y-2">
       <UiRowLoader />
@@ -45,7 +47,7 @@ function prev(): void {
       @next="next"
       :page="page"
       @select="val => (page = val)"
-      class="ml-auto"
+      class="mt-auto"
     />
   </div>
 </template>

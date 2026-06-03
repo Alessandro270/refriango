@@ -59,11 +59,7 @@ const { product } = withDefaults(
     </UFormField>
 
     <UFormField label="Refrigerado">
-      <UCheckbox
-        :value="product.refrigerated"
-        :disabled="readonly"
-        class="w-full"
-      />
+      <span>{{ product.refrigerated ? 'sim' : 'nao' }}</span>
     </UFormField>
     <UFormField label="Preco de compra">
       <div class="text-zinc-400">
@@ -76,7 +72,12 @@ const { product } = withDefaults(
         {{ product.salePrice }}
       </div>
     </UFormField>
-    <UFormField label="Descricao do produto" class="h-full col-span-full">
+    <UFormField label="Data de cadastro">
+      <div class="text-zinc-400">
+        {{ new Date(product.createdAt).toLocaleDateString() }}
+      </div>
+    </UFormField>
+    <UFormField label="Descricao do produto" class="h-full col-span-2">
       <div class="text-zinc-400">
         {{ product.description }}
       </div>

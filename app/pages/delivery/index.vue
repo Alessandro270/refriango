@@ -210,7 +210,7 @@ const filteredOrders = computed(() => {
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 flex flex-col h-full">
     <UiH1 icon="lucide:van">Entregas</UiH1>
 
     <UiTable :data="filteredOrders" :columns="columns">

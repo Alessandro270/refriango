@@ -164,7 +164,7 @@ const open = ref<boolean>(false)
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 flex flex-col h-full">
     <UiH1 icon="material-symbols:point-of-sale-rounded">Pedido de venda</UiH1>
 
     <UiTable :data="filteredOrders" :columns="columns">

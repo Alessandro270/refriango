@@ -113,7 +113,7 @@ const open = ref<boolean>(false)
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 flex flex-col h-full">
     <UiH1 icon="lucide:warehouse">Armazens</UiH1>
 
     <UiTable
