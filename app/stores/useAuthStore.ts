@@ -25,7 +25,8 @@ export const useAuthStore = defineStore('auth', {
     },
     async refresh() {
       try {
-        const { token } = await useApi('/auth/refresh', {
+        const api = useApi()
+        const { token } = await api('/auth/refresh', {
           method: 'POST',
           body: { refreshToken: this.refreshToken }
         })
@@ -42,8 +43,9 @@ export const useAuthStore = defineStore('auth', {
       let result = false
       try {
         if (!token) return false
+        const api = useApi()
 
-        result = await useApi('/auth/validate-token', {
+        result = await api('/auth/validate-token', {
           method: 'POST',
 
           body: { token }
@@ -66,7 +68,9 @@ export const useAuthStore = defineStore('auth', {
     },
     async getAuthUser() {
       try {
-        const user = await useApi('user/me', {
+        const api = useApi()
+
+        const user = await api('user/me', {
           headers: {
             authorization: `Bearer ${this.token}`
           }
@@ -78,7 +82,8 @@ export const useAuthStore = defineStore('auth', {
     },
     async login(payload) {
       try {
-        const { token, user, refreshToken } = await useApi('/auth/login', {
+        const api = useApi()
+        const { token, user, refreshToken } = await api('/auth/login', {
           method: 'POST',
           body: payload
         })
@@ -102,8 +107,9 @@ export const useAuthStore = defineStore('auth', {
     async signup(payload) {
       const toast = useToast()
       try {
+        const api = useApi()
         await this.checkToken()
-        await useApi('/auth/signup', {
+        await api('/auth/signup', {
           method: 'POST',
           body: payload,
           headers: { authorization: `Bearer ${this.token}` }

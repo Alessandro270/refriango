@@ -2,15 +2,7 @@
 import * as z from 'zod'
 
 const orders = reactive<Product[]>([])
-const id = ref<number>(0)
-function addNewProduct() {
-  orders.push({
-    id: String(id.value),
-    name: '',
-    quantity: 0
-  })
-  console.log(id.value++)
-}
+
 const productStore = useProductStore()
 withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
   type: 'purchase'

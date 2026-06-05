@@ -172,7 +172,7 @@ const open = ref<boolean>(false)
               </template>
               <UButton icon="lucide:plus"> Nova compra</UButton>
               <template #body>
-                <UiModalOrder @close="open = false" />
+                <UiModalPurchase @close="open = false" />
               </template>
             </UModal>
           </div>

@@ -7,7 +7,7 @@ export default defineAppConfig({
     },
     modal: {
       slots: {
-        content: 'md:!min-w-80 min-h-80 h-max !max-w-200',
+        content: 'md:!min-w-50 min-h-80 h-max !max-w-200',
         body: 'flex-1 flex flex-col p-4 sm:p-6 '
       }
     },
@@ -20,6 +20,9 @@ export default defineAppConfig({
         tr: 'border-b  border-b-zinc-100 hover:bg-zinc-50 transition',
         separator: 'bg-transparent'
       }
+    },
+    inputDate: {
+      base: 'border border-zinc-800 !ring-transparent '
     },
     radioGroup: {
       slots: {
@@ -71,10 +74,23 @@ export default defineAppConfig({
         size: 'md'
       }
     },
+    selectMenu: {
+      slots: {
+        base: 'ring ring-zinc-800',
+        content: '  shadow-md rounded-md'
+      },
+      variants: {
+        variant: {
+          outline: {
+            base: 'ring-zinc-800  bg-transparent text-zinc-600 transition'
+          }
+        }
+      }
+    },
     select: {
       slots: {
         content: 'ring-transparent',
-        base: 'ring-none bg-transparent'
+        base: 'ring-transparent bg-transparent'
       },
       variants: {
         variant: {

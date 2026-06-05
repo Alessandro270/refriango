@@ -1,0 +1,105 @@
+<script setup lang="ts">
+import * as z from 'zod'
+
+const productStore = useProductStore()
+const supplierStore = useSupplierStore()
+
+withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
+  type: 'purchase'
+})
+const schema = z.object({
+  supplierId: z.string('Obrigatório').nonempty('Obrigatório'),
+  productId: z.string('Obrigatório').nonempty('Obrigatório'),
+  expectedDate: z
+    .string('Obrigatório')
+    .refine(date => !isNaN(Date.parse(date)), 'Data de validade inválida')
+    .nonempty('Obrigatório'),
+  quantity: z.number('Obrigatório').positive('Deve ser positivo')
+})
+const state = reactive({
+  supplierId: null,
+  productId: null,
+  expectedDate: null,
+  quantity: null
+})
+const purchasePrice = computed(
+  () =>
+    productStore.products.find(product => product.id === state.productId)
+      ?.purchasePrice
+)
+const total = computed(() =>
+  state.quantity ? purchasePrice.value * state.quantity : purchasePrice.value
+)
+</script>
+
+<template>
+  <UForm
+    class="w-full gap-5 grid grid-cols-10 auto-rows-max flex-1"
+    :state="state"
+    :schema="schema"
+  >
+    <UFormField class="w-full col-span-full" label="Produto" name="productId">
+      <USelectMenu
+        class="w-full"
+        v-model="state.productId"
+        placeholder="Selecionar produto"
+        :search-input="true"
+        :items="productStore.products"
+        label-key="name"
+        value-key="id"
+      />
+    </UFormField>
+    <UFormField class="w-full col-span-full" label="Fornecedor" name="supplier">
+      <USelectMenu
+        class="w-full"
+        v-model="state.supplierId"
+        placeholder="Selecionar fornecedor"
+        :search-input="true"
+        :items="supplierStore.suppliers"
+        label-key="name"
+        value-key="id"
+      />
+    </UFormField>
+
+    <UFormField
+      class="w-full col-span-5"
+      label="Data prevista"
+      name="expectedDate"
+    >
+      <UInput type="date" class="w-full" v-model="state.expectedDate" />
+    </UFormField>
+    <UFormField class="w-full col-span-5" label="Quantidade" name="quantity">
+      <UInputNumber
+        v-model="state.quantity"
+        class="w-full"
+        orientation="vertical"
+        placeholder="0"
+      />
+    </UFormField>
+
+    <UFormField class="w-full col-span-full" label="Preco de compra">
+      <UInputNumber
+        :value="purchasePrice"
+        class="w-full"
+        orientation="vertical"
+        placeholder="0"
+        :disabled="true"
+      />
+    </UFormField>
+    <UFormField class="w-full col-span-full" label="Total">
+      <UInputNumber
+        :value="total"
+        class="w-full"
+        orientation="vertical"
+        placeholder="0"
+        :disabled="true"
+      />
+    </UFormField>
+    <UButton
+      class="col-span-full flex items-center justify-center mt-auto row-end-7"
+      icon="lucide:save"
+    >
+      Salvar
+    </UButton>
+  </UForm>
+</template>
