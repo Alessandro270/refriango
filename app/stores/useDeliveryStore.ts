@@ -1,7 +1,5 @@
-export const usePurchaseStore = defineStore('purchase', {
-  state: () => {
-    return { purchases: [], hasLoaded: false, isLoading: true }
-  },
+export const useDeliveryStore = defineStore('delivery', {
+  state: () => ({ deliveries: [], hasLoaded: false, isLoading: true }),
   actions: {
     async getAll() {
       const authStore = useAuthStore()
@@ -9,14 +7,14 @@ export const usePurchaseStore = defineStore('purchase', {
       try {
         await authStore.checkToken()
 
-        const purchases = await api('/order', {
+        const deliveries = await api('/delivery', {
           headers: {
             authorization: `Bearer ${authStore.token}`
           }
         })
 
-        purchases?.forEach(purchase => {
-          this.purchases.push(purchase)
+        deliveries?.forEach(delivery => {
+          this.deliveries.push(delivery)
         })
       } catch (e) {
         throw new Error(e.message)
@@ -29,7 +27,7 @@ export const usePurchaseStore = defineStore('purchase', {
         const api = useApi()
         await authStore.checkToken()
 
-        const purchase = await api('/order', {
+        const delivery = await api('/delivery', {
           method: 'POST',
           headers: {
             authorization: `Bearer ${authStore.token}`
@@ -37,7 +35,7 @@ export const usePurchaseStore = defineStore('purchase', {
           body
         })
 
-        this.purchases.push(purchase)
+        this.deliveries.push(delivery)
 
         toast.add({
           title: 'Pedido efetuado com sucesso!',

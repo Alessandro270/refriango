@@ -4,9 +4,10 @@ import * as z from 'zod'
 const productStore = useProductStore()
 const supplierStore = useSupplierStore()
 
-withDefaults(defineProps<{ type?: 'purchase' | 'sale' }>(), {
-  type: 'purchase'
+withDefaults(defineProps<{ type?: 'order' | 'sale' }>(), {
+  type: 'order'
 })
+
 const schema = z.object({
   supplierId: z.string('Obrigatório').nonempty('Obrigatório'),
   productId: z.string('Obrigatório').nonempty('Obrigatório'),
@@ -16,31 +17,34 @@ const schema = z.object({
     .nonempty('Obrigatório'),
   quantity: z.number('Obrigatório').positive('Deve ser positivo')
 })
+
 const state = reactive({
   supplierId: null,
   productId: null,
   expectedDate: null,
   quantity: null
 })
-const purchasePrice = computed(
+
+const orderPrice = computed(
   () =>
     productStore.products.find(product => product.id === state.productId)
       ?.purchasePrice
 )
+
 const total = computed(() =>
-  state.quantity ? purchasePrice.value * state.quantity : purchasePrice.value
+  state.quantity && orderPrice.value ? orderPrice.value * state.quantity : 0
 )
 
 const emit = defineEmits<{ close: [] }>()
 const isLoading = ref(false)
 const toast = useToast()
-const purchaseStore = usePurchaseStore()
+const orderStore = useOrderStore()
 
 async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-    await purchaseStore.create(data)
+    await orderStore.create(data)
   } catch (e) {
     console.log(e)
 
@@ -107,7 +111,7 @@ async function handleSubmit() {
 
     <UFormField class="w-full col-span-full" label="Preco de compra">
       <UInputNumber
-        :value="purchasePrice"
+        :value="orderPrice"
         class="w-full"
         orientation="vertical"
         placeholder="0"

@@ -1,56 +1,4 @@
 <script lang="ts" setup>
-type Order = {
-  id: string
-  supplierId: string
-  status: string
-  total: number
-  createdAt: string
-  updatedAt: string
-}
-
-const orders = ref<Order[]>([
-  {
-    id: 'ORD-001',
-    supplierId: 'SUP-001',
-    status: 'completed',
-    total: 125,
-    createdAt: '10/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-002',
-    supplierId: 'SUP-002',
-    status: 'pending',
-    total: 45,
-    createdAt: '09/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-003',
-    supplierId: 'SUP-003',
-    status: 'cancelled',
-    total: 98,
-    createdAt: '08/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-004',
-    supplierId: 'SUP-001',
-    status: 'completed',
-    total: 70,
-    createdAt: '07/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-005',
-    supplierId: 'SUP-004',
-    status: 'pending',
-    total: 51,
-    createdAt: '06/05/2026',
-    updatedAt: '06/05/2026'
-  }
-])
-
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 const UModal = resolveComponent('UModal')
@@ -62,7 +10,7 @@ const uiModalStyle = {
 const columns = [
   {
     accessorKey: 'id',
-    header: '#'
+    header: 'ID'
   },
   {
     accessorKey: 'supplierId',
@@ -189,22 +137,45 @@ const columns = [
   }
 ]
 
+const deliveryStore = useDeliveryStore()
+
 const statusFilters = ref(['Todos', 'completed', 'pending', 'cancelled'])
 
 const selectedStatus = ref('Todos')
 const search = ref('')
 
-const filteredOrders = computed(() => {
-  return orders.value.filter(order => {
+const filteredDeliveries = computed(() => {
+  return deliveryStore.deliveries?.filter(delivery => {
     const matchesStatus =
-      selectedStatus.value === 'Todos' || order.status === selectedStatus.value
+      selectedStatus.value === 'Todos' ||
+      delivery.status === selectedStatus.value
 
     const matchesSearch =
-      order.id.toLowerCase().includes(search.value.toLowerCase()) ||
-      order.supplierId.toLowerCase().includes(search.value.toLowerCase())
+      delivery.id.toLowerCase().includes(search.value.toLowerCase()) ||
+      delivery.supplierId.toLowerCase().includes(search.value.toLowerCase())
 
     return matchesStatus && matchesSearch
   })
+})
+
+const toast = useToast()
+
+onMounted(async () => {
+  try {
+    if (!deliveryStore.hasLoaded) {
+      deliveryStore.isLoading = true
+      await deliveryStore.getAll()
+      deliveryStore.hasLoaded = true
+    }
+  } catch (e) {
+    const message = e?.split(' ').slice(2).join(' ')
+    toast.add({
+      title: 'Nao foi possivel carregar os pedidos',
+      description: message
+    })
+  } finally {
+    deliveryStore.isLoading = false
+  }
 })
 </script>
 
@@ -212,7 +183,11 @@ const filteredOrders = computed(() => {
   <div class="space-y-6 flex flex-col h-full">
     <UiH1 icon="lucide:van">Entregas</UiH1>
 
-    <UiTable :data="filteredOrders" :columns="columns">
+    <UiTable
+      :data="filteredDeliveries"
+      :columns="columns"
+      :loading="deliveryStore.isLoading"
+    >
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">

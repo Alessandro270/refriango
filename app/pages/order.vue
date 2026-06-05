@@ -1,86 +1,19 @@
 <script lang="ts" setup>
-type Order = {
-  id: string
-  supplierId: string
-  status: string
-  total: number
-  createdAt: string
-  updatedAt: string
-}
-
-const orders = ref<Order[]>([
-  {
-    id: 'ORD-001',
-    supplierId: 'SUP-001',
-    status: 'completed',
-    total: 125,
-    createdAt: '10/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-002',
-    supplierId: 'SUP-002',
-    status: 'pending',
-    total: 45,
-    createdAt: '09/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-003',
-    supplierId: 'SUP-003',
-    status: 'cancelled',
-    total: 98,
-    createdAt: '08/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-004',
-    supplierId: 'SUP-001',
-    status: 'completed',
-    total: 70,
-    createdAt: '07/05/2026',
-    updatedAt: '06/05/2026'
-  },
-  {
-    id: 'ORD-005',
-    supplierId: 'SUP-004',
-    status: 'pending',
-    total: 51,
-    createdAt: '06/05/2026',
-    updatedAt: '06/05/2026'
-  }
-])
-
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 
 const columns = [
-  {
-    accessorKey: 'id',
-    header: 'ID'
-  },
+  { accessorKey: 'id', header: 'ID' },
   {
     accessorKey: 'supplierId',
-    header: 'Cliente',
+    header: 'fornecedor',
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
-          name: 'lucide:user',
+          name: 'lucide:users',
           class: 'text-blue-400 '
         }),
-        row.original.supplierId
-      ])
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'data',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:calendar-days',
-          class: 'text-blue-400 '
-        }),
-        row.original.createdAt
+        row.original.supplierName
       ])
   },
   {
@@ -92,13 +25,22 @@ const columns = [
           name: 'lucide:calendar-clock',
           class: 'text-blue-400 '
         }),
-        row.original.updatedAt
+        new Date(row.original.updatedAt).toLocaleDateString()
       ])
   },
   {
-    accessorKey: 'total',
-    header: 'total'
+    accessorKey: 'createdAt',
+    header: 'data de pedido',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:calendar-days',
+          class: 'text-blue-400 '
+        }),
+        new Date(row.original.createdAt).toLocaleDateString()
+      ])
   },
+  { accessorKey: 'total', header: 'total' },
   {
     accessorKey: 'status',
     header: 'estado',
@@ -130,12 +72,44 @@ const columns = [
       return h(
         UBadge,
         { variant: 'solid', color, icon, class: 'rounded-full' },
-
         () => value
       )
     }
   }
 ]
+
+const orderStore = useOrderStore()
+const supplierStore = useSupplierStore()
+const productStore = useProductStore()
+const toast = useToast()
+
+onMounted(async () => {
+  try {
+    if (!orderStore.hasLoaded) {
+      orderStore.isLoading = true
+      await orderStore.getAll()
+      orderStore.hasLoaded = true
+    }
+    if (!supplierStore.hasLoaded) {
+      supplierStore.isLoading = true
+      await supplierStore.getSuppliers()
+      supplierStore.hasLoaded = true
+    }
+    if (!productStore.hasLoaded) {
+      productStore.isLoading = true
+      await productStore.getProducts()
+      productStore.hasLoaded = true
+    }
+  } catch (e) {
+    const message = e?.split(' ').slice(2).join(' ')
+    toast.add({
+      title: 'Nao foi possivel carregar os pedidos',
+      description: message
+    })
+  } finally {
+    orderStore.isLoading = false
+  }
+})
 
 const statusFilters = ref(['Todos', 'completed', 'pending', 'cancelled'])
 
@@ -143,13 +117,13 @@ const selectedStatus = ref('Todos')
 const search = ref('')
 
 const filteredOrders = computed(() => {
-  return orders.value.filter(order => {
+  return orderStore.orders.filter(order => {
     const matchesStatus =
       selectedStatus.value === 'Todos' || order.status === selectedStatus.value
 
     const matchesSearch =
       order.id.toLowerCase().includes(search.value.toLowerCase()) ||
-      order.supplierId.toLowerCase().includes(search.value.toLowerCase())
+      order.supplierName.toLowerCase().includes(search.value.toLowerCase())
 
     return matchesStatus && matchesSearch
   })
@@ -165,9 +139,13 @@ const open = ref<boolean>(false)
 
 <template>
   <div class="space-y-6 flex flex-col h-full">
-    <UiH1 icon="material-symbols:point-of-sale-rounded">Pedido de venda</UiH1>
+    <UiH1 icon="lucide:shopping-cart">Pedidos</UiH1>
 
-    <UiTable :data="filteredOrders" :columns="columns">
+    <UiTable
+      :data="filteredOrders"
+      :columns="columns"
+      :loading="orderStore.isLoading"
+    >
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
@@ -175,7 +153,7 @@ const open = ref<boolean>(false)
               variant="outline"
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Pesquisar pedido..."
+              placeholder="Pesquisar compra..."
             />
             <UButton icon="lucide:download" variant="outline">
               Exportar
@@ -189,11 +167,11 @@ const open = ref<boolean>(false)
             />
             <UModal :ui="modalStyle" v-model:open="open">
               <template #header>
-                <UiModalTitle @close="open = false"> Nova venda </UiModalTitle>
+                <UiModalTitle @close="open = false"> Nova compra </UiModalTitle>
               </template>
-              <UButton icon="lucide:plus">Nova venda</UButton>
+              <UButton icon="lucide:plus"> Nova compra</UButton>
               <template #body>
-                <UiModalOrder type="sale" />
+                <UiModalOrder @close="open = false" />
               </template>
             </UModal>
           </div>

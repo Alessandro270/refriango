@@ -27,12 +27,7 @@ const items = reactive([
   {
     label: 'Pedidos de compra',
     icon: 'lucide:shopping-cart',
-    to: '/purchases'
-  },
-  {
-    label: 'Pedidos de venda',
-    icon: 'material-symbols:point-of-sale-rounded',
-    to: '/sales'
+    to: '/order'
   },
   {
     label: 'Entregas',
