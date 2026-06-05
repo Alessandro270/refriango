@@ -13,7 +13,7 @@ const schema = z.object({
   productId: z.string('Obrigatório').nonempty('Obrigatório'),
   expectedDate: z
     .string('Obrigatório')
-    .refine(date => !isNaN(Date.parse(date)), 'Data de validade inválida')
+    .refine(date => !isNaN(Date.parse(date)), 'Data prevista inválida')
     .nonempty('Obrigatório'),
   quantity: z.number('Obrigatório').positive('Deve ser positivo')
 })

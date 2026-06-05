@@ -21,49 +21,12 @@ const columns = [
           name: 'lucide:user',
           class: 'text-blue-400 '
         }),
-        row.original.supplierId
+        row.original.customerName
       ])
   },
 
   {
-    accessorKey: 'createdAt',
-    header: 'Data de entrega',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:calendar-check-2',
-          class: 'text-emerald-400 '
-        }),
-        row.original.createdAt
-      ])
-  },
-
-  {
-    accessorKey: 'createdAt',
-    header: 'Data estimada',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:calendar-days',
-          class: 'text-blue-400 '
-        }),
-        row.original.createdAt
-      ])
-  },
-  {
-    accessorKey: 'updatedAt',
-    header: 'Ultima atualizacao',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:calendar-clock',
-          class: 'text-blue-400 '
-        }),
-        row.original.updatedAt
-      ])
-  },
-  {
-    accessorKey: 'status',
+    accessorKey: 'address',
     header: 'Localizacao',
 
     cell: ({ row }) =>
@@ -72,13 +35,39 @@ const columns = [
           name: 'lucide:map-pin',
           class: 'text-amber-400 '
         }),
-        row.original.status
+        row.original.address
       ])
   },
+  {
+    accessorKey: 'expectedDate',
+    header: 'Data estimada',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:calendar-days',
+          class: 'text-blue-400 '
+        }),
+        new Date(row.original.expectedDate).toLocaleDateString()
+      ])
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Atualizado em',
+    cell: ({ row }) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:calendar-clock',
+          class: 'text-blue-400 '
+        }),
+        new Date(row.original.updatedAt).toLocaleDateString()
+      ])
+  },
+
   {
     accessorKey: 'total',
     header: 'total'
   },
+
   {
     accessorKey: 'status',
     header: 'estado',
@@ -159,6 +148,7 @@ const filteredDeliveries = computed(() => {
 })
 
 const toast = useToast()
+const productStore = useProductStore()
 
 onMounted(async () => {
   try {
@@ -166,6 +156,12 @@ onMounted(async () => {
       deliveryStore.isLoading = true
       await deliveryStore.getAll()
       deliveryStore.hasLoaded = true
+    }
+
+    if (!productStore.hasLoaded) {
+      productStore.isLoading = true
+      await productStore.getProducts()
+      productStore.hasLoaded = true
     }
   } catch (e) {
     const message = e?.split(' ').slice(2).join(' ')
@@ -177,6 +173,7 @@ onMounted(async () => {
     deliveryStore.isLoading = false
   }
 })
+const open = ref(false)
 </script>
 
 <template>
@@ -207,10 +204,17 @@ onMounted(async () => {
               variant="outline"
               :items="statusFilters"
             />
-
-            <UButton to="/delivery/new" icon="lucide:plus"
-              >Nova entrega</UButton
-            >
+            <UModal v-model:open="open">
+              <template #header>
+                <UiModalTitle @close="open = false">
+                  Nova entrega
+                </UiModalTitle>
+              </template>
+              <UButton icon="lucide:plus"> Nova entrega </UButton>
+              <template #body>
+                <UiModalDelivery @close="open = false" />
+              </template>
+            </UModal>
           </div>
         </div>
       </template>

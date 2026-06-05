@@ -32,14 +32,7 @@ const items = reactive([
   {
     label: 'Entregas',
     icon: 'lucide:van',
-    to: '/delivery',
-    children: [
-      {
-        to: '/delivery/new',
-        label: 'Novo',
-        icon: 'lucide:plus-circle'
-      }
-    ]
+    to: '/delivery'
   },
   {
     label: 'Fornecedores',
