@@ -30,7 +30,7 @@ const schema = z.object({
 const state = reactive({
   customerPhone: null,
   customerName: null,
-  customerEmail: null,
+  customerEmail: undefined,
   address: null,
   expectedDate: null,
   productId: null,
