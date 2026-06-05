@@ -30,6 +30,29 @@ const purchasePrice = computed(
 const total = computed(() =>
   state.quantity ? purchasePrice.value * state.quantity : purchasePrice.value
 )
+
+const emit = defineEmits<{ close: [] }>()
+const isLoading = ref(false)
+const toast = useToast()
+const purchaseStore = usePurchaseStore()
+
+async function handleSubmit() {
+  try {
+    isLoading.value = true
+    const data = schema.parse(state)
+    await purchaseStore.create(data)
+  } catch (e) {
+    console.log(e)
+
+    toast.add({
+      title: 'Nao foi possivel efetuar pedido',
+      icon: 'lucide:file-x'
+    })
+  } finally {
+    isLoading.value = false
+    emit('close')
+  }
+}
 </script>
 
 <template>
@@ -37,6 +60,7 @@ const total = computed(() =>
     class="w-full gap-5 grid grid-cols-10 auto-rows-max flex-1"
     :state="state"
     :schema="schema"
+    @submit="handleSubmit"
   >
     <UFormField class="w-full col-span-full" label="Produto" name="productId">
       <USelectMenu
@@ -49,7 +73,11 @@ const total = computed(() =>
         value-key="id"
       />
     </UFormField>
-    <UFormField class="w-full col-span-full" label="Fornecedor" name="supplier">
+    <UFormField
+      class="w-full col-span-full"
+      label="Fornecedor"
+      name="supplierId"
+    >
       <USelectMenu
         class="w-full"
         v-model="state.supplierId"
@@ -95,11 +123,6 @@ const total = computed(() =>
         :disabled="true"
       />
     </UFormField>
-    <UButton
-      class="col-span-full flex items-center justify-center mt-auto row-end-7"
-      icon="lucide:save"
-    >
-      Salvar
-    </UButton>
+    <UiSaveBtn :is-loading="isLoading" />
   </UForm>
 </template>

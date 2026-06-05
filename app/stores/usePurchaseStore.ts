@@ -4,16 +4,15 @@ export const usePurchaseStore = defineStore('purchase', {
   },
   actions: {
     async getAll() {
-      const config = useRuntimeConfig()
       const authStore = useAuthStore()
+      const api = useApi()
       try {
         await authStore.checkToken()
 
-        const purchases = await $fetch('/order', {
+        const purchases = await api('/order', {
           headers: {
             authorization: `Bearer ${authStore.token}`
-          },
-          baseURL: config.public.apiUrl
+          }
         })
 
         purchases?.forEach(purchase => {
@@ -24,19 +23,18 @@ export const usePurchaseStore = defineStore('purchase', {
       }
     },
     async create(body) {
-      const config = useRuntimeConfig()
       const toast = useToast()
       const authStore = useAuthStore()
       try {
+        const api = useApi()
         await authStore.checkToken()
 
-        const purchase = await $fetch('/order', {
+        const purchase = await api('/order', {
           method: 'POST',
           headers: {
             authorization: `Bearer ${authStore.token}`
           },
-          body,
-          baseURL: config.public.apiUrl
+          body
         })
 
         this.purchases.push(purchase)
