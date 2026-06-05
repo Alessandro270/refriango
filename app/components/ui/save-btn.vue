@@ -5,7 +5,7 @@ defineProps({ isLoading: { type: Boolean, default: false } })
 <template>
   <UButton
     :icon="isLoading ? '' : 'lucide:save'"
-    class="col-span-full flex items-center justify-center mt-auto row-end-7"
+    class="col-span-full flex-1 flex items-center justify-center mt-auto"
     type="submit"
   >
     <template v-if="!isLoading"> Salvar </template>

@@ -43,6 +43,17 @@ const toast = useToast()
 const isLoading = ref(false)
 const productStore = useProductStore()
 
+const salePrice = computed(() =>
+  state.productId
+    ? productStore.products.find(product => product.id === state.productId)
+        ?.salePrice
+    : null
+)
+
+const total = computed(() =>
+  salePrice.value && state.quantity ? salePrice.value * state.quantity : 0
+)
+
 async function handleSubmit() {
   try {
     isLoading.value = true
@@ -182,7 +193,37 @@ async function handleSubmit() {
     <UFormField
       :size="formFieldSize"
       :ui="uiStyle"
-      label="Observacoes"
+      label="Preco Unitário"
+      class="col-span-6"
+      disabled
+    >
+      <UInputNumber
+        :value="salePrice"
+        :ui="uiInputStyle"
+        class="w-full"
+        placeholder="0"
+        orientation="vertical"
+      />
+    </UFormField>
+    <UFormField
+      :size="formFieldSize"
+      :ui="uiStyle"
+      label="Total"
+      class="col-span-6"
+      disabled
+    >
+      <UInputNumber
+        :value="total"
+        :ui="uiInputStyle"
+        class="w-full"
+        placeholder="0"
+        orientation="vertical"
+      />
+    </UFormField>
+    <UFormField
+      :size="formFieldSize"
+      :ui="uiStyle"
+      label="Observações"
       class="col-span-full"
       name="description"
     >
