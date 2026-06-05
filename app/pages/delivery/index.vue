@@ -162,14 +162,13 @@ const columns = [
       return h(
         UBadge,
         { variant: 'solid', color, icon, class: 'rounded-full' },
-
         () => value
       )
     }
   },
   {
-    header: 'Acoes',
-    cell: ({ row }) => {
+    header: 'Detalhes',
+    cell: () => {
       return h(
         UModal,
         {
@@ -179,9 +178,9 @@ const columns = [
         {
           default: () =>
             h(UButton, {
-              variant: 'soft',
+              variant: 'outline',
               color: 'neutral',
-              icon: 'lucide:eye'
+              icon: 'lucide:ellipsis-vertical'
             }),
           body: () => h(UiModalDelivery)
         }

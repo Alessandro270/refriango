@@ -303,7 +303,7 @@ const columns = [
 </script>
 
 <template>
-  <div class="space-y-6 flex flex-col h-full">
+  <div class="space-y-6 flex flex-col min-h-screen h-max">
     <div>
       <UiH1 icon="lucide:layout-dashboard"> Dashboard </UiH1>
     </div>

@@ -24,12 +24,10 @@ export const useAuthStore = defineStore('auth', {
       this.user = userJson ? JSON.parse(userJson) : null
     },
     async refresh() {
-      const config = useRuntimeConfig()
       try {
-        const { token } = await $fetch('/auth/refresh', {
+        const { token } = await useApi('/auth/refresh', {
           method: 'POST',
-          body: { refreshToken: this.refreshToken },
-          baseURL: config.public.apiUrl
+          body: { refreshToken: this.refreshToken }
         })
 
         if (!token) throw new Error('Nao autenticado')
@@ -41,14 +39,13 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     async validateToken(token: string | null) {
-      const config = useRuntimeConfig()
       let result = false
       try {
         if (!token) return false
 
-        result = await $fetch('/auth/validate-token', {
+        result = await useApi('/auth/validate-token', {
           method: 'POST',
-          baseURL: config.public.apiUrl,
+
           body: { token }
         })
 
@@ -69,10 +66,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async getAuthUser() {
       try {
-        const config = useRuntimeConfig()
-
-        const user = await $fetch('user/me', {
-          baseURL: config.public.apiUrl,
+        const user = await useApi('user/me', {
           headers: {
             authorization: `Bearer ${this.token}`
           }
@@ -84,11 +78,8 @@ export const useAuthStore = defineStore('auth', {
     },
     async login(payload) {
       try {
-        const config = useRuntimeConfig()
-
-        const { token, user, refreshToken } = await $fetch('/auth/login', {
+        const { token, user, refreshToken } = await useApi('/auth/login', {
           method: 'POST',
-          baseURL: config.public.apiUrl,
           body: payload
         })
 
@@ -110,16 +101,12 @@ export const useAuthStore = defineStore('auth', {
     },
     async signup(payload) {
       const toast = useToast()
-      const config = useRuntimeConfig()
       try {
         await this.checkToken()
-        const result = await $fetch('/auth/signup', {
+        await useApi('/auth/signup', {
           method: 'POST',
-          baseURL: config.public.apiUrl,
           body: payload,
-          headers: {
-            authorization: `Bearer ${this.token}`
-          }
+          headers: { authorization: `Bearer ${this.token}` }
         })
 
         toast.add({

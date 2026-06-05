@@ -80,7 +80,7 @@ const fullName = computed(
 </script>
 
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen h-max">
     <USidebar v-model:open="open" collapsible="icon">
       <template #title>
         <div class="flex flex-col items-center w-full pb-2">
@@ -156,7 +156,7 @@ const fullName = computed(
           class="size-6 text-zinc-500 hover:text-zinc-300 transition"
         />
       </div>
-      <div class="px-4 py-5 h-screen">
+      <div class="px-4 py-5 min-h-screen h-max">
         <slot />
       </div>
     </div>
