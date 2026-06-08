@@ -6,7 +6,7 @@ export const useCategoryStore = defineStore('category', {
     categoryCount: state => state.categories.length || 0
   },
   actions: {
-    async getCategories() {
+    async getAll() {
       const config = useRuntimeConfig()
       const authStore = useAuthStore()
       try {
@@ -44,7 +44,7 @@ export const useCategoryStore = defineStore('category', {
         throw new Error(e.message)
       }
     },
-    async createCategory(body) {
+    async create(body) {
       const config = useRuntimeConfig()
       const authStore = useAuthStore()
       const toast = useToast()

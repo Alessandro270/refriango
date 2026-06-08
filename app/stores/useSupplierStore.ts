@@ -6,7 +6,7 @@ export const useSupplierStore = defineStore('supplier', {
     suppliersCount: state => state.suppliers.length || 0
   },
   actions: {
-    async getSuppliers() {
+    async getAll() {
       const api = useApi()
       const authStore = useAuthStore()
 
@@ -25,7 +25,7 @@ export const useSupplierStore = defineStore('supplier', {
         throw new Error(e.message)
       }
     },
-    async createSupplier(body) {
+    async create(body) {
       const api = useApi()
       const toast = useToast()
       const authStore = useAuthStore()

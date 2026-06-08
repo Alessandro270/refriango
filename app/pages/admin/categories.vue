@@ -9,7 +9,7 @@ onMounted(async () => {
   try {
     if (!categoryStore.hasLoaded) {
       categoryStore.isLoading = true
-      await categoryStore.getCategories()
+      await categoryStore.getAll()
       categoryStore.hasLoaded = true
     }
   } catch (e) {

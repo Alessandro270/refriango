@@ -31,7 +31,7 @@ async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-    await warehouseStore.createWarehouse(data)
+    await warehouseStore.create(data)
   } catch (e) {
     toast.add({
       title: 'Nao foi possivel adicionar armazem',

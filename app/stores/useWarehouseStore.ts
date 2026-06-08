@@ -3,7 +3,7 @@ export const useWarehouseStore = defineStore('warehouse', {
     return { warehouses: [], hasLoaded: false, isLoading: true }
   },
   actions: {
-    async getWarehouses() {
+    async getAll() {
       const config = useRuntimeConfig()
       const authStore = useAuthStore()
 
@@ -24,7 +24,7 @@ export const useWarehouseStore = defineStore('warehouse', {
         throw new Error(e.message)
       }
     },
-    async createWarehouse(body) {
+    async create(body) {
       const config = useRuntimeConfig()
       const toast = useToast()
       const authStore = useAuthStore()

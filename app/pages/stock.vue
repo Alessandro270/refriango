@@ -13,12 +13,12 @@ onMounted(async () => {
     }
     if (!productStore.hasLoaded) {
       productStore.isLoading = true
-      await productStore.getProducts()
+      await productStore.getAll()
       productStore.hasLoaded = true
     }
     if (!warehouseStore.hasLoaded) {
       warehouseStore.isLoading = true
-      await warehouseStore.getWarehouses()
+      await warehouseStore.getAll()
       warehouseStore.hasLoaded = true
     }
   } catch (e) {

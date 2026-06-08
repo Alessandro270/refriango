@@ -55,12 +55,12 @@ onMounted(async () => {
     isLoading.value = true
     if (!categoryStore.hasLoaded) {
       categoryStore.isLoading = true
-      await categoryStore.getCategories()
+      await categoryStore.getAll()
       categoryStore.hasLoaded = true
     }
     if (!supplierStore.hasLoaded) {
       supplierStore.isLoading = true
-      await supplierStore.getSuppliers()
+      await supplierStore.getAll()
       supplierStore.hasLoaded = true
     }
   } catch (e) {

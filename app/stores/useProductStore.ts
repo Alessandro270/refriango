@@ -3,7 +3,7 @@ export const useProductStore = defineStore('product', {
     return { products: [], hasLoaded: false, isLoading: true }
   },
   actions: {
-    async getProducts() {
+    async getAll() {
       const config = useRuntimeConfig()
       const authStore = useAuthStore()
 

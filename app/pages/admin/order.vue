@@ -98,12 +98,12 @@ onMounted(async () => {
     }
     if (!supplierStore.hasLoaded) {
       supplierStore.isLoading = true
-      await supplierStore.getSuppliers()
+      await supplierStore.getAll()
       supplierStore.hasLoaded = true
     }
     if (!productStore.hasLoaded) {
       productStore.isLoading = true
-      await productStore.getProducts()
+      await productStore.getAll()
       productStore.hasLoaded = true
     }
   } catch (e) {

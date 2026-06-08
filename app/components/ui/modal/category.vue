@@ -21,7 +21,7 @@ async function handleSubmit() {
   isLoading.value = true
   try {
     const data = schema.parse(state)
-    await categoryStore.createCategory(data)
+    await categoryStore.create(data)
   } catch (e) {
     toast.add({
       title: 'Categoria nao adicionada',

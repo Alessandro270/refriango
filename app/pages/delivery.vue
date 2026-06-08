@@ -149,7 +149,7 @@ onMounted(async () => {
 
     if (!productStore.hasLoaded) {
       productStore.isLoading = true
-      await productStore.getProducts()
+      await productStore.getAll()
       productStore.hasLoaded = true
     }
   } catch (e) {

@@ -27,7 +27,7 @@ async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-    await supplierStore.createSupplier(data)
+    await supplierStore.create(data)
   } catch (e) {
     toast.add({
       title: 'Nao foi possivel adicionar fornecedor',

@@ -29,7 +29,7 @@ onMounted(async () => {
   try {
     if (!warehouseStore.hasLoaded) {
       warehouseStore.isLoading = true
-      await warehouseStore.getWarehouses()
+      await warehouseStore.getAll()
       warehouseStore.hasLoaded = true
     }
   } catch (e) {
