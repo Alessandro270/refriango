@@ -7,7 +7,7 @@ export default defineAppConfig({
     },
     modal: {
       slots: {
-        content: 'md:!min-w-50 min-h-80 h-max !max-w-200',
+        content: 'md:!min-w-50 min-h-50 h-max !max-w-200',
         body: 'flex-1 flex flex-col p-4 sm:p-6 '
       }
     },

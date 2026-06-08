@@ -1,46 +1,63 @@
 <script lang="ts" setup>
+definePageMeta({ layout: 'admin' })
+
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
+const UModal = resolveComponent('UModal')
+const UiActions = resolveComponent('UiActions')
+const UiModalDelivery = resolveComponent('UiModalDelivery')
+
+const uiModalStyle = {
+  content: '!w-180 pb-6 min-h-120 h-max !max-w-none',
+  body: 'flex-1 flex flex-col p-4 sm:p-6 '
+}
 
 const columns = [
-  { accessorKey: '_id', header: 'ID' },
+  {
+    accessorKey: '_id',
+    header: 'ID'
+  },
   {
     accessorKey: 'supplierId',
-    header: 'fornecedor',
+    header: 'Cliente',
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
-          name: 'lucide:users',
+          name: 'lucide:user',
           class: 'text-blue-400 '
         }),
-        row.original.supplierName
+        row.original.customerName
       ])
   },
   {
-    accessorKey: 'updatedAt',
-    header: 'Ultima atualizacao',
+    accessorKey: 'address',
+    header: 'Endereço',
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
-          name: 'lucide:calendar-clock',
-          class: 'text-blue-400 '
+          name: 'lucide:map-pin',
+          class: 'text-amber-400 '
         }),
-        new Date(row.original.updatedAt).toLocaleDateString()
+        row.original.address
       ])
   },
   {
-    accessorKey: 'createdAt',
-    header: 'data de pedido',
+    accessorKey: 'expectedDate',
+    header: 'Estimado',
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:calendar-days',
           class: 'text-blue-400 '
         }),
-        new Date(row.original.createdAt).toLocaleDateString()
+        new Date(row.original.expectedDate).toLocaleDateString()
       ])
   },
-  { accessorKey: 'total', header: 'total' },
+
+  {
+    accessorKey: 'total',
+    header: 'total'
+  },
   {
     accessorKey: 'status',
     header: 'estado',
@@ -75,26 +92,65 @@ const columns = [
         () => value
       )
     }
+  },
+  {
+    header: 'Ações',
+    cell: ({ row }) =>
+      h('div', { class: 'flex gap-2' }, [
+        h(
+          UModal,
+          {
+            title: 'Detalhes da entrega',
+            ui: uiModalStyle
+          },
+          {
+            default: () =>
+              h(UButton, {
+                variant: 'outline',
+                color: 'neutral',
+                icon: 'lucide:ellipsis-vertical',
+                size: 'xs'
+              }),
+            body: () => h(UiModalDetails, { data: row.original })
+          }
+        ),
+        h(UiActions)
+      ])
   }
 ]
 
-const orderStore = useOrderStore()
-const supplierStore = useSupplierStore()
-const productStore = useProductStore()
+const deliveryStore = useDeliveryStore()
+
+const statusFilters = ref(['Todos', 'completed', 'pending', 'cancelled'])
+
+const selectedStatus = ref('Todos')
+const search = ref('')
+
+const filteredDeliveries = computed(() => {
+  return deliveryStore.deliveries?.filter(delivery => {
+    const matchesStatus =
+      selectedStatus.value === 'Todos' ||
+      delivery.status === selectedStatus.value
+
+    const matchesSearch =
+      delivery.id.toLowerCase().includes(search.value.toLowerCase()) ||
+      delivery.supplierId.toLowerCase().includes(search.value.toLowerCase())
+
+    return matchesStatus && matchesSearch
+  })
+})
+
 const toast = useToast()
+const productStore = useProductStore()
 
 onMounted(async () => {
   try {
-    if (!orderStore.hasLoaded) {
-      orderStore.isLoading = true
-      await orderStore.getAll()
-      orderStore.hasLoaded = true
+    if (!deliveryStore.hasLoaded) {
+      deliveryStore.isLoading = true
+      await deliveryStore.getAll()
+      deliveryStore.hasLoaded = true
     }
-    if (!supplierStore.hasLoaded) {
-      supplierStore.isLoading = true
-      await supplierStore.getSuppliers()
-      supplierStore.hasLoaded = true
-    }
+
     if (!productStore.hasLoaded) {
       productStore.isLoading = true
       await productStore.getProducts()
@@ -102,49 +158,26 @@ onMounted(async () => {
     }
   } catch (e) {
     const message = e?.split(' ').slice(2).join(' ')
+
     toast.add({
       title: 'Nao foi possivel carregar os pedidos',
       description: message
     })
   } finally {
-    orderStore.isLoading = false
+    deliveryStore.isLoading = false
   }
 })
-
-const statusFilters = ref(['Todos', 'completed', 'pending', 'cancelled'])
-
-const selectedStatus = ref('Todos')
-const search = ref('')
-
-const filteredOrders = computed(() => {
-  return orderStore.orders.filter(order => {
-    const matchesStatus =
-      selectedStatus.value === 'Todos' || order.status === selectedStatus.value
-
-    const matchesSearch =
-      order.id.toLowerCase().includes(search.value.toLowerCase()) ||
-      order.supplierName.toLowerCase().includes(search.value.toLowerCase())
-
-    return matchesStatus && matchesSearch
-  })
-})
-
-const modalStyle = {
-  content: '!w-210 min-h-120 h-max !max-w-none',
-  body: 'flex-1 flex flex-col p-4 sm:p-6 '
-}
-
-const open = ref<boolean>(false)
+const open = ref(false)
 </script>
 
 <template>
   <div class="space-y-6 flex flex-col h-full">
-    <UiH1 icon="lucide:shopping-cart">Pedidos</UiH1>
+    <UiH1 icon="lucide:van"> Entregas </UiH1>
 
     <UiTable
-      :data="filteredOrders"
+      :data="filteredDeliveries"
       :columns="columns"
-      :loading="orderStore.isLoading"
+      :loading="deliveryStore.isLoading"
     >
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
@@ -153,7 +186,7 @@ const open = ref<boolean>(false)
               variant="outline"
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Pesquisar compra..."
+              placeholder="Pesquisar saida..."
             />
             <UButton icon="lucide:download" variant="outline">
               Exportar
@@ -165,13 +198,15 @@ const open = ref<boolean>(false)
               variant="outline"
               :items="statusFilters"
             />
-            <UModal :ui="modalStyle" v-model:open="open">
+            <UModal v-model:open="open">
               <template #header>
-                <UiModalTitle @close="open = false"> Nova compra </UiModalTitle>
+                <UiModalTitle @close="open = false">
+                  Nova entrega
+                </UiModalTitle>
               </template>
-              <UButton icon="lucide:plus"> Nova compra</UButton>
+              <UButton icon="lucide:plus"> Nova entrega </UButton>
               <template #body>
-                <UiModalOrder @close="open = false" />
+                <UiModalDelivery @close="open = false" />
               </template>
             </UModal>
           </div>

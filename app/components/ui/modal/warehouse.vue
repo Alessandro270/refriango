@@ -77,7 +77,7 @@ async function handleSubmit() {
       />
     </UFormField>
 
-    <UFormField label="Localizacao" name="address" required>
+    <UFormField label="Endereço" name="address" required>
       <UInput
         v-model="state.address"
         class="w-full"

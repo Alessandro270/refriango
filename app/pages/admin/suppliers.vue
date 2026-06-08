@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+definePageMeta({ layout: 'admin' })
 const UButton = resolveComponent('UButton')
+const UiActions = resolveComponent('UiActions')
 
 const columns = [
   { accessorKey: '_id', header: 'ID' },
@@ -52,6 +54,10 @@ const columns = [
 
         row.original.address
       ])
+  },
+  {
+    header: 'Ações',
+    cell: () => h(UiActions)
   }
 ]
 

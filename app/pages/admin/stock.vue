@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'admin' })
 const stockStore = useStockStore()
 const productStore = useProductStore()
 const warehouseStore = useWarehouseStore()
@@ -32,6 +33,7 @@ onMounted(async () => {
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 const UModal = resolveComponent('UModal')
+const UiActions = resolveComponent('UiActions')
 
 const columns = [
   {
@@ -122,6 +124,10 @@ const columns = [
         () => quantity
       )
     }
+  },
+  {
+    header: 'Ações',
+    cell: () => h(UiActions)
   }
 ]
 

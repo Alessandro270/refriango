@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+definePageMeta({ layout: 'admin' })
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
+const UiActions = resolveComponent('UiActions')
 
 const columns = [
   { accessorKey: '_id', header: 'ID' },
@@ -75,6 +77,10 @@ const columns = [
         () => value
       )
     }
+  },
+  {
+    header: 'Ações',
+    cell: () => h(UiActions)
   }
 ]
 

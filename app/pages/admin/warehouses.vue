@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'admin' })
 type Warehouse = {
   id: string
   name: string
@@ -20,6 +21,7 @@ const locationFilters = [
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 const UIcon = resolveComponent('UIcon')
+const UiActions = resolveComponent('UiActions')
 
 const toast = useToast()
 
@@ -93,6 +95,10 @@ const columns = [
     accessorKey: 'createdAt',
     header: 'Criado em',
     cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString()
+  },
+  {
+    header: 'Ações',
+    cell: () => h(UiActions)
   }
 ]
 

@@ -1,50 +1,50 @@
-export const useSupplierStore = defineStore('supplier', {
+export const useUserStore = defineStore('user', {
   state: () => {
-    return { suppliers: [], isLoading: true, hasLoaded: false }
+    return { users: [], isLoading: true, hasLoaded: false }
   },
   getters: {
-    suppliersCount: state => state.suppliers.length || 0
+    usersCount: state => state.users.length || 0
   },
   actions: {
-    async getSuppliers() {
-      const api = useApi()
+    async getAll() {
       const authStore = useAuthStore()
+      const api = useApi()
 
       try {
         await authStore.checkToken()
 
-        const suppliers = await api('/supplier', {
+        const users = await api('/user', {
           headers: {
             authorization: `Bearer ${authStore.token}`
           }
         })
-        suppliers?.forEach(supplier => {
-          this.suppliers.push(supplier)
+        users?.forEach(user => {
+          this.users.push(user)
         })
       } catch (e) {
         throw new Error(e.message)
       }
     },
-    async createSupplier(body) {
-      const api = useApi()
+    async create(body) {
       const toast = useToast()
       const authStore = useAuthStore()
-
+      const api = useApi()
       try {
         await authStore.checkToken()
 
-        const supplier = await api('/supplier', {
+        const user = await api('/auth/signup', {
           method: 'POST',
           headers: {
             authorization: `Bearer ${authStore.token}`
           },
           body
         })
+        console.log(user)
 
-        this.suppliers.push(supplier)
+        this.users.push(user)
 
         toast.add({
-          title: 'Fornecedor criado com sucesso!',
+          title: 'Usuário criado com sucesso!',
           icon: 'lucide:file-check'
         })
       } catch (e) {

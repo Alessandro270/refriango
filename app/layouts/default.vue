@@ -15,17 +15,10 @@ const items = reactive([
   {
     label: 'Produtos',
     icon: 'lucide:box',
-    to: '/products',
-    children: [
-      {
-        label: 'Novo',
-        icon: 'lucide:plus-circle',
-        to: '/products/new'
-      }
-    ]
+    to: '/products'
   },
   {
-    label: 'Pedidos de compra',
+    label: 'Pedidos',
     icon: 'lucide:shopping-cart',
     to: '/order'
   },
@@ -56,12 +49,7 @@ const items = reactive([
   }
 ])
 const authStore = useAuthStore()
-if (authStore.user?.role === 'admin')
-  items.push({
-    label: 'Cadastrar usuario',
-    icon: 'lucide:user',
-    to: '/auth/signup'
-  })
+
 const fullName = computed(
   () => `${authStore.user?.firstname} ${authStore.user?.lastname}`
 )

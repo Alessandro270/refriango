@@ -9,7 +9,7 @@ const uiModalStyle = {
 
 const columns = [
   {
-    accessorKey: 'id',
+    accessorKey: '_id',
     header: 'ID'
   },
   {
@@ -27,7 +27,7 @@ const columns = [
 
   {
     accessorKey: 'address',
-    header: 'Localizacao',
+    header: 'Endereço',
 
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
@@ -40,7 +40,7 @@ const columns = [
   },
   {
     accessorKey: 'expectedDate',
-    header: 'Data estimada',
+    header: 'Estimado',
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
@@ -48,18 +48,6 @@ const columns = [
           class: 'text-blue-400 '
         }),
         new Date(row.original.expectedDate).toLocaleDateString()
-      ])
-  },
-  {
-    accessorKey: 'updatedAt',
-    header: 'Atualizado em',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:calendar-clock',
-          class: 'text-blue-400 '
-        }),
-        new Date(row.original.updatedAt).toLocaleDateString()
       ])
   },
 
@@ -117,7 +105,8 @@ const columns = [
             h(UButton, {
               variant: 'outline',
               color: 'neutral',
-              icon: 'lucide:ellipsis-vertical'
+              icon: 'lucide:ellipsis-vertical',
+              size: 'xs'
             }),
           body: () => h(UiModalDelivery)
         }

@@ -222,7 +222,7 @@ const UButton = resolveComponent('UButton')
 
 const columns = [
   {
-    accessorKey: 'id',
+    accessorKey: '_id',
     header: '#'
   },
   {

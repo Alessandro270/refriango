@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'admin' })
 const search = ref('')
 
 const statusFilters = ref(['Todos', 'Ativo', 'Inativo', 'Em falta'])
@@ -19,6 +20,7 @@ const UButton = resolveComponent('UButton')
 const UModal = resolveComponent('UModal')
 const UiModalDetails = resolveComponent('UiModalDetails')
 const UBadge = resolveComponent('UBadge')
+const UiActions = resolveComponent('UiActions')
 
 const toast = useToast()
 const productStore = useProductStore()
@@ -36,6 +38,30 @@ onMounted(async () => {
     productStore.isLoading = false
   }
 })
+
+const fields = [
+  { accessorKey: '_id', header: 'ID' },
+  {
+    accessorKey: 'name',
+    header: 'Produto'
+  },
+  {
+    accessorKey: 'categoryName',
+    header: 'Categoria'
+  },
+  {
+    accessorKey: 'purchasePrice',
+    header: 'Preço de compra'
+  },
+  {
+    accessorKey: 'salePrice',
+    header: 'Preço de venda'
+  },
+  {
+    accessorKey: 'refrigerated',
+    header: 'Refrigerado'
+  }
+]
 
 const columns = [
   { accessorKey: '_id', header: 'ID' },
@@ -107,24 +133,27 @@ const columns = [
     }
   },
   {
-    header: 'Detalhes',
+    header: 'Ações',
     cell: ({ row }) =>
-      h(
-        UModal,
-        {
-          title: 'Detalhes do produto'
-        },
-        {
-          default: () =>
-            h(UButton, {
-              variant: 'outline',
-              color: 'neutral',
-              icon: 'lucide:ellipsis-vertical',
-              size: 'xs'
-            }),
-          body: () => h(UiModalDetails, { product: row.original })
-        }
-      )
+      h('div', { class: 'flex gap-2 items-center' }, [
+        h(
+          UModal,
+          {
+            title: 'Detalhes do produto'
+          },
+          {
+            default: () =>
+              h(UButton, {
+                variant: 'outline',
+                color: 'neutral',
+                icon: 'lucide:ellipsis-vertical',
+                size: 'xs'
+              }),
+            body: () => h(UiModalDetails, { data: row.original, fields })
+          }
+        ),
+        h(UiActions)
+      ])
   }
 ]
 </script>
@@ -164,7 +193,7 @@ const columns = [
               variant="outline"
               class="w-42"
             />
-            <UButton to="/products/new" icon="lucide:plus">
+            <UButton to="/admin/products/new" icon="lucide:plus">
               Novo produto
             </UButton>
           </div>

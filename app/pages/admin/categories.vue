@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+definePageMeta({ layout: 'admin' })
 const toast = useToast()
 const categoryStore = useCategoryStore()
 
@@ -17,6 +18,7 @@ onMounted(async () => {
     categoryStore.isLoading = false
   }
 })
+const UiActions = resolveComponent('UiActions')
 
 const columns = [
   { accessorKey: '_id', header: 'ID' },
@@ -32,19 +34,25 @@ const columns = [
         row.original.name
       ])
   },
-  { accessorKey: 'description', header: 'descricao' },
   {
-    accessorKey: 'productCount',
-    header: 'Produtos',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:box',
-          class: 'text-blue-400 '
-        }),
-        row.original.productCount
-      ])
+    accessorKey: 'description',
+    header: 'descricao',
+    cell: ({ row }) => {
+      return row.original.description || 'Sem descrição'
+    }
   },
+  // {
+  //   accessorKey: 'productCount',
+  //   header: 'Produtos',
+  //   cell: ({ row }) =>
+  //     h('div', { class: 'flex items-center gap-2 capitalize' }, [
+  //       h(UIcon, {
+  //         name: 'lucide:box',
+  //         class: 'text-blue-400 '
+  //       }),
+  //       row.original.productCount
+  //     ])
+  // },
   {
     accessorKey: 'createdAt',
     header: 'Data de criacao',
@@ -57,6 +65,12 @@ const columns = [
 
         new Date(row.original.createdAt).toLocaleDateString()
       ])
+  },
+  {
+    header: 'Ações',
+    cell: () => {
+      return h(UiActions)
+    }
   }
 ]
 
