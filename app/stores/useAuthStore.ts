@@ -125,6 +125,7 @@ export const useAuthStore = defineStore('auth', {
     },
     logout() {
       const toast = useToast()
+      toast.add({ title: 'Terminando sessão..', icon: 'lucide:loader-circle' })
       this.user = null
       this.token = null
       this.refreshToken = null

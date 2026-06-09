@@ -24,6 +24,7 @@ const UiActions = resolveComponent('UiActions')
 
 const toast = useToast()
 const productStore = useProductStore()
+const [isLoading, deleteOne] = useDelete()
 
 onMounted(async () => {
   try {
@@ -38,30 +39,6 @@ onMounted(async () => {
     productStore.isLoading = false
   }
 })
-
-const fields = [
-  { accessorKey: '_id', header: 'ID' },
-  {
-    accessorKey: 'name',
-    header: 'Produto'
-  },
-  {
-    accessorKey: 'categoryName',
-    header: 'Categoria'
-  },
-  {
-    accessorKey: 'purchasePrice',
-    header: 'Preço de compra'
-  },
-  {
-    accessorKey: 'salePrice',
-    header: 'Preço de venda'
-  },
-  {
-    accessorKey: 'refrigerated',
-    header: 'Refrigerado'
-  }
-]
 
 const columns = [
   { accessorKey: '_id', header: 'ID' },
@@ -86,7 +63,7 @@ const columns = [
           name: 'lucide:chart-column-stacked',
           class: 'text-blue-400 '
         }),
-        row.original.category.name
+        row.original.category?.name
       ])
   },
   {
@@ -149,10 +126,15 @@ const columns = [
                 icon: 'lucide:ellipsis-vertical',
                 size: 'xs'
               }),
-            body: () => h(UiModalDetails, { data: row.original, fields })
+            body: () => h(UiModalDetails, { data: row.original })
           }
         ),
-        h(UiActions)
+        h(UiActions, {
+          onConfirm: () => {
+            deleteOne(row.original.id, productStore)
+          },
+          loading: isLoading.value
+        })
       ])
   }
 ]

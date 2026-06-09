@@ -4,6 +4,8 @@ const UButton = resolveComponent('UButton')
 const UIcon = resolveComponent('UIcon')
 const UiActions = resolveComponent('UiActions')
 
+const [isLoading, deleteOne] = useDelete()
+
 const columns = [
   { accessorKey: '_id', header: 'ID' },
   {
@@ -31,8 +33,11 @@ const columns = [
   },
   {
     header: 'Ações',
-    cell: () => {
-      return h(UiActions)
+    cell: ({ row }) => {
+      return h(UiActions, {
+        onConfirm: () => deleteOne(row.original.id, userStore),
+        loading: isLoading.value
+      })
     }
   }
 ]

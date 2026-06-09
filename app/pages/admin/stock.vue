@@ -35,6 +35,8 @@ const UButton = resolveComponent('UButton')
 const UModal = resolveComponent('UModal')
 const UiActions = resolveComponent('UiActions')
 
+const [isLoading, deleteOne] = useDelete()
+
 const columns = [
   {
     accessorKey: '_id',
@@ -52,18 +54,6 @@ const columns = [
         row.original.product?.name
       ])
   },
-  // {
-  //   accessorKey: 'category',
-  //   header: 'categoria',
-  //   cell: ({ row }) =>
-  //     h('div', { class: 'flex items-center gap-2 capitalize' }, [
-  //       h(UIcon, {
-  //         name: 'lucide:chart-column-stacked',
-  //         class: 'text-blue-400 '
-  //       }),
-  //       row.original.product?.category
-  //     ])
-  // },
   {
     accessorKey: 'purchasePrice',
     header: 'Preco de compra',
@@ -127,7 +117,11 @@ const columns = [
   },
   {
     header: 'Ações',
-    cell: () => h(UiActions)
+    cell: ({ row }) =>
+      h(UiActions, {
+        onConfirm: () => deleteOne(row.original.id, stockStore),
+        loading: isLoading.value
+      })
   }
 ]
 

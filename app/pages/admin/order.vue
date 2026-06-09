@@ -4,6 +4,9 @@ const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 const UiActions = resolveComponent('UiActions')
 
+const [isLoading, deleteOne] = useDelete()
+const orderStore = useOrderStore()
+
 const columns = [
   { accessorKey: '_id', header: 'ID' },
   {
@@ -80,11 +83,14 @@ const columns = [
   },
   {
     header: 'Ações',
-    cell: () => h(UiActions)
+    cell: ({ row }) =>
+      h(UiActions, {
+        onConfirm: () => deleteOne(row.original.id, orderStore),
+        loading: isLoading.value
+      })
   }
 ]
 
-const orderStore = useOrderStore()
 const supplierStore = useSupplierStore()
 const productStore = useProductStore()
 const toast = useToast()

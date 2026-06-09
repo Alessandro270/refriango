@@ -1,18 +1,24 @@
 <script setup lang="ts">
 const emit = defineEmits<{
-  delete: []
+  confirm: []
+  close: []
 }>()
 const uiModalStyle = {
   content: 'w-100! h-10!',
   title: 'uppercase'
 }
+
+defineProps<{ loading: boolean }>()
+
+const modalOpen = ref<boolean>(false)
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <UiLoader class="border-blue-400! border-t-transparent!" v-if="loading" />
+  <div class="flex gap-2" v-else>
     <UButton icon="lucide:pencil" variant="outline" color="neutral" size="xs">
     </UButton>
-    <UModal title="Tens a certeza?" :ui="uiModalStyle">
+    <UModal v-model:open="modalOpen" title="Tens a certeza?" :ui="uiModalStyle">
       <UButton icon="lucide:trash" variant="outline" color="neutral" size="xs">
       </UButton>
       <template #body>
@@ -25,10 +31,25 @@ const uiModalStyle = {
               icon="lucide:x"
               class="uppercase w-full text-zinc-50"
               color="error"
+              @click="
+                () => {
+                  emit('close')
+                  modalOpen = false
+                }
+              "
             >
               Cancelar
             </UButton>
-            <UButton icon="lucide:check" class="w-full uppercase">
+            <UButton
+              icon="lucide:check"
+              class="w-full uppercase"
+              @click="
+                () => {
+                  emit('confirm')
+                  modalOpen = false
+                }
+              "
+            >
               Aceitar
             </UButton>
           </div>

@@ -20,6 +20,8 @@ onMounted(async () => {
 })
 const UiActions = resolveComponent('UiActions')
 
+const [isLoading, deleteOne] = useDelete()
+
 const columns = [
   { accessorKey: '_id', header: 'ID' },
   {
@@ -41,18 +43,6 @@ const columns = [
       return row.original.description || 'Sem descrição'
     }
   },
-  // {
-  //   accessorKey: 'productCount',
-  //   header: 'Produtos',
-  //   cell: ({ row }) =>
-  //     h('div', { class: 'flex items-center gap-2 capitalize' }, [
-  //       h(UIcon, {
-  //         name: 'lucide:box',
-  //         class: 'text-blue-400 '
-  //       }),
-  //       row.original.productCount
-  //     ])
-  // },
   {
     accessorKey: 'createdAt',
     header: 'Data de criacao',
@@ -68,8 +58,13 @@ const columns = [
   },
   {
     header: 'Ações',
-    cell: () => {
-      return h(UiActions)
+    cell: ({ row }) => {
+      return h(UiActions, {
+        onConfirm: () => {
+          deleteOne(row.original.id, useCategoryStore())
+        },
+        loading: isLoading.value
+      })
     }
   }
 ]

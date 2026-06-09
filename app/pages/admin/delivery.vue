@@ -12,6 +12,8 @@ const uiModalStyle = {
   body: 'flex-1 flex flex-col p-4 sm:p-6 '
 }
 
+const [isLoading, deleteOne] = useDelete()
+
 const columns = [
   {
     accessorKey: '_id',
@@ -114,7 +116,10 @@ const columns = [
             body: () => h(UiModalDetails, { data: row.original })
           }
         ),
-        h(UiActions)
+        h(UiActions, {
+          onConfirm: () => deleteOne(row.original.id, deliveryStore),
+          loading: isLoading.value
+        })
       ])
   }
 ]

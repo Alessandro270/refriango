@@ -93,7 +93,7 @@ const columns = [
   },
   {
     header: 'Detalhes',
-    cell: () => {
+    cell: ({ row }) => {
       return h(
         UModal,
         {
