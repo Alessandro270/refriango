@@ -64,7 +64,7 @@ onMounted(async () => {
       supplierStore.hasLoaded = true
     }
   } catch (e) {
-    toast.add({ title: 'Nao foi possivel carregar os recursos' })
+    toast.add({ title: 'Não foi possível carregar os recursos' })
     console.log(e)
   } finally {
     supplierStore.isLoading = false
@@ -78,12 +78,12 @@ async function handleSubmit() {
     isLoading.value = true
 
     const data = schema.parse(state)
+    console.log(data)
 
     await productStore.create(data)
     await navigateTo('/admin/products')
   } catch (e) {
-    const message = e.message.split(' ').slice(2).join(' ')
-    toast.add({ title: 'Ocorreu um erro', description: message })
+    toast.add({ title: 'Ocorreu um erro' })
   } finally {
     isLoading.value = false
   }

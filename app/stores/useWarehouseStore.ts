@@ -4,18 +4,10 @@ export const useWarehouseStore = defineStore('warehouse', {
   },
   actions: {
     async getAll() {
-      const config = useRuntimeConfig()
-      const authStore = useAuthStore()
+      const api = useApi()
 
       try {
-        await authStore.checkToken()
-
-        const warehouses = await $fetch('/warehouse', {
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          baseURL: config.public.apiUrl
-        })
+        const warehouses = await api('/warehouse')
 
         warehouses?.forEach(warehouse => {
           this.warehouses.push(warehouse)
@@ -25,19 +17,13 @@ export const useWarehouseStore = defineStore('warehouse', {
       }
     },
     async create(body) {
-      const config = useRuntimeConfig()
+      const api = useApi()
       const toast = useToast()
-      const authStore = useAuthStore()
-      try {
-        await authStore.checkToken()
 
-        const warehouse = await $fetch('/warehouse', {
+      try {
+        const warehouse = await api('/warehouse', {
           method: 'POST',
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          body,
-          baseURL: config.public.apiUrl
+          body
         })
 
         this.warehouses.push(warehouse)
@@ -52,13 +38,11 @@ export const useWarehouseStore = defineStore('warehouse', {
     },
     async delete(id: string) {
       const api = useApi()
-      const authStore = useAuthStore()
       const toast = useToast()
 
       try {
         await api(`/warehouse/${id}`, {
-          method: 'DELETE',
-          headers: { authorization: `Bearer ${authStore.token}` }
+          method: 'DELETE'
         })
 
         this.warehouses = this.warehouses.filter(

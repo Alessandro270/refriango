@@ -11,8 +11,6 @@ export const useSupplierStore = defineStore('supplier', {
       const authStore = useAuthStore()
 
       try {
-        await authStore.checkToken()
-
         const suppliers = await api('/supplier', {
           headers: {
             authorization: `Bearer ${authStore.token}`
@@ -31,13 +29,8 @@ export const useSupplierStore = defineStore('supplier', {
       const authStore = useAuthStore()
 
       try {
-        await authStore.checkToken()
-
         const supplier = await api('/supplier', {
           method: 'POST',
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
           body
         })
 
@@ -53,13 +46,11 @@ export const useSupplierStore = defineStore('supplier', {
     },
     async delete(id: string) {
       const api = useApi()
-      const authStore = useAuthStore()
       const toast = useToast()
 
       try {
         await api(`/supplier/${id}`, {
-          method: 'DELETE',
-          headers: { authorization: `Bearer ${authStore.token}` }
+          method: 'DELETE'
         })
 
         this.suppliers = this.suppliers.filter(supplier => supplier.id !== id)

@@ -49,7 +49,7 @@ async function handleSubmit() {
     console.log(e)
 
     toast.add({
-      title: 'Nao foi possivel efetuar pedido',
+      title: 'Não foi possível efetuar pedido',
       icon: 'lucide:file-x'
     })
   } finally {

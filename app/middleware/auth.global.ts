@@ -12,4 +12,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (to.path.startsWith('/admin')) return
     return navigateTo('/admin')
   }
+
+  if (authStore.isAuth && authStore.user.role !== 'admin') {
+    const fromAdmin = from.path.startsWith('/admin')
+    const toAdmin = to.path.startsWith('/admin')
+
+    if (fromAdmin && toAdmin) return navigateTo('/')
+    if (toAdmin) return navigateTo(from.path)
+  }
 })

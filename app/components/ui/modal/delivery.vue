@@ -28,16 +28,12 @@ const schema = z.object({
   description: z.string().optional()
 })
 
-const state = reactive({
-  customerPhone: null,
-  customerName: null,
-  customerEmail: undefined,
-  address: null,
-  expectedDate: null,
-  productId: null,
-  quantity: null,
-  description: undefined
-})
+const { action, data: delivery } = defineProps<{
+  action?: 'create' | 'update'
+  data?: object
+}>()
+
+const state = reactive({ ...delivery })
 
 const deliveryStore = useDeliveryStore()
 const toast = useToast()
@@ -59,13 +55,13 @@ async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-
-    await deliveryStore.create(data)
+    if (action === 'update') await deliveryStore.update(delivery.id, data)
+    else await deliveryStore.create(data)
   } catch (e) {
     console.log(e)
 
     toast.add({
-      title: 'Nao foi possivel cadastrar entrega',
+      title: 'Não foi possível cadastrar entrega',
       icon: 'lucide:file-x'
     })
   } finally {

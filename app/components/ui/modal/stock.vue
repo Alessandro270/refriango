@@ -48,7 +48,7 @@ async function handleSubmit() {
     await stockStore.create(data)
   } catch (e) {
     toast.add({
-      title: 'Nao foi possivel adicionar estoque',
+      title: 'Não foi possível adicionar estoque',
       icon: 'lucide:file-x'
     })
   } finally {

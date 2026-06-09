@@ -34,7 +34,7 @@ async function handleSubmit() {
     await warehouseStore.create(data)
   } catch (e) {
     toast.add({
-      title: 'Nao foi possivel adicionar armazem',
+      title: 'Não foi possível adicionar armazem',
       icon: 'lucide:file-x'
     })
   } finally {

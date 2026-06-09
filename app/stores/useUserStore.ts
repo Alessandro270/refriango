@@ -7,17 +7,10 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     async getAll() {
-      const authStore = useAuthStore()
       const api = useApi()
 
       try {
-        await authStore.checkToken()
-
-        const users = await api('/user', {
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          }
-        })
+        const users = await api('/user')
         users?.forEach(user => {
           this.users.push(user)
         })
@@ -30,8 +23,6 @@ export const useUserStore = defineStore('user', {
       const authStore = useAuthStore()
       const api = useApi()
       try {
-        await authStore.checkToken()
-
         const user = await api('/auth/signup', {
           method: 'POST',
           headers: {
@@ -53,13 +44,11 @@ export const useUserStore = defineStore('user', {
     },
     async delete(id: string) {
       const api = useApi()
-      const authStore = useAuthStore()
       const toast = useToast()
 
       try {
         await api(`/user/${id}`, {
-          method: 'DELETE',
-          headers: { authorization: `Bearer ${authStore.token}` }
+          method: 'DELETE'
         })
 
         this.users = this.users.filter(user => user.id !== id)

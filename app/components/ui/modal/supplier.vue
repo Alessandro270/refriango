@@ -30,7 +30,7 @@ async function handleSubmit() {
     await supplierStore.create(data)
   } catch (e) {
     toast.add({
-      title: 'Nao foi possivel adicionar fornecedor',
+      title: 'Não foi possível adicionar fornecedor',
       icon: 'lucide:file-x'
     })
   } finally {

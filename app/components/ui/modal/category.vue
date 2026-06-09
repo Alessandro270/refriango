@@ -9,10 +9,15 @@ const schema = z.object({
   description: z.string().optional()
 })
 
+const { action, data: category } = defineProps<{
+  action?: 'create' | 'update'
+  data?: Category
+}>()
+
 const isLoading = ref(false)
-const toast = useToast()
 const categoryStore = useCategoryStore()
-const state = reactive({ name: '', description: '' })
+const state = reactive<Category>({ ...category } || {})
+
 const emit = defineEmits<{
   close: []
 }>()
@@ -21,13 +26,8 @@ async function handleSubmit() {
   isLoading.value = true
   try {
     const data = schema.parse(state)
-    await categoryStore.create(data)
-  } catch (e) {
-    toast.add({
-      title: 'Categoria nao adicionada',
-      icon: 'lucide:file-x'
-    })
-    console.log(e)
+    if (action === 'update') await categoryStore.update(category.id, data)
+    else await categoryStore.create(data)
   } finally {
     isLoading.value = false
     emit('close')

@@ -8,19 +8,33 @@ const uiModalStyle = {
   title: 'uppercase'
 }
 
-defineProps<{ loading: boolean }>()
+defineProps<{ loading: boolean; editComponent: Component }>()
 
 const modalOpen = ref<boolean>(false)
+const editOpen = ref<boolean>(false)
 </script>
 
 <template>
   <UiLoader class="border-blue-400! border-t-transparent!" v-if="loading" />
   <div class="flex gap-2" v-else>
-    <UButton icon="lucide:pencil" variant="outline" color="neutral" size="xs">
-    </UButton>
+    <UModal title="Editar" v-model:open="editOpen">
+      <UButton
+        icon="lucide:pencil"
+        variant="outline"
+        color="neutral"
+        size="xs"
+      />
+      <template #body>
+        <component :is="editComponent" @close="editOpen = false" />
+      </template>
+    </UModal>
     <UModal v-model:open="modalOpen" title="Tens a certeza?" :ui="uiModalStyle">
-      <UButton icon="lucide:trash" variant="outline" color="neutral" size="xs">
-      </UButton>
+      <UButton
+        icon="lucide:trash"
+        variant="outline"
+        color="neutral"
+        size="xs"
+      />
       <template #body>
         <div class="space-y-4">
           <UiH3 icon="lucide:info" class="text-zinc-50 capitalize">

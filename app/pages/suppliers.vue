@@ -67,7 +67,10 @@ onMounted(async () => {
       supplierStore.hasLoaded = true
     }
   } catch (e) {
-    toast.add({ title: 'Nao foi possivel adicionar fornecedor' })
+    toast.add({
+      title: 'Não foi possível adicionar fornecedor',
+      icon: 'lucide:file-x'
+    })
   } finally {
     supplierStore.isLoading = false
   }

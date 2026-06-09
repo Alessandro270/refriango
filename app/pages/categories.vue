@@ -12,7 +12,10 @@ onMounted(async () => {
       categoryStore.hasLoaded = true
     }
   } catch (e) {
-    toast.add({ title: 'Nao foi possivel carregar as categorias' })
+    toast.add({
+      title: 'Não foi possível carregar as categorias',
+      icon: 'lucide:file-x'
+    })
   } finally {
     categoryStore.isLoading = false
   }

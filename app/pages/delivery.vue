@@ -153,10 +153,9 @@ onMounted(async () => {
       productStore.hasLoaded = true
     }
   } catch (e) {
-    const message = e?.split(' ').slice(2).join(' ')
     toast.add({
-      title: 'Nao foi possivel carregar os pedidos',
-      description: message
+      title: 'Não foi possível carregar os entregas',
+      icon: 'lucide:file-x'
     })
   } finally {
     deliveryStore.isLoading = false

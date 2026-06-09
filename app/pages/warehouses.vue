@@ -33,7 +33,10 @@ onMounted(async () => {
       warehouseStore.hasLoaded = true
     }
   } catch (e) {
-    toast.add({ title: 'Nao foi possivel carregar os armazens' })
+    toast.add({
+      title: 'Não foi possível carregar os armazéns',
+      icon: 'lucide:file-x'
+    })
   } finally {
     warehouseStore.isLoading = false
   }
@@ -114,7 +117,7 @@ const open = ref<boolean>(false)
 
 <template>
   <div class="space-y-6 flex flex-col h-full">
-    <UiH1 icon="lucide:warehouse">Armazens</UiH1>
+    <UiH1 icon="lucide:warehouse">Armazéns</UiH1>
 
     <UiTable
       :data="filteredWarehouses"
@@ -127,7 +130,7 @@ const open = ref<boolean>(false)
             <UInput
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Pesquisar armazens..."
+              placeholder="Pesquisar armazéns..."
               variant="outline"
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>

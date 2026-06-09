@@ -37,7 +37,7 @@ const items = reactive([
     to: '/admin/stock'
   },
   {
-    label: 'Armazens',
+    label: 'Armazéns',
     icon: 'lucide:warehouse',
     to: '/admin/warehouses'
   },
@@ -109,7 +109,7 @@ const fullName = computed(
                 {{ fullName }}
               </span>
               <span class="inline-block text-xs font-semibold text-zinc-400">
-                {{ authStore.user.role }}
+                {{ authStore.user?.role }}
               </span>
             </div>
           </div>

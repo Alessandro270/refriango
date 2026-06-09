@@ -4,18 +4,10 @@ export const useStockStore = defineStore('stock', {
   },
   actions: {
     async getAll() {
-      const config = useRuntimeConfig()
-      const authStore = useAuthStore()
+      const api = useApi()
 
       try {
-        await authStore.checkToken()
-
-        const stocks = await $fetch('/stock', {
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          baseURL: config.public.apiUrl
-        })
+        const stocks = await api('/stock')
 
         stocks?.forEach(stock => {
           this.stocks.push(stock)
@@ -25,19 +17,13 @@ export const useStockStore = defineStore('stock', {
       }
     },
     async create(body) {
-      const config = useRuntimeConfig()
       const toast = useToast()
-      const authStore = useAuthStore()
-      try {
-        await authStore.checkToken()
+      const api = useApi()
 
-        const stock = await $fetch('/stock', {
+      try {
+        const stock = await api('/stock', {
           method: 'POST',
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          body,
-          baseURL: config.public.apiUrl
+          body
         })
 
         this.stocks.push(stock)
@@ -52,13 +38,11 @@ export const useStockStore = defineStore('stock', {
     },
     async delete(id: string) {
       const api = useApi()
-      const authStore = useAuthStore()
       const toast = useToast()
 
       try {
         await api(`/stock/${id}`, {
-          method: 'DELETE',
-          headers: { authorization: `Bearer ${authStore.token}` }
+          method: 'DELETE'
         })
 
         this.stocks = this.stocks.filter(stock => stock.id !== id)

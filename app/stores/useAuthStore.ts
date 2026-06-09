@@ -24,14 +24,14 @@ export const useAuthStore = defineStore('auth', {
       this.user = userJson ? JSON.parse(userJson) : null
     },
     async refresh() {
+      const api = useApi()
       try {
-        const api = useApi()
         const { token } = await api('/auth/refresh', {
           method: 'POST',
           body: { refreshToken: this.refreshToken }
         })
 
-        if (!token) throw new Error('Nao autenticado')
+        if (!token) throw new Error('Não autenticado')
 
         this.token = token
         useCookie(AUTH_TOKEN_KEY).value = token
@@ -40,14 +40,12 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     async validateToken(token: string | null) {
-      let result = false
       try {
         if (!token) return false
         const api = useApi()
 
-        result = await api('/auth/validate-token', {
+        const result = await api('/auth/validate-token', {
           method: 'POST',
-
           body: { token }
         })
 
@@ -67,9 +65,9 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     async getAuthUser() {
-      try {
-        const api = useApi()
+      const api = useApi()
 
+      try {
         const user = await api('user/me', {
           headers: {
             authorization: `Bearer ${this.token}`
@@ -81,8 +79,9 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     async login(payload) {
+      const api = useApi()
+
       try {
-        const api = useApi()
         const { token, user, refreshToken } = await api('/auth/login', {
           method: 'POST',
           body: payload
@@ -106,9 +105,9 @@ export const useAuthStore = defineStore('auth', {
     },
     async signup(payload) {
       const toast = useToast()
+      const api = useApi()
+
       try {
-        const api = useApi()
-        await this.checkToken()
         await api('/auth/signup', {
           method: 'POST',
           body: payload,

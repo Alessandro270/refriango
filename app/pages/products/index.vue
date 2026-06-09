@@ -31,7 +31,7 @@ onMounted(async () => {
       productStore.hasLoaded = true
     }
   } catch (e) {
-    toast.add({ title: 'Nao foi possivel carregar os produtos' })
+    toast.add({ title: 'Não foi possível carregar os produtos' })
   } finally {
     productStore.isLoading = false
   }
@@ -122,7 +122,7 @@ const columns = [
               icon: 'lucide:ellipsis-vertical',
               size: 'xs'
             }),
-          body: () => h(UiModalDetails, { product: row.original })
+          body: () => h(UiModalDetails, { data: row.original })
         }
       )
   }

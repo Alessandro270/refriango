@@ -13,12 +13,18 @@ onMounted(async () => {
       categoryStore.hasLoaded = true
     }
   } catch (e) {
-    toast.add({ title: 'Nao foi possivel carregar as categorias' })
+    toast.add({
+      title: 'Não foi possível carregar as categorias',
+      icon: 'lucide:file-x'
+    })
   } finally {
     categoryStore.isLoading = false
   }
 })
+const open = ref<boolean>(false)
+
 const UiActions = resolveComponent('UiActions')
+const UiModalCategory = resolveComponent('UiModalCategory')
 
 const [isLoading, deleteOne] = useDelete()
 
@@ -63,7 +69,11 @@ const columns = [
         onConfirm: () => {
           deleteOne(row.original.id, useCategoryStore())
         },
-        loading: isLoading.value
+        loading: isLoading.value,
+        editComponent: h(UiModalCategory, {
+          data: row.original,
+          action: 'update'
+        })
       })
     }
   }
@@ -71,7 +81,6 @@ const columns = [
 
 const search = ref('')
 
-const open = ref<boolean>(false)
 const categoryCount = computed(() => categoryStore.categories.length)
 </script>
 

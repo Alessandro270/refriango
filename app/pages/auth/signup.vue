@@ -47,12 +47,8 @@ async function handleSubmit() {
 
     await authStore.signup(body)
   } catch (e) {
-    const tokens = e.message.split(' ')
-    const message = tokens.slice(2).join(' ')
-
     toast.add({
-      title: 'Nao foi possivel efetuar o login',
-      description: message,
+      title: 'Não foi possível efetuar o login',
       icon: 'lucide:user-x'
     })
   } finally {

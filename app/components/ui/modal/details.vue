@@ -8,10 +8,15 @@ console.log(fields)
 
 <template>
   <div class="w-full space-y-2 grid grid-cols-3">
-    <UFormField v-for="(value, key) in data" :label="key" :key="key">
-      <div class="text-zinc-400 h-18">
-        {{ value }}
-      </div>
-    </UFormField>
+    <template v-for="(value, key) in data" :key="key">
+      <UFormField
+        v-if="!(value instanceof Object) && key !== 'id'"
+        :label="key"
+      >
+        <div class="text-zinc-400 h-18">
+          {{ value }}
+        </div>
+      </UFormField>
+    </template>
   </div>
 </template>

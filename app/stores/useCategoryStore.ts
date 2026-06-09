@@ -7,17 +7,10 @@ export const useCategoryStore = defineStore('category', {
   },
   actions: {
     async getAll() {
-      const config = useRuntimeConfig()
-      const authStore = useAuthStore()
-      try {
-        await authStore.checkToken()
+      const api = useApi()
 
-        const categories = await $fetch('/category', {
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          baseURL: config.public.apiUrl
-        })
+      try {
+        const categories = await api('/category')
 
         categories?.forEach(category => {
           this.categories.push(category)
@@ -28,59 +21,46 @@ export const useCategoryStore = defineStore('category', {
     },
 
     async getCategory(id: string) {
-      const config = useRuntimeConfig()
-      const authStore = useAuthStore()
-      try {
-        await authStore.checkToken()
+      const api = useApi()
 
-        const category = await $fetch(`/category/${id}`, {
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          baseURL: config.public.apiUrl
-        })
+      try {
+        const category = await api(`/category/${id}`)
         return category
       } catch (e) {
         throw new Error(e.message)
       }
     },
     async create(body) {
-      const config = useRuntimeConfig()
-      const authStore = useAuthStore()
+      const api = useApi()
       const toast = useToast()
 
       try {
-        await authStore.checkToken()
-
-        const category = await $fetch('/category', {
+        const category = await api('/category', {
           method: 'POST',
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          body,
-          baseURL: config.public.apiUrl
+          body
         })
 
         this.categories.push(category)
 
         toast.add({
           title: 'Recurso criado com sucesso!',
-          icon: 'lucide:file-check'
+          icon: 'lucide:file-check',
+          color: 'success'
         })
       } catch (e) {
-        throw new Error(e.message)
+        toast.add({
+          title: 'Recurso não adicionada',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
       }
     },
     async delete(id: string) {
       const api = useApi()
-      const authStore = useAuthStore()
       const toast = useToast()
 
       try {
-        await api(`/category/${id}`, {
-          method: 'DELETE',
-          headers: { authorization: `Bearer ${authStore.token}` }
-        })
+        await api(`/category/${id}`, { method: 'DELETE' })
 
         this.categories = this.categories.filter(category => category.id !== id)
         toast.add({
@@ -94,7 +74,28 @@ export const useCategoryStore = defineStore('category', {
           icon: 'lucide:file-x',
           color: 'error'
         })
-        console.log(e)
+      }
+    },
+    async update(id: string, body: Category) {
+      const api = useApi()
+      const toast = useToast()
+
+      try {
+        const res = await api(`/category/${id}`, { method: 'PATCH', body })
+
+        const idx = this.categories.findIndex(category => id === category.id)
+        this.categories[idx] = res
+        toast.add({
+          title: 'Recurso atualizado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch (e) {
+        toast.add({
+          title: 'Não foi possível atualizar o recurso!',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
       }
     }
   }

@@ -115,8 +115,7 @@ onMounted(async () => {
   } catch (e) {
     const message = e?.split(' ').slice(2).join(' ')
     toast.add({
-      title: 'Nao foi possivel carregar os pedidos',
-      description: message
+      title: 'Não foi possível carregar os pedidos'
     })
   } finally {
     orderStore.isLoading = false

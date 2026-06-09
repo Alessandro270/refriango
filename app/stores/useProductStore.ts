@@ -4,18 +4,10 @@ export const useProductStore = defineStore('product', {
   },
   actions: {
     async getAll() {
-      const config = useRuntimeConfig()
-      const authStore = useAuthStore()
+      const api = useApi()
 
       try {
-        await authStore.checkToken()
-
-        const products = await $fetch('/product', {
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          baseURL: config.public.apiUrl
-        })
+        const products = await api('/product')
 
         products?.forEach(product => {
           this.products.push(product)
@@ -29,9 +21,7 @@ export const useProductStore = defineStore('product', {
       const toast = useToast()
       const authStore = useAuthStore()
       try {
-        await authStore.checkToken()
-
-        const product = await $fetch('/product', {
+        const product = await api('/product', {
           method: 'POST',
           headers: {
             authorization: `Bearer ${authStore.token}`
@@ -52,14 +42,10 @@ export const useProductStore = defineStore('product', {
     },
     async delete(id: string) {
       const api = useApi()
-      const authStore = useAuthStore()
       const toast = useToast()
 
       try {
-        await api(`/product/${id}`, {
-          method: 'DELETE',
-          headers: { authorization: `Bearer ${authStore.token}` }
-        })
+        await api(`/product/${id}`, { method: 'DELETE' })
 
         this.products = this.products.filter(product => product.id !== id)
         toast.add({

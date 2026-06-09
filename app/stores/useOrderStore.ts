@@ -4,11 +4,10 @@ export const useOrderStore = defineStore('order', {
   },
   actions: {
     async getAll() {
-      const authStore = useAuthStore()
       const api = useApi()
-      try {
-        await authStore.checkToken()
+      const authStore = useAuthStore()
 
+      try {
         const orders = await api('/order', {
           headers: {
             authorization: `Bearer ${authStore.token}`
@@ -27,7 +26,6 @@ export const useOrderStore = defineStore('order', {
       const authStore = useAuthStore()
       try {
         const api = useApi()
-        await authStore.checkToken()
 
         const order = await api('/order', {
           method: 'POST',
@@ -49,14 +47,10 @@ export const useOrderStore = defineStore('order', {
     },
     async delete(id: string) {
       const api = useApi()
-      const authStore = useAuthStore()
       const toast = useToast()
 
       try {
-        await api(`/order/${id}`, {
-          method: 'DELETE',
-          headers: { authorization: `Bearer ${authStore.token}` }
-        })
+        await api(`/order/${id}`, { method: 'DELETE' })
 
         this.orders = this.orders.filter(order => order.id !== id)
         toast.add({

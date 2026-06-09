@@ -22,7 +22,10 @@ onMounted(async () => {
       warehouseStore.hasLoaded = true
     }
   } catch (e) {
-    toast.add({ title: 'Nao foi possivel carregar o estoque' })
+    toast.add({
+      title: 'Não foi possível carregar o estoque',
+      icon: 'lucide:file-x'
+    })
   } finally {
     stockStore.isLoading = false
     productStore.isLoading = false
