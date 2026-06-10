@@ -11,23 +11,25 @@ const schema = z.object({
   address: z.string().nullable().optional()
 })
 
-const state = reactive({
-  name: null,
-  email: null,
-  phone: null,
-  address: null
-})
 const emit = defineEmits<{ close: [] }>()
 
 const isLoading = ref(false)
 const toast = useToast()
 const supplierStore = useSupplierStore()
 
+const { action, data: supplier } = defineProps<{
+  action?: 'create' | 'update'
+  data?: object
+}>()
+
+const state = reactive({ ...supplier })
+
 async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-    await supplierStore.create(data)
+    if (action === 'update') await supplierStore.update(supplier.id, data)
+    else await supplierStore.create(data)
   } catch (e) {
     toast.add({
       title: 'Não foi possível adicionar fornecedor',

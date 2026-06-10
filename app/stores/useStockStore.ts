@@ -59,6 +59,28 @@ export const useStockStore = defineStore('stock', {
         })
         console.log(e)
       }
+    },
+    async update(id: string, body: any) {
+      const api = useApi()
+      const toast = useToast()
+
+      try {
+        const res = await api(`/stock/${id}`, { method: 'PATCH', body })
+
+        const idx = this.stocks.findIndex(stock => id === stock.id)
+        this.stocks[idx] = res
+        toast.add({
+          title: 'Recurso atualizado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch (e) {
+        toast.add({
+          title: 'Não foi possível atualizar o recurso!',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
     }
   }
 })

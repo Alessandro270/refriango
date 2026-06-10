@@ -11,9 +11,6 @@ const schema = z.object({
   maximumStock: z
     .number('Deve conter um numero')
     .positive('Deve ser um numero positivo'),
-  reorderQuantity: z
-    .number('Deve conter um numero')
-    .positive('Deve ser um numero positivo'),
   productId: z
     .string('Deve ser uma string')
     .min(3, 'Deve ter pelo menos 3 digitos')
@@ -24,14 +21,12 @@ const schema = z.object({
     .nonempty('Deve ter um armazem')
 })
 
-const state = reactive({
-  quantity: null,
-  minimumStock: null,
-  maximumStock: null,
-  reorderQuantity: null,
-  warehouseId: undefined,
-  productId: undefined
-})
+const { action, data: stock } = defineProps<{
+  action?: 'create' | 'update'
+  data?: object
+}>()
+
+const state = reactive({ ...stock })
 
 const productStore = useProductStore()
 const warehouseStore = useWarehouseStore()
@@ -45,7 +40,8 @@ async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-    await stockStore.create(data)
+    if (action === 'update') await stockStore.update(stock.id, data)
+    else await stockStore.create(data)
   } catch (e) {
     toast.add({
       title: 'Não foi possível adicionar estoque',
@@ -90,28 +86,15 @@ async function handleSubmit() {
         :items="warehouseStore.warehouses"
       />
     </UFormField>
-    <div class="flex gap-3 mb-2">
-      <UFormField class="w-full" label="Quantidade" name="quantity">
-        <UInputNumber
-          v-model="state.quantity"
-          class="w-full"
-          orientation="vertical"
-          placeholder="0"
-        />
-      </UFormField>
-      <UFormField
+    <UFormField class="w-full" label="Quantidade" name="quantity">
+      <UInputNumber
+        v-model="state.quantity"
         class="w-full"
-        label="Quantidade de restoque"
-        name="reorderQuantity"
-      >
-        <UInputNumber
-          v-model="state.reorderQuantity"
-          class="w-full"
-          orientation="vertical"
-          placeholder="0"
-        />
-      </UFormField>
-    </div>
+        orientation="vertical"
+        placeholder="0"
+      />
+    </UFormField>
+
     <div class="flex gap-3 mb-2">
       <UFormField class="w-full" label="Estoque maximo" name="maximumStock">
         <UInputNumber

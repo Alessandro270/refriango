@@ -21,26 +21,24 @@ const schema = z.object({
     .nonempty('Obrigatório')
 })
 
-const state = reactive({
-  firstname: undefined,
-  lastname: undefined,
-  email: undefined,
-  password: undefined,
-  confirmPassword: undefined
-})
-
 const emit = defineEmits<{ close: [] }>()
-
 const isLoading = ref(false)
 const toast = useToast()
 const userStore = useUserStore()
+
+const { action, data: user } = defineProps<{
+  action?: 'create' | 'update'
+  data?: object
+}>()
+
+const state = reactive({ ...user })
 
 async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-    console.log(data)
-    await userStore.create(data)
+    if (action === 'update') await userStore.update(user?.id, data)
+    else await userStore.create(data)
   } catch (e) {
     toast.add({
       title: 'Não foi possível adicionar usuário',

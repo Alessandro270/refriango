@@ -4,9 +4,10 @@ import * as z from 'zod'
 const productStore = useProductStore()
 const supplierStore = useSupplierStore()
 
-withDefaults(defineProps<{ type?: 'order' | 'sale' }>(), {
-  type: 'order'
-})
+const { action, data: order } = defineProps<{
+  action?: 'create' | 'update'
+  data?: object
+}>()
 
 const schema = z.object({
   supplierId: z.string('Obrigatório').nonempty('Obrigatório'),
@@ -19,10 +20,7 @@ const schema = z.object({
 })
 
 const state = reactive({
-  supplierId: null,
-  productId: null,
-  expectedDate: null,
-  quantity: null
+...order
 })
 
 const orderPrice = computed(
@@ -44,7 +42,8 @@ async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-    await orderStore.create(data)
+    if (action === 'update') await orderStore.update(order.id, data)
+    else await orderStore.create(data)
   } catch (e) {
     console.log(e)
 

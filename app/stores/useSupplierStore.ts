@@ -67,6 +67,28 @@ export const useSupplierStore = defineStore('supplier', {
         })
         console.log(e)
       }
+    },
+    async update(id: string, body: any) {
+      const api = useApi()
+      const toast = useToast()
+
+      try {
+        const res = await api(`/supplier/${id}`, { method: 'PATCH', body })
+
+        const idx = this.suppliers.findIndex(supplier => id === supplier.id)
+        this.suppliers[idx] = res
+        toast.add({
+          title: 'Recurso atualizado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch (e) {
+        toast.add({
+          title: 'Não foi possível atualizar o recurso!',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
     }
   }
 })

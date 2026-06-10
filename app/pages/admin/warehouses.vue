@@ -42,6 +42,7 @@ onMounted(async () => {
 })
 
 const [isLoading, deleteOne] = useDelete()
+const UiModalWarehouse = resolveComponent('UiModalWarehouse')
 
 const columns = [
   {
@@ -55,7 +56,7 @@ const columns = [
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:warehouse',
-          class: 'text-amber-500 '
+          class: 'text-blue-500 '
         }),
 
         row.getValue('name')
@@ -63,15 +64,40 @@ const columns = [
   },
   {
     accessorKey: 'location',
-    header: 'Localização',
+    header: 'Endereço',
     cell: ({ row }: any) =>
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:map-pin',
-          class: 'text-amber-500 '
+          class: 'text-blue-500 '
         }),
 
         row.original.address
+      ])
+  },  {
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({ row }: any) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:mail',
+          class: 'text-blue-500 '
+        }),
+
+        row.original.email
+      ])
+  },
+  {
+    accessorKey: 'phone',
+    header: 'Telefone',
+    cell: ({ row }: any) =>
+      h('div', { class: 'flex items-center gap-2 capitalize' }, [
+        h(UIcon, {
+          name: 'lucide:phone-call',
+          class: 'text-blue-500 '
+        }),
+
+        row.original.phone
       ])
   },
   {
@@ -94,17 +120,19 @@ const columns = [
     }
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Criado em',
-    cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString()
-  },
-  {
     header: 'Ações',
-    cell: ({ row }) =>
-      h(UiActions, {
+    cell: ({ row }) => {
+      console.log(row.original)
+
+      return h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, warehouseStore),
-        loading: isLoading.value
+        loading: isLoading.value,
+        editComponent: h(UiModalWarehouse, {
+          data: row.original,
+          action: 'update'
+        })
       })
+    }
   }
 ]
 

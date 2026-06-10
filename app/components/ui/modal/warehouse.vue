@@ -12,13 +12,15 @@ const schema = z.object({
   refrigerated: z.boolean().default(false)
 })
 
+
+
+const { action, data: warehouse } = defineProps<{
+  action?: 'create' | 'update'
+  data?: object
+}>()
+
 const state = reactive({
-  name: null,
-  email: null,
-  phone: null,
-  address: null,
-  capacity: null,
-  refrigerated: false
+  ...warehouse
 })
 
 const warehouseStore = useWarehouseStore()
@@ -31,7 +33,8 @@ async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
-    await warehouseStore.create(data)
+    if (action === 'update') await warehouseStore.update(warehouse.id, data)
+    else await warehouseStore.create(data)
   } catch (e) {
     toast.add({
       title: 'Não foi possível adicionar armazem',

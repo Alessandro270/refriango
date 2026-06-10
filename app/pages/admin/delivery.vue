@@ -118,7 +118,8 @@ const columns = [
         ),
         h(UiActions, {
           onConfirm: () => deleteOne(row.original.id, deliveryStore),
-          loading: isLoading.value
+          loading: isLoading.value,
+          editComponent: h(UiModalDelivery, { action: 'update' , data: row.original})
         })
       ])
   }

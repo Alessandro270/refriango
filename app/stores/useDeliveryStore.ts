@@ -54,6 +54,28 @@ export const useDeliveryStore = defineStore('delivery', {
           color: 'error'
         })
       }
+    },
+    async update(id: string, body: any) {
+      const api = useApi()
+      const toast = useToast()
+
+      try {
+        const res = await api(`/delivery/${id}`, { method: 'PATCH', body })
+
+        const idx = this.deliveries.findIndex(delivery => id === delivery.id)
+        this.deliveries[idx] = res
+        toast.add({
+          title: 'Recurso atualizado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch (e) {
+        toast.add({
+          title: 'Não foi possível atualizar o recurso!',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
     }
   }
 })

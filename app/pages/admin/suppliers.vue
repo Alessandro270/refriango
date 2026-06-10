@@ -25,7 +25,7 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 lowercase' }, [
         h(UIcon, {
-          name: 'lucide:at-sign',
+          name: 'lucide:mail',
           class: 'text-blue-400 '
         }),
         row.original.email
@@ -38,7 +38,7 @@ const columns = [
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:phone-call',
-          class: 'text-emerald-500 '
+          class: 'text-blue-500 '
         }),
 
         row.original.phone
@@ -51,7 +51,7 @@ const columns = [
       h('div', { class: 'flex items-center gap-2 capitalize' }, [
         h(UIcon, {
           name: 'lucide:map-pin',
-          class: 'text-amber-500 '
+          class: 'text-blue-500 '
         }),
 
         row.original.address

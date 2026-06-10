@@ -36,6 +36,7 @@ const UModal = resolveComponent('UModal')
 const UiActions = resolveComponent('UiActions')
 
 const [isLoading, deleteOne] = useDelete()
+const UiModalStock = resolveComponent('UiModalStock')
 
 const columns = [
   {
@@ -120,7 +121,8 @@ const columns = [
     cell: ({ row }) =>
       h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, stockStore),
-        loading: isLoading.value
+        loading: isLoading.value,
+        editComponent: h(UiModalStock, {action: 'update', data:row.original})
       })
   }
 ]

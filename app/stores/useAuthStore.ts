@@ -97,7 +97,8 @@ export const useAuthStore = defineStore('auth', {
         const toast = useToast()
         toast.add({
           title: 'Login efetuado com sucesso',
-          icon: 'lucide:user-check'
+          icon: 'lucide:user-check',
+          color: 'success'
         })
       } catch (e) {
         throw new Error(e.message)
@@ -132,11 +133,6 @@ export const useAuthStore = defineStore('auth', {
       useCookie(AUTH_TOKEN_KEY).value = null
       useCookie(AUTH_REFRESH_TOKEN_KEY).value = null
       useCookie(AUTH_USER_KEY).value = null
-      toast.add({
-        title: 'Logout',
-        description: 'Terminando a sessao',
-        icon: 'lucide:arrow-right-to-line'
-      })
       navigateTo('/auth/login')
     }
   }
