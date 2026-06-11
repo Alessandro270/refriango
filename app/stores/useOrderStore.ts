@@ -21,6 +21,27 @@ export const useOrderStore = defineStore('order', {
         throw new Error(e.message)
       }
     },
+    async getOne(id: string) {
+      const api = useApi()
+      const toast = useToast()
+
+      try {
+        const order = await api(`/order/${id}`)
+
+        toast.add({
+          title: 'Recurso carregado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+        return order
+      } catch {
+        toast.add({
+          title: 'Não foi possível carregar o recurso!',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
+    },
     async create(body) {
       const toast = useToast()
       const authStore = useAuthStore()

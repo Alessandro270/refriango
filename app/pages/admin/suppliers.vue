@@ -64,7 +64,7 @@ const columns = [
       h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, supplierStore),
         loading: isLoading.value,
-        editComponent: h(UiModalSupplier, {action:'update', data: row.original})
+        editComponent: h(UiModalSupplier, {action:'update', data: row.original}),edit:true
       })
   }
 ]

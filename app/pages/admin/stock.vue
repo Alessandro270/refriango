@@ -122,7 +122,11 @@ const columns = [
       h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, stockStore),
         loading: isLoading.value,
-        editComponent: h(UiModalStock, {action: 'update', data:row.original})
+        editComponent: h(UiModalStock, {
+          action: 'update',
+          data: row.original
+        }),
+        edit: true
       })
   }
 ]

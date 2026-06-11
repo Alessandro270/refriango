@@ -8,7 +8,7 @@ const uiModalStyle = {
   title: 'uppercase'
 }
 
-defineProps<{ loading: boolean; editComponent: Component }>()
+defineProps<{ loading: boolean; edit?: boolean; editComponent: Component }>()
 
 const modalOpen = ref<boolean>(false)
 const editOpen = ref<boolean>(false)
@@ -17,17 +17,19 @@ const editOpen = ref<boolean>(false)
 <template>
   <UiLoader class="border-blue-400! border-t-transparent!" v-if="loading" />
   <div class="flex gap-2" v-else>
-    <UModal title="Editar" v-model:open="editOpen">
-      <UButton
-        icon="lucide:pencil"
-        variant="outline"
-        color="neutral"
-        size="xs"
-      />
-      <template #body>
-        <component :is="editComponent" @close="editOpen = false" />
-      </template>
-    </UModal>
+    <template v-if="edit">
+      <UModal title="Editar" v-model:open="editOpen">
+        <UButton
+          icon="lucide:pencil"
+          variant="outline"
+          color="neutral"
+          size="xs"
+        />
+        <template #body>
+          <component :is="editComponent" @close="editOpen = false" />
+        </template>
+      </UModal>
+    </template>
     <UModal v-model:open="modalOpen" title="Tens a certeza?" :ui="uiModalStyle">
       <UButton
         icon="lucide:trash"
@@ -36,38 +38,20 @@ const editOpen = ref<boolean>(false)
         size="xs"
       />
       <template #body>
-        <div class="space-y-4">
-          <UiH3 icon="lucide:info" class="text-zinc-50 capitalize">
-            Esta ação pode ser irreversível
-          </UiH3>
-          <div class="flex gap-2">
-            <UButton
-              icon="lucide:x"
-              class="uppercase w-full text-zinc-50"
-              color="error"
-              @click="
-                () => {
-                  emit('close')
-                  modalOpen = false
-                }
-              "
-            >
-              Cancelar
-            </UButton>
-            <UButton
-              icon="lucide:check"
-              class="w-full uppercase"
-              @click="
-                () => {
-                  emit('confirm')
-                  modalOpen = false
-                }
-              "
-            >
-              Aceitar
-            </UButton>
-          </div>
-        </div>
+        <UiModalConfirm
+          @close="
+            () => {
+              emit('close')
+              modalOpen = false
+            }
+          "
+          @confirm="
+            () => {
+              emit('confirm')
+              modalOpen = false
+            }
+          "
+        />
       </template>
     </UModal>
   </div>

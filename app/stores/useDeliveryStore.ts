@@ -14,6 +14,27 @@ export const useDeliveryStore = defineStore('delivery', {
         throw new Error(e.message)
       }
     },
+    async getOne(id: string) {
+      const api = useApi()
+      const toast = useToast()
+
+      try {
+        const delivery = await api(`/delivery/${id}`)
+
+        toast.add({
+          title: 'Recurso carregado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+        return delivery
+      } catch (e) {
+        toast.add({
+          title: 'Não foi possível carregar o recurso!',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
+    },
     async create(body) {
       const toast = useToast()
       const api = useApi()

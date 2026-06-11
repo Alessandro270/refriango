@@ -38,7 +38,7 @@ const columns = [
       return h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, userStore),
         loading: isLoading.value,
-        editComponent: h(UiModalUser, { action: 'update', data: row.original })
+        editComponent: h(UiModalUser, { action: 'update', data: row.original }),edit:true
       })
     }
   }

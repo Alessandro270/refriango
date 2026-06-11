@@ -129,7 +129,8 @@ const columns = [
         editComponent: h(UiModalWarehouse, {
           data: row.original,
           action: 'update'
-        })
+        }),
+        edit: true
       })
     }
   }

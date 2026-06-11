@@ -84,10 +84,24 @@ const columns = [
   {
     header: 'Ações',
     cell: ({ row }) =>
-      h(UiActions, {
-        onConfirm: () => deleteOne(row.original.id, orderStore),
-        loading: isLoading.value
-      })
+      h('div', { class: 'flex gap-2 items-center' }, [
+        h(UButton, {
+          variant: 'outline',
+          color: 'neutral',
+          icon: 'lucide:ellipsis-vertical',
+          size: 'xs',
+          to: `/admin/order/${row.original.id}`
+        }),
+        h(UiActions, {
+          onConfirm: () => deleteOne(row.original.id, orderStore),
+          loading: isLoading.value
+        })
+      ])
+    // cell: ({ row }) =>
+    //   h(UiActions, {
+    //     onConfirm: () => deleteOne(row.original.id, orderStore),
+    //     loading: isLoading.value,
+    //   })
   }
 ]
 
@@ -113,7 +127,6 @@ onMounted(async () => {
       productStore.hasLoaded = true
     }
   } catch (e) {
-    const message = e?.split(' ').slice(2).join(' ')
     toast.add({
       title: 'Não foi possível carregar os pedidos'
     })

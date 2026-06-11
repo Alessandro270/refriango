@@ -73,7 +73,7 @@ const columns = [
         editComponent: h(UiModalCategory, {
           data: row.original,
           action: 'update'
-        })
+        }),edit:true
       })
     }
   }

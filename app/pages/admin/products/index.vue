@@ -133,7 +133,8 @@ const columns = [
           onConfirm: () => {
             deleteOne(row.original.id, productStore)
           },
-          loading: isLoading.value
+          loading: isLoading.value,
+          edit: true
         })
       ])
   }
