@@ -99,27 +99,20 @@ const columns = [
     header: 'Ações',
     cell: ({ row }) =>
       h('div', { class: 'flex gap-2' }, [
-        h(
-          UModal,
-          {
-            title: 'Detalhes da entrega',
-            ui: uiModalStyle
-          },
-          {
-            default: () =>
-              h(UButton, {
-                variant: 'outline',
-                color: 'neutral',
-                icon: 'lucide:ellipsis-vertical',
-                size: 'xs'
-              }),
-            body: () => h(UiModalDetails, { data: row.original })
-          }
-        ),
+        h(UButton, {
+          variant: 'outline',
+          color: 'neutral',
+          icon: 'lucide:ellipsis-vertical',
+          size: 'xs',
+          to: `/admin/delivery/${row.original.id}`
+        }),
         h(UiActions, {
           onConfirm: () => deleteOne(row.original.id, deliveryStore),
           loading: isLoading.value,
-          editComponent: h(UiModalDelivery, { action: 'update' , data: row.original})
+          editComponent: h(UiModalDelivery, {
+            action: 'update',
+            data: row.original
+          })
         })
       ])
   }
@@ -163,8 +156,6 @@ onMounted(async () => {
       productStore.hasLoaded = true
     }
   } catch (e) {
-    console.log(e)
-
     toast.add({
       title: 'Não foi possível carregar os pedidos',
       icon: 'lucide:file-x'
@@ -192,7 +183,7 @@ const open = ref(false)
               variant="outline"
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Pesquisar saida..."
+              placeholder="Pesquisar entrega..."
             />
             <UButton icon="lucide:download" variant="outline">
               Exportar

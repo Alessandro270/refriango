@@ -58,8 +58,6 @@ async function handleSubmit() {
     if (action === 'update') await deliveryStore.update(delivery.id, data)
     else await deliveryStore.create(data)
   } catch (e) {
-    console.log(e)
-
     toast.add({
       title: 'Não foi possível cadastrar entrega',
       icon: 'lucide:file-x'

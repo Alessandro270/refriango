@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import * as z from 'zod'
 
+const { action, data: stock } = defineProps<{
+  action?: 'create' | 'update'
+  data?: object
+}>()
+
 const schema = z.object({
   quantity: z
     .number('Deve conter um numero')
@@ -20,11 +25,6 @@ const schema = z.object({
     .min(3, 'Deve ter pelo menos 3 digitos')
     .nonempty('Deve ter um armazem')
 })
-
-const { action, data: stock } = defineProps<{
-  action?: 'create' | 'update'
-  data?: object
-}>()
 
 const state = reactive({ ...stock })
 
@@ -61,19 +61,17 @@ async function handleSubmit() {
     :schema="schema"
     @submit="handleSubmit"
   >
-    <div class="flex gap-3">
-      <UFormField class="w-full" label="Produto" name="productId">
-        <USelectMenu
-          v-model="state.productId"
-          label-key="name"
-          class="w-full"
-          placeholder="Selecionar produto"
-          :search-input="true"
-          value-key="id"
-          :items="productStore.products"
-        />
-      </UFormField>
-    </div>
+    <UFormField class="w-full" label="Produto" name="productId">
+      <USelectMenu
+        v-model="state.productId"
+        label-key="name"
+        class="w-full"
+        placeholder="Selecionar produto"
+        :search-input="true"
+        value-key="id"
+        :items="productStore.products"
+      />
+    </UFormField>
 
     <UFormField class="w-full" label="Armazem" name="warehouseId">
       <USelectMenu

@@ -6,7 +6,6 @@ export function useDelete() {
     try {
       await store.delete(id)
     } catch (e) {
-      console.log(e)
     } finally {
       isLoading.value = false
     }

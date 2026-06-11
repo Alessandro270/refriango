@@ -30,7 +30,6 @@ export const useUserStore = defineStore('user', {
           },
           body
         })
-        console.log(user)
 
         this.users.push(user)
 
@@ -63,7 +62,6 @@ export const useUserStore = defineStore('user', {
           icon: 'lucide:file-x',
           color: 'error'
         })
-        console.log(e)
       }
     },
     async update(id: string, body: any) {

@@ -3,6 +3,7 @@ definePageMeta({ layout: 'admin' })
 const UButton = resolveComponent('UButton')
 const UIcon = resolveComponent('UIcon')
 const UiActions = resolveComponent('UiActions')
+const UiModalUser = resolveComponent('UiModalUser')
 
 const [isLoading, deleteOne] = useDelete()
 
@@ -36,7 +37,8 @@ const columns = [
     cell: ({ row }) => {
       return h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, userStore),
-        loading: isLoading.value
+        loading: isLoading.value,
+        editComponent: h(UiModalUser, { action: 'update', data: row.original })
       })
     }
   }

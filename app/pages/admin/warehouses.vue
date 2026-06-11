@@ -74,7 +74,8 @@ const columns = [
 
         row.original.address
       ])
-  },  {
+  },
+  {
     accessorKey: 'email',
     header: 'Email',
     cell: ({ row }: any) =>
@@ -122,8 +123,6 @@ const columns = [
   {
     header: 'Ações',
     cell: ({ row }) => {
-      console.log(row.original)
-
       return h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, warehouseStore),
         loading: isLoading.value,

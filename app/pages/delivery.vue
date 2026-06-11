@@ -180,7 +180,7 @@ const open = ref(false)
               variant="outline"
               v-model="search"
               icon="i-lucide-search"
-              placeholder="Pesquisar saida..."
+              placeholder="Pesquisar entrega..."
             />
             <UButton icon="lucide:download" variant="outline">
               Exportar

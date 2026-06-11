@@ -121,7 +121,7 @@ const fullName = computed(
       </template>
     </USidebar>
 
-    <div class="min-h-screen h-max bg-ui-bg w-full text-ui-text relative">
+    <div class="min-h-screen h-full bg-ui-bg w-full text-ui-text relative">
       <div
         @click="open = !open"
         v-if="!open"

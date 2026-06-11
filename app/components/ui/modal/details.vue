@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const { data, fields } = defineProps<{ data: object; fields?: any[] }>()
 
-console.log(fields)
-
 // const supplier = ref("fanta");
 </script>
 

@@ -20,7 +20,7 @@ const schema = z.object({
 })
 
 const state = reactive({
-...order
+  ...order
 })
 
 const orderPrice = computed(
@@ -45,8 +45,6 @@ async function handleSubmit() {
     if (action === 'update') await orderStore.update(order.id, data)
     else await orderStore.create(data)
   } catch (e) {
-    console.log(e)
-
     toast.add({
       title: 'Não foi possível efetuar pedido',
       icon: 'lucide:file-x'

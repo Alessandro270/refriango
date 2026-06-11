@@ -60,9 +60,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         const result = await this.validateToken(this.token)
         if (!result) await this.refresh()
-      } catch (e) {
-        console.log(e)
-      }
+      } catch (e) {}
     },
     async getAuthUser() {
       const api = useApi()

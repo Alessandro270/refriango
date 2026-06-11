@@ -65,7 +65,7 @@ onMounted(async () => {
     }
   } catch (e) {
     toast.add({ title: 'Não foi possível carregar os recursos' })
-    console.log(e)
+    
   } finally {
     supplierStore.isLoading = false
     categoryStore.isLoading = false
@@ -78,7 +78,7 @@ async function handleSubmit() {
     isLoading.value = true
 
     const data = schema.parse(state)
-    console.log(data)
+    
 
     await productStore.create(data)
     await navigateTo('/admin/products')

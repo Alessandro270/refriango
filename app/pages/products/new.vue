@@ -63,7 +63,6 @@ onMounted(async () => {
     }
   } catch (e) {
     toast.add({ title: 'Não foi possível carregar os recursos' })
-    console.log(e)
   } finally {
     supplierStore.isLoading = false
     categoryStore.isLoading = false

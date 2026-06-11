@@ -1,7 +1,24 @@
 <script setup lang="ts">
 import * as z from 'zod'
 
-const schema = z.object({
+const { action, data: user } = defineProps<{
+  action?: 'create' | 'update'
+  data?: object
+}>()
+
+const updateSchema = z.object({
+  firstname: z
+    .string('Obrigatório')
+    .min(3, 'Deve ter pelo menos 3 digitos')
+    .nonempty('Obrigatório'),
+  lastname: z
+    .string('Obrigatório')
+    .min(3, 'Deve ter pelo menos 3 digitos')
+    .nonempty('Obrigatório'),
+  email: z.email('Email invalido').nonempty('Deve ter um email')
+})
+
+const createSchema = z.object({
   firstname: z
     .string('Obrigatório')
     .min(3, 'Deve ter pelo menos 3 digitos')
@@ -20,16 +37,12 @@ const schema = z.object({
     .min(8, 'Deve ter pelo menos 8 digitos')
     .nonempty('Obrigatório')
 })
+const schema = action === 'update' ? updateSchema : createSchema
 
 const emit = defineEmits<{ close: [] }>()
 const isLoading = ref(false)
 const toast = useToast()
 const userStore = useUserStore()
-
-const { action, data: user } = defineProps<{
-  action?: 'create' | 'update'
-  data?: object
-}>()
 
 const state = reactive({ ...user })
 
@@ -37,6 +50,7 @@ async function handleSubmit() {
   try {
     isLoading.value = true
     const data = schema.parse(state)
+
     if (action === 'update') await userStore.update(user?.id, data)
     else await userStore.create(data)
   } catch (e) {
@@ -59,7 +73,10 @@ async function handleSubmit() {
     @submit="handleSubmit"
   >
     <UFormField
-      class="col-span-6"
+      :class="{
+        'col-span-6': action !== 'update',
+        'col-span-full': action === 'update'
+      }"
       label="Primeiro Nome"
       name="firstname"
       required
@@ -72,7 +89,15 @@ async function handleSubmit() {
       />
     </UFormField>
 
-    <UFormField class="col-span-6" label="Ultimo Nome" name="lastname" required>
+    <UFormField
+      :class="{
+        'col-span-6': action !== 'update',
+        'col-span-full': action === 'update'
+      }"
+      label="Ultimo Nome"
+      name="lastname"
+      required
+    >
       <UInput
         v-model="state.lastname"
         trailing-icon="lucide:user"
@@ -90,7 +115,13 @@ async function handleSubmit() {
       />
     </UFormField>
 
-    <UFormField class="col-span-full" label="Senha" name="password" required>
+    <UFormField
+      v-if="action !== 'update'"
+      class="col-span-full"
+      label="Senha"
+      name="password"
+      required
+    >
       <UInput
         v-model="state.password"
         class="w-full"
@@ -101,6 +132,7 @@ async function handleSubmit() {
     </UFormField>
 
     <UFormField
+      v-if="action !== 'update'"
       class="col-span-full"
       label="Confirmar senha"
       name="confirmPassword"

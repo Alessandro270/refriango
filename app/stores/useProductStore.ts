@@ -59,7 +59,6 @@ export const useProductStore = defineStore('product', {
           icon: 'lucide:file-x',
           color: 'error'
         })
-        console.log(e)
       }
     },
     async update(id: string, body: any) {

@@ -14,14 +14,12 @@ export const useApi = () => {
     async onResponseError({ request, response, options }) {
       if (options._retry) {
         options._retry = false
-        console.log(options)
         return
       }
 
       if (response.status === 401) {
         try {
           await authStore.refresh()
-          console.log(options.retry)
 
           await $fetch(request, {
             ...options,
