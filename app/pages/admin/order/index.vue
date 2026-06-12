@@ -191,9 +191,9 @@ const open = ref<boolean>(false)
             />
             <UModal :ui="modalStyle" v-model:open="open">
               <template #header>
-                <UiModalTitle @close="open = false"> Nova compra </UiModalTitle>
+                <UiModalTitle @close="open = false"> Novo pedido </UiModalTitle>
               </template>
-              <UButton icon="lucide:plus"> Nova compra</UButton>
+              <UButton icon="lucide:plus"> Novo pedido </UButton>
               <template #body>
                 <UiModalOrder @close="open = false" />
               </template>

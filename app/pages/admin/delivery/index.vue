@@ -76,12 +76,17 @@ const columns = [
         case 'completed':
           color = 'success'
           value = 'completo'
-          icon = 'lucide:check'
+          icon = 'lucide:check-circle'
           break
         case 'cancelled':
           color = 'error'
           value = 'cancelado'
           icon = 'lucide:x'
+          break
+        case 'approved':
+          color = 'success'
+          value = 'aprovado'
+          icon = 'lucide:check'
           break
         default:
           color = 'neutral'

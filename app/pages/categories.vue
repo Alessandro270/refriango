@@ -36,18 +36,7 @@ const columns = [
       ])
   },
   { accessorKey: 'description', header: 'descricao' },
-  {
-    accessorKey: 'productCount',
-    header: 'Produtos',
-    cell: ({ row }) =>
-      h('div', { class: 'flex items-center gap-2 capitalize' }, [
-        h(UIcon, {
-          name: 'lucide:box',
-          class: 'text-blue-400 '
-        }),
-        row.original.productCount
-      ])
-  },
+
   {
     accessorKey: 'createdAt',
     header: 'Data de criacao',

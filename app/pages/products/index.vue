@@ -60,7 +60,7 @@ const columns = [
           name: 'lucide:chart-column-stacked',
           class: 'text-blue-400 '
         }),
-        row.original.category.name
+        row.original.categoryName
       ])
   },
   {
