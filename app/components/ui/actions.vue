@@ -3,12 +3,13 @@ const emit = defineEmits<{
   confirm: []
   close: []
 }>()
+
 const uiModalStyle = {
   content: 'w-100! h-10!',
   title: 'uppercase'
 }
 
-defineProps<{ loading: boolean; edit?: boolean; editComponent: Component }>()
+defineProps<{ loading: boolean; edit?: boolean; editTo?: string; editComponent: Component }>()
 
 const modalOpen = ref<boolean>(false)
 const editOpen = ref<boolean>(false)
@@ -17,7 +18,15 @@ const editOpen = ref<boolean>(false)
 <template>
   <UiLoader class="border-blue-400! border-t-transparent!" v-if="loading" />
   <div class="flex gap-2" v-else>
-    <template v-if="edit">
+    <UButton
+      v-if="editTo"
+      icon="lucide:pencil"
+      variant="outline"
+      color="neutral"
+      size="xs"
+      :to="editTo"
+    />
+    <template v-else-if="edit">
       <UModal title="Editar" v-model:open="editOpen">
         <UButton
           icon="lucide:pencil"

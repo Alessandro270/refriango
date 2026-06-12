@@ -40,6 +40,27 @@ export const useProductStore = defineStore('product', {
         throw new Error(e.message)
       }
     },
+    async getOne(id: string) {
+      const api = useApi()
+      const toast = useToast()
+
+      try {
+        const product = await api(`/product/${id}`)
+
+        toast.add({
+          title: 'Recurso carregado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+        return product
+      } catch {
+        toast.add({
+          title: 'Não foi possível carregar o recurso!',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
+    },
     async delete(id: string) {
       const api = useApi()
       const toast = useToast()

@@ -112,31 +112,14 @@ const columns = [
   {
     header: 'Ações',
     cell: ({ row }) =>
-      h('div', { class: 'flex gap-2 items-center' }, [
-        h(
-          UModal,
-          {
-            title: 'Detalhes do produto'
-          },
-          {
-            default: () =>
-              h(UButton, {
-                variant: 'outline',
-                color: 'neutral',
-                icon: 'lucide:ellipsis-vertical',
-                size: 'xs'
-              }),
-            body: () => h(UiModalDetails, { data: row.original })
-          }
-        ),
-        h(UiActions, {
-          onConfirm: () => {
-            deleteOne(row.original.id, productStore)
-          },
-          loading: isLoading.value,
-          edit: true
-        })
-      ])
+      h(UiActions, {
+        onConfirm: () => {
+          deleteOne(row.original.id, productStore)
+        },
+        loading: isLoading.value,
+        editTo: `/admin/products/${row.original.id}`,
+        edit: true,
+      })
   }
 ]
 </script>

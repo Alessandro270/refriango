@@ -56,7 +56,7 @@ const columns = [
           break
         case 'completed':
           color = 'success'
-          value = 'completo'
+          value = 'concluído'
           icon = 'lucide:check'
           break
         case 'cancelled':

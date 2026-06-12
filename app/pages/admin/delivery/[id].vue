@@ -52,11 +52,23 @@ const uiModalStyle = {
 const approveOpen = ref<boolean>(false)
 const cancelOpen = ref<boolean>(false)
 const completeOpen = ref<boolean>(false)
+
+const router = useRouter()
 </script>
 
 <template>
   <div class="min-h-screen flex-1">
-    <UiH3 size="lg" class="mb-4">Detalhes da entrega</UiH3>
+    <UiH3 size="lg" class="mb-4 flex justify-between">
+      <span class="inline-block"> Detalhes da entrega </span>
+      <UButton
+        variant="link"
+        class="text-ui-text cursor-pointer hover:text-zinc-500 active:text-zinc-600 border border-transparent rounded-none "
+        icon="lucide:arrow-left"
+        @click="router.back()"
+      >
+        Voltar
+      </UButton>
+    </UiH3>
 
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12 rounded-md bg-white">
@@ -76,7 +88,13 @@ const completeOpen = ref<boolean>(false)
             </UBadge>
           </UiH3>
 
-          <div class="flex items-center gap-2">
+          <div
+            class="flex items-center gap-2"
+            v-if="
+              currentStatus?.label !== 'concluído' &&
+              currentStatus?.label !== 'cancelado'
+            "
+          >
             <UModal
               v-model:open="completeOpen"
               title="Tens a certeza?"
@@ -88,6 +106,7 @@ const completeOpen = ref<boolean>(false)
                 variant="solid"
                 size="xs"
                 color="warning"
+                :disabled="currentStatus.label !== 'aprovado'"
               >
                 Completo
               </UButton>
@@ -115,21 +134,21 @@ const completeOpen = ref<boolean>(false)
                 variant="solid"
                 size="xs"
                 color="success"
+                :disabled="currentStatus.label === 'aprovado'"
               >
                 Aprovar
               </UButton>
-                            <template #body>
-
-                              <UiModalConfirm
-                              @close="approveOpen = false"
-                              @confirm="
-                  () => {
-                    updateStatus('approved')
-                    approveOpen = false
-                  }
+              <template #body>
+                <UiModalConfirm
+                  @close="approveOpen = false"
+                  @confirm="
+                    () => {
+                      updateStatus('approved')
+                      approveOpen = false
+                    }
                   "
-              />
-            </template>
+                />
+              </template>
             </UModal>
             <UModal
               v-model:open="cancelOpen"
@@ -142,6 +161,7 @@ const completeOpen = ref<boolean>(false)
                 variant="solid"
                 size="xs"
                 color="error"
+                :disabled="currentStatus.label === 'cancelado'"
               >
                 Cancelar
               </UButton>
