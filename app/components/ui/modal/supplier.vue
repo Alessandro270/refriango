@@ -4,7 +4,7 @@ import * as z from 'zod'
 const schema = z.object({
   name: z
     .string()
-    .min(3, 'Deve ter pelo menos 3 digitos')
+    .min(3, 'Deve ter pelo menos 3 dígitos')
     .nonempty('Nome obrigatorio'),
   email: z.email('Email invalido').nonempty('Deve ter um email'),
   phone: z.e164('Formato +244900000000').optional(),

@@ -46,7 +46,7 @@ const columns = [
     accessorKey: 'description',
     header: 'descricao',
     cell: ({ row }) => {
-      return row.original.description || 'Sem descrição'
+      return row.original.description || '—'
     }
   },
   {
@@ -105,9 +105,6 @@ const categoryCount = computed(() => categoryStore.categories.length)
               placeholder="Pesquisar categoria..."
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
-            <span class="text-sm text-zinc-500">
-              Categorias: {{ categoryCount }}
-            </span>
           </div>
           <UModal v-model:open="open">
             <template #header>

@@ -13,7 +13,7 @@ const fileUploadStyle = { base: 'h-full text-zinc-400' }
 const formFieldSize = 'lg'
 
 const schema = z.object({
-  name: z.string().min(3, 'Deve conter pelo 3 digitos'),
+  name: z.string().min(3, 'Deve conter pelo 3 dígitos'),
   supplierId: z.string('Obrigatório').nonempty('Obrigatório'),
   categoryId: z.string('Obrigatório').nonempty('Obrigatório'),
   weight: z.number('Obrigatório').gte(0, 'Peso deve ser  positivo'),

@@ -223,10 +223,6 @@ const UButton = resolveComponent('UButton')
 
 const columns = [
   {
-    accessorKey: '_id',
-    header: '#'
-  },
-  {
     accessorKey: 'product',
     header: 'produto',
     cell: ({ row }) =>

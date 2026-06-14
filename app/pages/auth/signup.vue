@@ -19,15 +19,15 @@ const showPass = ref(false)
 const schema = z.object({
   firstname: z
     .string('Deve conter o primeiro nome')
-    .min(3, 'Deve conter 3 digitos no minimo')
+    .min(3, 'Deve conter 3 dígitos no minimo')
     .nonempty(),
   lastname: z
     .string('Deve conter o primeiro nome')
-    .min(3, 'Deve conter 3 digitos no minimo'),
+    .min(3, 'Deve conter 3 dígitos no minimo'),
   email: z.email('Deve conter um email valido'),
   password: z
     .string('Deve conter a senha')
-    .min(8, 'Deve conter 8 digitos no minimo')
+    .min(8, 'Deve conter 8 dígitos no minimo')
     .nonempty('Senha não deve estar vazia')
 })
 const isLoading = ref(false)

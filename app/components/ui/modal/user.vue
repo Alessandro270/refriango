@@ -9,11 +9,11 @@ const { action, data: user } = defineProps<{
 const updateSchema = z.object({
   firstname: z
     .string('Obrigatório')
-    .min(3, 'Deve ter pelo menos 3 digitos')
+    .min(3, 'Deve ter pelo menos 3 dígitos')
     .nonempty('Obrigatório'),
   lastname: z
     .string('Obrigatório')
-    .min(3, 'Deve ter pelo menos 3 digitos')
+    .min(3, 'Deve ter pelo menos 3 dígitos')
     .nonempty('Obrigatório'),
   email: z.email('Email invalido').nonempty('Deve ter um email')
 })
@@ -21,20 +21,20 @@ const updateSchema = z.object({
 const createSchema = z.object({
   firstname: z
     .string('Obrigatório')
-    .min(3, 'Deve ter pelo menos 3 digitos')
+    .min(3, 'Deve ter pelo menos 3 dígitos')
     .nonempty('Obrigatório'),
   lastname: z
     .string('Obrigatório')
-    .min(3, 'Deve ter pelo menos 3 digitos')
+    .min(3, 'Deve ter pelo menos 3 dígitos')
     .nonempty('Obrigatório'),
   email: z.email('Email invalido').nonempty('Deve ter um email'),
   password: z
     .string('Obrigatório')
-    .min(8, 'Deve ter pelo menos 8 digitos')
+    .min(8, 'Deve ter pelo menos 8 dígitos')
     .nonempty('Obrigatório'),
   confirmPassword: z
     .string('Obrigatório')
-    .min(8, 'Deve ter pelo menos 8 digitos')
+    .min(8, 'Deve ter pelo menos 8 dígitos')
     .nonempty('Obrigatório')
 })
 const schema = action === 'update' ? updateSchema : createSchema

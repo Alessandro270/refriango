@@ -93,7 +93,7 @@ const formFieldSize = 'lg'
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
-        label="Numero De Telefone"
+        label="Número De Telefone"
         class="col-start-3 col-span-8"
       >
         <UInput
@@ -113,7 +113,7 @@ const formFieldSize = 'lg'
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
-        label="Numero De BI"
+        label="Número De BI"
         class="col-start-3 col-span-8"
       >
         <UInput

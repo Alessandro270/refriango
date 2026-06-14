@@ -13,7 +13,7 @@ const fileUploadStyle = { base: 'h-full text-zinc-400' }
 const formFieldSize = 'lg'
 
 const schema = z.object({
-  name: z.string().min(3, 'Deve conter pelo 3 digitos'),
+  name: z.string().min(3, 'Deve conter pelo 3 dígitos'),
   supplierId: z.string('Obrigatório').nonempty('Obrigatório'),
   categoryId: z.string('Obrigatório').nonempty('Obrigatório'),
   weight: z.number('Obrigatório').gte(0, 'Peso deve ser  positivo'),
@@ -83,7 +83,7 @@ onMounted(async () => {
 })
 
 const state = ref({})
-
+const router = useRouter()
 async function handleSubmit() {
   try {
     isLoading.value = true
@@ -91,7 +91,7 @@ async function handleSubmit() {
     const data = schema.parse(state.value)
 
     await productStore.update(id, data)
-    await navigateTo('/admin/products')
+    await router.push('/admin/products')
   } catch (e) {
     toast.add({
       title: 'Ocorreu um erro',

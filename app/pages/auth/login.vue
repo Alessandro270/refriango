@@ -8,7 +8,7 @@ const toast = useToast()
 const schema = z.object({
   email: z.email('Email invalido').nonempty('Campo obrigatorio'),
   password: z
-    .string('A senha deve ser uma string')
+    .string('Obrigatório')
     .min(8, 'A senha deve ter no minimo 8 caracteres')
     .nonempty('Campo obrigatorio')
 })

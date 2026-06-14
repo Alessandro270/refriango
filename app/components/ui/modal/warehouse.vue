@@ -2,7 +2,7 @@
 import * as z from 'zod'
 
 const schema = z.object({
-  name: z.string('Obrigatório').min(3, 'Deve conter mais de 3 digitos'),
+  name: z.string('Obrigatório').min(3, 'Deve conter mais de 3 dígitos'),
   email: z.email('Deve ser um email valido'),
   phone: z.e164('Formato +244900000000'),
   address: z

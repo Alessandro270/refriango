@@ -94,7 +94,7 @@ const formFieldSize = 'lg'
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
-        label="Numero De Telefone"
+        label="Número De Telefone"
         class="col-start-3 col-span-8"
       >
         <UInput
@@ -114,7 +114,7 @@ const formFieldSize = 'lg'
       <UFormField
         :size="formFieldSize"
         :ui="uiStyle"
-        label="Numero De BI"
+        label="Número De BI"
         class="col-start-3 col-span-8"
       >
         <UInput
@@ -124,7 +124,7 @@ const formFieldSize = 'lg'
         />
       </UFormField>
       <UButton
-        icon="lucide:save-off"
+        icon="lucide:x"
         color="error"
         variant="soft"
         class="col-start-3 h-max col-span-2 flex items-center justify-center"
@@ -132,7 +132,7 @@ const formFieldSize = 'lg'
         Descartar
       </UButton>
       <UButton
-        icon="lucide:save"
+        icon="lucide:check"
         class="col-span-2 h-max flex items-center justify-center"
       >
         Salvar

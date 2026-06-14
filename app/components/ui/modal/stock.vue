@@ -8,21 +8,21 @@ const { action, data: stock } = defineProps<{
 
 const schema = z.object({
   quantity: z
-    .number('Deve conter um numero')
-    .positive('Deve ser um numero positivo'),
+    .number('Obrigatório')
+    .positive('Deve ser um número positivo'),
   minimumStock: z
-    .number('Deve conter um numero')
-    .positive('Deve ser um numero positivo'),
+    .number('Obrigatório')
+    .positive('Deve ser um número positivo'),
   maximumStock: z
-    .number('Deve conter um numero')
-    .positive('Deve ser um numero positivo'),
+    .number('Obrigatório')
+    .positive('Deve ser um número positivo'),
   productId: z
-    .string('Deve ser uma string')
-    .min(3, 'Deve ter pelo menos 3 digitos')
+    .string('Obrigatório')
+    .min(3, 'Deve ter pelo menos 3 dígitos')
     .nonempty('Deve ter um produto'),
   warehouseId: z
-    .string('Deve ser uma string')
-    .min(3, 'Deve ter pelo menos 3 digitos')
+    .string('Obrigatório')
+    .min(3, 'Deve ter pelo menos 3 dígitos')
     .nonempty('Deve ter um armazem')
 })
 
