@@ -55,7 +55,7 @@ async function handleSubmit() {
     else await userStore.create(data)
   } catch (e) {
     toast.add({
-      title: 'Não foi possível adicionar usuário',
+      title: 'Não foi possível adicionar utilizador',
       icon: 'lucide:file-x'
     })
   } finally {
@@ -147,7 +147,7 @@ async function handleSubmit() {
       />
     </UFormField>
     <UButton
-      :icon="isLoading ? '' : 'lucide:save'"
+      :icon="isLoading ? '' : 'lucide:check'"
       class="w-full col-span-full flex mt-auto justify-center items-center"
       type="submit"
     >

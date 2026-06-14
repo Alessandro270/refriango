@@ -73,15 +73,14 @@ const columns = [
         editComponent: h(UiModalCategory, {
           data: row.original,
           action: 'update'
-        }),edit:true
+        }),
+        edit: true
       })
     }
   }
 ]
 
 const search = ref('')
-
-const categoryCount = computed(() => categoryStore.categories.length)
 </script>
 
 <template>
@@ -106,17 +105,20 @@ const categoryCount = computed(() => categoryStore.categories.length)
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>
-          <UModal v-model:open="open">
-            <template #header>
-              <UiModalTitle @close="open = false">
-                Nova categoria
-              </UiModalTitle>
-            </template>
-            <UButton icon="lucide:plus"> Nova categoria </UButton>
-            <template #body>
-              <UiModalCategory @close="open = false" />
-            </template>
-          </UModal>
+          <div class="flex gap-4">
+            <UiModalUpload :store="categoryStore" />
+            <UModal v-model:open="open">
+              <template #header>
+                <UiModalTitle @close="open = false">
+                  Nova categoria
+                </UiModalTitle>
+              </template>
+              <UButton icon="lucide:plus"> Nova categoria </UButton>
+              <template #body>
+                <UiModalCategory @close="open = false" />
+              </template>
+            </UModal>
+          </div>
         </div>
       </template>
     </UiTable>

@@ -5,7 +5,7 @@ const { data, fields } = defineProps<{ data: object; fields?: any[] }>()
 </script>
 
 <template>
-  <div class="w-full space-y-2 grid grid-cols-3">
+  <div class="w-full space-y-4 grid grid-cols-3">
     <template v-for="(value, key) in data" :key="key">
       <UFormField
         v-if="!(value instanceof Object) && key !== 'id'"

@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', {
         this.users.push(user)
 
         toast.add({
-          title: 'Usuário criado com sucesso!',
+          title: 'Utilizador criado com sucesso!',
           icon: 'lucide:file-check'
         })
       } catch (e) {

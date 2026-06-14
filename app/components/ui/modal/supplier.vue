@@ -44,7 +44,7 @@ async function handleSubmit() {
 
 <template>
   <UForm
-    class="w-full flex flex-col flex-1 space-y-2"
+    class="w-full flex flex-col flex-1 space-y-4"
     :state="state"
     :schema="schema"
     @submit="handleSubmit"
@@ -85,7 +85,7 @@ async function handleSubmit() {
       />
     </UFormField>
     <UButton
-      :icon="isLoading ? '' : 'lucide:save'"
+      :icon="isLoading ? '' : 'lucide:check'"
       class="w-full flex mt-auto justify-center items-center"
       type="submit"
     >

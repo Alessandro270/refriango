@@ -42,7 +42,7 @@ const items = reactive([
     to: '/admin/warehouses'
   },
   {
-    label: 'Usuarios',
+    label: 'Utilizadores',
     icon: 'lucide:users',
     to: '/admin/users'
   },
@@ -125,7 +125,9 @@ const fullName = computed(
       </template>
     </USidebar>
 
-    <div class="min-h-screen h-full flex-1 w-full bg-ui-bg text-ui-text relative">
+    <div
+      class="min-h-screen h-full flex-1 w-full bg-ui-bg text-ui-text relative"
+    >
       <div
         @click="open = !open"
         v-if="!open"

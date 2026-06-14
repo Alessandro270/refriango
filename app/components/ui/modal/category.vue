@@ -42,7 +42,7 @@ const uiStyle = {
   <UForm
     :schema="schema"
     :state="state"
-    class="w-full space-y-2 flex flex-col flex-1"
+    class="w-full space-y-4 flex flex-col flex-1"
     @submit="handleSubmit"
   >
     <UFormField label="Nome" name="name" required>
@@ -63,7 +63,7 @@ const uiStyle = {
     </UFormField>
 
     <UButton
-      :icon="isLoading ? '' : 'lucide:save'"
+      :icon="isLoading ? '' : 'lucide:check'"
       class="w-full flex mt-auto justify-center items-center"
       type="submit"
     >

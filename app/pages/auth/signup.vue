@@ -143,11 +143,11 @@ async function handleSubmit() {
         <UButton
           type="submit"
           class="flex items-center justify-center w-full mb-4"
-          :icon="isLoading ? '' : 'lucide:save'"
+          :icon="isLoading ? '' : 'lucide:check'"
           variant="solid"
           color="neutral"
         >
-          <template v-if="!isLoading"> Cadastrar usuario </template>
+          <template v-if="!isLoading"> Cadastrar utilizador </template>
           <template v-else>
             <UiLoader />
           </template>

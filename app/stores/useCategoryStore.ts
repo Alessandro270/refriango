@@ -30,6 +30,30 @@ export const useCategoryStore = defineStore('category', {
         throw new Error(e.message)
       }
     },
+    async upload(body) {
+      const api = useApi()
+      const toast = useToast()
+      try {
+        await api('/category/upload', {
+          method: 'POST',
+          body
+        })
+
+        toast.add({
+          title: 'Ficheiro enviado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch (e) {
+        console.log(e)
+
+        toast.add({
+          title: 'Não foi possível enviar o ficheiro',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
+    },
     async create(body) {
       const api = useApi()
       const toast = useToast()

@@ -64,7 +64,11 @@ const columns = [
       h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, supplierStore),
         loading: isLoading.value,
-        editComponent: h(UiModalSupplier, {action:'update', data: row.original}),edit:true
+        editComponent: h(UiModalSupplier, {
+          action: 'update',
+          data: row.original
+        }),
+        edit: true
       })
   }
 ]
@@ -122,15 +126,20 @@ const open = ref<boolean>(false)
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>
-          <UModal v-model:open="open">
-            <template #header>
-              <UiModalTitle @close="open = false">Novo Fornecedor</UiModalTitle>
-            </template>
-            <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
-            <template #body>
-              <UiModalSupplier @close="open = false" />
-            </template>
-          </UModal>
+          <div class="flex gap-4">
+            <UiModalUpload :store="supplierStore" />
+            <UModal v-model:open="open">
+              <template #header>
+                <UiModalTitle @close="open = false">
+                  Novo Fornecedor
+                </UiModalTitle>
+              </template>
+              <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
+              <template #body>
+                <UiModalSupplier @close="open = false" />
+              </template>
+            </UModal>
+          </div>
         </div>
       </template>
     </UiTable>

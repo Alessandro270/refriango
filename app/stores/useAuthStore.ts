@@ -114,7 +114,7 @@ export const useAuthStore = defineStore('auth', {
         })
 
         toast.add({
-          title: 'Usuario criado com sucesso',
+          title: 'Utilizador criado com sucesso',
           icon: 'lucide:user-check'
         })
       } catch (e) {

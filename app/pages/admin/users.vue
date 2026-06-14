@@ -38,7 +38,8 @@ const columns = [
       return h(UiActions, {
         onConfirm: () => deleteOne(row.original.id, userStore),
         loading: isLoading.value,
-        editComponent: h(UiModalUser, { action: 'update', data: row.original }),edit:true
+        editComponent: h(UiModalUser, { action: 'update', data: row.original }),
+        edit: true
       })
     }
   }
@@ -56,7 +57,7 @@ onMounted(async () => {
       userStore.hasLoaded = true
     }
   } catch (e) {
-    toast.add({ title: 'Não foi possível carregar usuários' })
+    toast.add({ title: 'Não foi possível carregar utilizadores' })
   } finally {
     userStore.isLoading = false
   }
@@ -68,7 +69,7 @@ const open = ref<boolean>(false)
 <template>
   <div class="space-y-6 flex flex-col h-full">
     <div class="flex items-center justify-between">
-      <UiH1 icon="lucide:users">Usuários</UiH1>
+      <UiH1 icon="lucide:users">Utilizadores</UiH1>
     </div>
 
     <UiTable
@@ -89,9 +90,9 @@ const open = ref<boolean>(false)
           </div>
           <UModal v-model:open="open">
             <template #header>
-              <UiModalTitle @close="open = false">Novo Usuário</UiModalTitle>
+              <UiModalTitle @close="open = false">Novo Utilizador</UiModalTitle>
             </template>
-            <UButton icon="lucide:plus"> Novo Usuário</UButton>
+            <UButton icon="lucide:plus"> Novo Utilizador</UButton>
             <template #body>
               <UiModalUser @close="open = false" />
             </template>

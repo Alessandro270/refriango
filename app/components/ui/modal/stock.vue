@@ -7,15 +7,9 @@ const { action, data: stock } = defineProps<{
 }>()
 
 const schema = z.object({
-  quantity: z
-    .number('Obrigatório')
-    .positive('Deve ser um número positivo'),
-  minimumStock: z
-    .number('Obrigatório')
-    .positive('Deve ser um número positivo'),
-  maximumStock: z
-    .number('Obrigatório')
-    .positive('Deve ser um número positivo'),
+  quantity: z.number('Obrigatório').positive('Deve ser um número positivo'),
+  minimumStock: z.number('Obrigatório').positive('Deve ser um número positivo'),
+  maximumStock: z.number('Obrigatório').positive('Deve ser um número positivo'),
   productId: z
     .string('Obrigatório')
     .min(3, 'Deve ter pelo menos 3 dígitos')
@@ -113,7 +107,7 @@ async function handleSubmit() {
       </UFormField>
     </div>
     <UButton
-      :icon="isLoading ? '' : 'lucide:save'"
+      :icon="isLoading ? '' : 'lucide:check'"
       class="w-full flex mt-auto justify-center items-center"
       type="submit"
     >

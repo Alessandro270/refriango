@@ -344,7 +344,7 @@ async function handleSubmit() {
       />
     </UFormField>
     <UButton
-      icon="i-lucide-save-off"
+      icon="lucide:x"
       color="error"
       variant="soft"
       class="w-full h-max col-start-3 flex items-center justify-center col-span-2"
@@ -352,7 +352,7 @@ async function handleSubmit() {
       Descartar
     </UButton>
     <UButton
-      :icon="isLoading ? '' : 'lucide:save'"
+      :icon="isLoading ? '' : 'lucide:check'"
       class="w-full flex h-max items-center disabled:bg-zinc-950 justify-center col-span-2"
       type="submit"
     >

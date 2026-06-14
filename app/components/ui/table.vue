@@ -28,7 +28,7 @@ function prev(): void {
     class="bg-white rounded-md max-w-full flex flex-col pt-3 pb-2 flex-1 px-3 space-y-3"
   >
     <slot name="header" />
-    <div v-if="loading" class="mt-4 space-y-2">
+    <div v-if="loading" class="mt-4 space-y-4">
       <UiRowLoader />
       <UiRowLoader />
       <UiRowLoader />
