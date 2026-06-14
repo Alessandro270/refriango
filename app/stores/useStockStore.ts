@@ -1,6 +1,11 @@
 export const useStockStore = defineStore('stock', {
   state: () => {
-    return { stocks: [], hasLoaded: false, isLoading: true }
+    return {
+      stocks: [],
+      seen: new Set<string>(),
+      hasLoaded: false,
+      isLoading: true
+    }
   },
   actions: {
     async getAll() {
@@ -8,12 +13,31 @@ export const useStockStore = defineStore('stock', {
 
       try {
         const stocks = await api('/stock')
-
-        stocks?.forEach(stock => {
-          this.stocks.push(stock)
-        })
+        this.stocks = stocks
       } catch (e) {
         throw new Error(e.message)
+      }
+    },
+    async upload(body) {
+      const api = useApi()
+      const toast = useToast()
+      try {
+        await api('/stock/upload', {
+          method: 'POST',
+          body
+        })
+
+        toast.add({
+          title: 'Ficheiro enviado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch {
+        toast.add({
+          title: 'Não foi possível enviar o ficheiro',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
       }
     },
     async create(body) {

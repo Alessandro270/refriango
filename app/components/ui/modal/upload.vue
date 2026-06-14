@@ -34,7 +34,6 @@ async function handleUpload() {
     const formData = new FormData()
 
     formData.append('file', data.file)
-    console.log(formData)
     await store.upload(formData)
     await store.getAll()
     state.file = null

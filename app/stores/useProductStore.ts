@@ -1,6 +1,11 @@
 export const useProductStore = defineStore('product', {
   state: () => {
-    return { products: [], hasLoaded: false, isLoading: true }
+    return {
+      products: [],
+      seen: new Set<string>(),
+      hasLoaded: false,
+      isLoading: true
+    }
   },
   actions: {
     async getAll() {
@@ -9,11 +14,37 @@ export const useProductStore = defineStore('product', {
       try {
         const products = await api('/product')
 
-        products?.forEach(product => {
-          this.products.push(product)
-        })
+        if (products) this.products = products
+        // products?.forEach(product => {
+        //   if (this.seen.has(product.id)) return
+        //   this.products.push(product)
+        //   this.seen.add(product.id)
+        // })
       } catch (e) {
         throw new Error(e.message)
+      }
+    },
+    async upload(body) {
+      const api = useApi()
+      const toast = useToast()
+      try {
+        await api('/product/upload', {
+          method: 'POST',
+          body
+        })
+
+        toast.add({
+          title: 'Ficheiro enviado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch (e) {
+        toast.add({
+          title: 'Não foi possível enviar o ficheiro',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+        throw new Error(e)
       }
     },
     async create(body) {

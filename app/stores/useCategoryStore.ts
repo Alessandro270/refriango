@@ -1,6 +1,11 @@
 export const useCategoryStore = defineStore('category', {
   state: () => {
-    return { categories: [], isLoading: true, hasLoaded: false }
+    return {
+      categories: [],
+      seen: new Set<string>(),
+      isLoading: true,
+      hasLoaded: false
+    }
   },
   getters: {
     categoryCount: state => state.categories.length || 0
@@ -11,10 +16,12 @@ export const useCategoryStore = defineStore('category', {
 
       try {
         const categories = await api('/category')
-
-        categories?.forEach(category => {
-          this.categories.push(category)
-        })
+        if (categories) this.categories = categories
+        // categories?.forEach(category => {
+        //   if (this.seen.has(category.id)) return
+        //   this.categories.push(category)
+        //   this.seen.add(category.id)
+        // })
       } catch (e) {
         throw new Error(e.message)
       }

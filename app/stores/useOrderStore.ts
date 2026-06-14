@@ -1,6 +1,11 @@
 export const useOrderStore = defineStore('order', {
   state: () => {
-    return { orders: [], hasLoaded: false, isLoading: true }
+    return {
+      orders: [],
+      seen: new Set<string>(),
+      hasLoaded: false,
+      isLoading: true
+    }
   },
   actions: {
     async getAll() {
@@ -14,9 +19,12 @@ export const useOrderStore = defineStore('order', {
           }
         })
 
-        orders?.forEach(order => {
-          this.orders.push(order)
-        })
+        if (orders) this.orders = orders
+        // orders?.forEach(order => {
+        //   if (this.seen.has(order.id)) return
+        //   this.orders.push(order)
+        //   this.seen.add(order.id)
+        // })
       } catch (e) {
         throw new Error(e.message)
       }

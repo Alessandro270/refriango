@@ -1,6 +1,7 @@
 export const useApi = () => {
   const config = useRuntimeConfig()
   const authStore = useAuthStore()
+  const toast = useToast()
 
   return $fetch.create({
     baseURL: config.public.apiUrl,
@@ -12,6 +13,11 @@ export const useApi = () => {
         }
     },
     async onResponseError({ request, response, options }) {
+      toast.add({
+        title: 'Ocorreu um erro',
+        description: response._data?.message,
+        icon: 'lucide:file-x'
+      })
       if (options._retry) {
         options._retry = false
         return

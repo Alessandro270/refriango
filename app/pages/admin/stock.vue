@@ -180,22 +180,7 @@ const open = ref<boolean>(false)
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>
           <div class="flex gap-4">
-            <USelect
-              v-model="selectedStatus"
-              variant="outline"
-              :items="statusFilters"
-              placeholder="Filtrar por estado"
-              class="w-28"
-            />
-
-            <USelect
-              variant="outline"
-              v-model="selectedWarehouse"
-              :items="warehouseFilters"
-              placeholder="Filtrar por armazém"
-              class="w-40"
-            />
-
+            <UiModalUpload :store="stockStore" />
             <UModal :ui="stockModalStyle" v-model:open="open">
               <template #header>
                 <UiModalTitle @close="open = false">

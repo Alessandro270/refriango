@@ -1,6 +1,11 @@
 export const useUserStore = defineStore('user', {
   state: () => {
-    return { users: [], isLoading: true, hasLoaded: false }
+    return {
+      users: [],
+      seen: new Set<string>(),
+      isLoading: true,
+      hasLoaded: false
+    }
   },
   getters: {
     usersCount: state => state.users.length || 0
@@ -11,9 +16,12 @@ export const useUserStore = defineStore('user', {
 
       try {
         const users = await api('/user')
-        users?.forEach(user => {
-          this.users.push(user)
-        })
+        if (users) this.users = users
+        // users?.forEach(user => {
+        //   if (this.seen.has(user.id)) return
+        //   this.users.push(user)
+        //   this.seen.add(user.id)
+        // })
       } catch (e) {
         throw new Error(e.message)
       }

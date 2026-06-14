@@ -1,6 +1,11 @@
 export const useWarehouseStore = defineStore('warehouse', {
   state: () => {
-    return { warehouses: [], hasLoaded: false, isLoading: true }
+    return {
+      warehouses: [],
+      seen: new Set<string>(),
+      hasLoaded: false,
+      isLoading: true
+    }
   },
   actions: {
     async getAll() {
@@ -9,11 +14,38 @@ export const useWarehouseStore = defineStore('warehouse', {
       try {
         const warehouses = await api('/warehouse')
 
-        warehouses?.forEach(warehouse => {
-          this.warehouses.push(warehouse)
-        })
+        if (warehouses) this.warehouses = warehouses
+        // warehouses?.forEach(warehouse => {
+        //   if (this.seen.has(warehouse.id)) return
+        //   this.warehouses.push(warehouse)
+        //   this.seen.add(warehouse.id)
+        // })
       } catch (e) {
         throw new Error(e.message)
+      }
+    },
+    async upload(body) {
+      const api = useApi()
+      const toast = useToast()
+      try {
+        await api('/warehouse/upload', {
+          method: 'POST',
+          body
+        })
+
+        toast.add({
+          title: 'Ficheiro enviado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch (e) {
+        console.log(e)
+
+        toast.add({
+          title: 'Não foi possível enviar o ficheiro',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
       }
     },
     async create(body) {

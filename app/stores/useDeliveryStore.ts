@@ -1,5 +1,10 @@
 export const useDeliveryStore = defineStore('delivery', {
-  state: () => ({ deliveries: [], hasLoaded: false, isLoading: true }),
+  state: () => ({
+    deliveries: [],
+    seen: new Set<string>(),
+    hasLoaded: false,
+    isLoading: true
+  }),
   actions: {
     async getAll() {
       const api = useApi()
@@ -7,9 +12,12 @@ export const useDeliveryStore = defineStore('delivery', {
       try {
         const deliveries = await api('/delivery')
 
-        deliveries?.forEach(delivery => {
-          this.deliveries.push(delivery)
-        })
+        if (deliveries) this.deliveries = deliveries
+        // deliveries?.forEach(delivery => {
+        //   if (this.seen.has(delivery.id)) return
+        //   this.deliveries.push(delivery)
+        //   this.seen.add(delivery.id)
+        // })
       } catch (e) {
         throw new Error(e.message)
       }

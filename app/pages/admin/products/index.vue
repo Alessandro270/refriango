@@ -118,7 +118,7 @@ const columns = [
         },
         loading: isLoading.value,
         editTo: `/admin/products/${row.original.id}`,
-        edit: true,
+        edit: true
       })
   }
 ]
@@ -146,19 +146,7 @@ const columns = [
           </div>
 
           <div class="flex gap-4">
-            <USelect
-              v-model="selectedStatus"
-              :items="statusFilters"
-              variant="outline"
-              class="w-28"
-            />
-
-            <USelect
-              v-model="selectedCategory"
-              :items="categoryFilters"
-              variant="outline"
-              class="w-42"
-            />
+            <UiModalUpload :store="productStore" />
             <UButton to="/admin/products/new" icon="lucide:plus">
               Novo produto
             </UButton>

@@ -173,11 +173,8 @@ const open = ref<boolean>(false)
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>
           <div class="flex items-center gap-4">
-            <USelect
-              variant="outline"
-              v-model="selectedLocation"
-              :items="locationFilters"
-            />
+            <UiModalUpload :store="warehouseStore" />
+
             <UModal v-model:open="open">
               <template #header>
                 <UiModalTitle @close="open = false">

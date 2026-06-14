@@ -1,6 +1,11 @@
 export const useSupplierStore = defineStore('supplier', {
   state: () => {
-    return { suppliers: [], isLoading: true, hasLoaded: false }
+    return {
+      suppliers: [],
+      seen: new Set<string>(),
+      isLoading: true,
+      hasLoaded: false
+    }
   },
   getters: {
     suppliersCount: state => state.suppliers.length || 0
@@ -16,9 +21,13 @@ export const useSupplierStore = defineStore('supplier', {
             authorization: `Bearer ${authStore.token}`
           }
         })
-        suppliers?.forEach(supplier => {
-          this.suppliers.push(supplier)
-        })
+
+        if (suppliers) this.suppliers = suppliers
+        // suppliers?.forEach(supplier => {
+        //   if (this.seen.has(supplier.id)) return
+        //   this.suppliers.push(supplier)
+        //   this.seen.add(supplier.id)
+        // })
       } catch (e) {
         throw new Error(e.message)
       }
