@@ -177,7 +177,13 @@ const open = ref<boolean>(false)
               placeholder="Pesquisar estoque..."
               variant="outline"
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await stockStore.export()"
+              icon="lucide:download"
+              variant="outline"
+            >
+              Exportar
+            </UButton>
           </div>
           <div class="flex gap-4">
             <UiModalUpload :store="stockStore" />

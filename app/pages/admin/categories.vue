@@ -103,7 +103,13 @@ const search = ref('')
               icon="i-lucide-search"
               placeholder="Pesquisar categoria..."
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await categoryStore.export()"
+              icon="lucide:download"
+              variant="outline"
+            >
+              Exportar
+            </UButton>
           </div>
           <div class="flex gap-4">
             <UiModalUpload :store="categoryStore" />

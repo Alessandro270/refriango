@@ -18,7 +18,7 @@ const items = reactive([
     to: '/products'
   },
   {
-    label: 'Pedidos                                   ',
+    label: 'Pedidos de compra',
     icon: 'lucide:shopping-cart',
     to: '/order'
   },

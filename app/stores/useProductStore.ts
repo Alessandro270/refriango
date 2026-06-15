@@ -47,6 +47,26 @@ export const useProductStore = defineStore('product', {
         throw new Error(e)
       }
     },
+    async export() {
+      const toast = useToast()
+      try {
+        await handleDownload('/product/export', 'produtos.xlsx')
+
+        toast.add({
+          title: 'Ficheiro esta sendo exportado!',
+          icon: 'lucide:download',
+          color: 'success'
+        })
+      } catch (e) {
+        console.log(e)
+
+        toast.add({
+          title: 'Não foi possível enviar o ficheiro',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
+    },
     async create(body) {
       const config = useRuntimeConfig()
       const toast = useToast()

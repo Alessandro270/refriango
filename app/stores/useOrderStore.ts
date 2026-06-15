@@ -109,6 +109,7 @@ export const useOrderStore = defineStore('order', {
           icon: 'lucide:file-check',
           color: 'success'
         })
+        return res
       } catch (e) {
         toast.add({
           title: 'Não foi possível atualizar o recurso!',

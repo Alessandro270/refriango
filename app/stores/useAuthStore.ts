@@ -66,12 +66,9 @@ export const useAuthStore = defineStore('auth', {
       const api = useApi()
 
       try {
-        const user = await api('user/me', {
-          headers: {
-            authorization: `Bearer ${this.token}`
-          }
-        })
+        const user = await api('user/me')
         this.user = user
+        useCookie(AUTH_USER_KEY).value = JSON.stringify(this.user)
       } catch (e) {
         throw new Error(e.message)
       }
@@ -102,20 +99,38 @@ export const useAuthStore = defineStore('auth', {
         throw new Error(e.message)
       }
     },
-    async signup(payload) {
+    async signup(payload: any) {
       const toast = useToast()
       const api = useApi()
 
       try {
         await api('/auth/signup', {
           method: 'POST',
-          body: payload,
-          headers: { authorization: `Bearer ${this.token}` }
+          body: payload
         })
 
         toast.add({
           title: 'Utilizador criado com sucesso',
           icon: 'lucide:user-check'
+        })
+      } catch (e) {
+        throw new Error(e.message)
+      }
+    },
+    async resetPassword(payload: any) {
+      const toast = useToast()
+      const api = useApi()
+
+      try {
+        await api('/auth/reset-password', {
+          method: 'POST',
+          body: payload
+        })
+
+        toast.add({
+          title: 'Senha retificada com sucesso1',
+          icon: 'lucide:user-check',
+          color: 'success'
         })
       } catch (e) {
         throw new Error(e.message)

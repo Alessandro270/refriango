@@ -16,7 +16,7 @@ export const useUserStore = defineStore('user', {
 
       try {
         const users = await api('/user')
-        if (users) this.users = users
+        if (users.length) this.users = users
         // users?.forEach(user => {
         //   if (this.seen.has(user.id)) return
         //   this.users.push(user)
@@ -80,6 +80,28 @@ export const useUserStore = defineStore('user', {
         const res = await api(`/user/${id}`, { method: 'PATCH', body })
 
         const idx = this.users.findIndex(user => id === user.id)
+        this.users[idx] = res
+        toast.add({
+          title: 'Recurso atualizado com sucesso!',
+          icon: 'lucide:file-check',
+          color: 'success'
+        })
+      } catch (e) {
+        toast.add({
+          title: 'Não foi possível atualizar o recurso!',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
+    },
+    async updateLoggedUser(body: any) {
+      const api = useApi()
+      const toast = useToast()
+
+      try {
+        const res = await api(`/user/me`, { method: 'PATCH', body })
+
+        const idx = this.users.findIndex(user => res.id === user.id)
         this.users[idx] = res
         toast.add({
           title: 'Recurso atualizado com sucesso!',

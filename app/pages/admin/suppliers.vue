@@ -55,7 +55,7 @@ const columns = [
           class: 'text-blue-500 '
         }),
 
-        row.original.address
+        row.original.address ?? '—'
       ])
   },
   {
@@ -124,7 +124,13 @@ const open = ref<boolean>(false)
               icon="i-lucide-search"
               placeholder="Pesquisar fornecedor..."
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await supplierStore.export()"
+              icon="lucide:download"
+              variant="outline"
+            >
+              Exportar
+            </UButton>
           </div>
           <div class="flex gap-4">
             <UiModalUpload :store="supplierStore" />

@@ -170,7 +170,13 @@ const open = ref<boolean>(false)
               placeholder="Pesquisar armazéns..."
               variant="outline"
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await warehouseStore.export()"
+              icon="lucide:download"
+              variant="outline"
+            >
+              Exportar
+            </UButton>
           </div>
           <div class="flex items-center gap-4">
             <UiModalUpload :store="warehouseStore" />

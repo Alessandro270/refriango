@@ -38,8 +38,8 @@ watch(
 )
 
 async function updateStatus(status: string) {
-  await orderStore.update(id, { status })
-  order.value.status = status
+  const res = await orderStore.update(id, { status })
+  if (res) order.value = res
 }
 
 onMounted(async () => {
@@ -63,7 +63,7 @@ const completeOpen = ref<boolean>(false)
       <span class="inline-block"> Detalhes do pedido </span>
       <UButton
         variant="link"
-        class="text-ui-text cursor-pointer hover:text-zinc-500 active:text-zinc-600 border border-transparent rounded-none "
+        class="text-ui-text cursor-pointer hover:text-zinc-500 active:text-zinc-600 border border-transparent rounded-none"
         icon="lucide:arrow-left"
         @click="router.back()"
       >
@@ -89,9 +89,12 @@ const completeOpen = ref<boolean>(false)
             </UBadge>
           </UiH3>
 
-          <div class="flex items-center gap-2"
-          
-            v-if="currentStatus?.label !== 'concluído' && currentStatus?.label !== 'cancelado'"
+          <div
+            class="flex items-center gap-2"
+            v-if="
+              currentStatus?.label !== 'concluído' &&
+              currentStatus?.label !== 'cancelado'
+            "
           >
             <UModal
               :ui="uiModalStyle"

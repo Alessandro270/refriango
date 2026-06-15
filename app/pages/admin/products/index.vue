@@ -142,7 +142,12 @@ const columns = [
               placeholder="Pesquisar produto..."
               class="max-w-sm bg-white"
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await productStore.export()"
+              icon="lucide:download"
+              variant="outline"
+              >Exportar</UButton
+            >
           </div>
 
           <div class="flex gap-4">

@@ -18,6 +18,26 @@ export const useStockStore = defineStore('stock', {
         throw new Error(e.message)
       }
     },
+    async export() {
+      const toast = useToast()
+      try {
+        await handleDownload('/stock/export', 'stock.xlsx')
+
+        toast.add({
+          title: 'Ficheiro esta sendo exportado!',
+          icon: 'lucide:download',
+          color: 'success'
+        })
+      } catch (e) {
+        console.log(e)
+
+        toast.add({
+          title: 'Não foi possível enviar o ficheiro',
+          icon: 'lucide:file-x',
+          color: 'error'
+        })
+      }
+    },
     async upload(body) {
       const api = useApi()
       const toast = useToast()
