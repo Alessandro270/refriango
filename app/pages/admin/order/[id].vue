@@ -96,59 +96,63 @@ const completeOpen = ref<boolean>(false)
               currentStatus?.label !== 'cancelado'
             "
           >
-            <UModal
-              :ui="uiModalStyle"
-              title="Tem certeza?"
-              v-model:open="completeOpen"
-            >
-              <UButton
-                icon="lucide:box"
-                class="rounded-sm uppercase font-bold text-zinc-900 py-0.5 text-[10.5px]"
-                variant="solid"
-                size="xs"
-                color="warning"
+            <template v-if="currentStatus.label === 'aprovado'">
+              <UModal
+                :ui="uiModalStyle"
+                title="Tem certeza?"
+                v-model:open="completeOpen"
               >
-                Completo
-              </UButton>
-              <template #body>
-                <UiModalConfirm
-                  @close="completeOpen = false"
-                  @confirm="
-                    () => {
-                      updateStatus('completed')
-                      completeOpen = false
-                    }
-                  "
-                />
-              </template>
-            </UModal>
+                <UButton
+                  icon="lucide:box"
+                  class="rounded-sm uppercase font-bold text-zinc-900 py-0.5 text-[10.5px]"
+                  variant="solid"
+                  size="xs"
+                  color="warning"
+                >
+                  Completo
+                </UButton>
+                <template #body>
+                  <UiModalConfirm
+                    @close="completeOpen = false"
+                    @confirm="
+                      () => {
+                        updateStatus('completed')
+                        completeOpen = false
+                      }
+                    "
+                  />
+                </template>
+              </UModal>
+            </template>
 
-            <UModal
-              :ui="uiModalStyle"
-              title="Tem certeza?"
-              v-model:open="approveOpen"
-            >
-              <UButton
-                icon="lucide:check"
-                class="rounded-sm uppercase font-bold text-zinc-900 py-0.5 text-[10.5px]"
-                variant="solid"
-                size="xs"
-                color="success"
+            <template v-if="currentStatus.label !== 'aprovado'">
+              <UModal
+                :ui="uiModalStyle"
+                title="Tem certeza?"
+                v-model:open="approveOpen"
               >
-                Aprovar
-              </UButton>
-              <template #body>
-                <UiModalConfirm
-                  @close="approveOpen = false"
-                  @confirm="
-                    () => {
-                      updateStatus('approved')
-                      approveOpen = false
-                    }
-                  "
-                />
-              </template>
-            </UModal>
+                <UButton
+                  icon="lucide:check"
+                  class="rounded-sm uppercase font-bold text-zinc-900 py-0.5 text-[10.5px]"
+                  variant="solid"
+                  size="xs"
+                  color="success"
+                >
+                  Aprovar
+                </UButton>
+                <template #body>
+                  <UiModalConfirm
+                    @close="approveOpen = false"
+                    @confirm="
+                      () => {
+                        updateStatus('approved')
+                        approveOpen = false
+                      }
+                    "
+                  />
+                </template>
+              </UModal>
+            </template>
 
             <UModal
               :ui="uiModalStyle"

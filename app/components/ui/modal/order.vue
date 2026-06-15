@@ -44,6 +44,7 @@ async function handleSubmit() {
     const data = schema.parse(state)
     if (action === 'update') await orderStore.update(order.id, data)
     else await orderStore.create(data)
+    await orderStore.getAll()
   } catch (e) {
     toast.add({
       title: 'Não foi possível efetuar pedido',

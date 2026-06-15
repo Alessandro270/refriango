@@ -6,6 +6,7 @@ const UButton = resolveComponent('UButton')
 const UModal = resolveComponent('UModal')
 const UiActions = resolveComponent('UiActions')
 const UiModalDelivery = resolveComponent('UiModalDelivery')
+const UiEditDelivery = resolveComponent('UiEditDelivery')
 
 const uiModalStyle = {
   content: '!w-180 pb-6 min-h-120 h-max !max-w-none',
@@ -114,9 +115,13 @@ const columns = [
         h(UiActions, {
           onConfirm: () => deleteOne(row.original.id, deliveryStore),
           loading: isLoading.value,
-          editComponent: h(UiModalDelivery, {
-            action: 'update',
-            data: row.original
+          edit: true,
+          editComponent: h(UiEditDelivery, {
+            data: {
+              ...row.original,
+              productId: row.original.product?.id,
+              expectedDate: row.original.expectedDate?.split('T')[0]
+            }
           })
         })
       ])

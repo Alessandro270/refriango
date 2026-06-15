@@ -3,6 +3,7 @@ definePageMeta({ layout: 'admin' })
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 const UiActions = resolveComponent('UiActions')
+const UiModalOrder = resolveComponent('UiModalOrder')
 
 const [isLoading, deleteOne] = useDelete()
 const orderStore = useOrderStore()
@@ -69,6 +70,11 @@ const columns = [
           value = 'cancelado'
           icon = 'lucide:x'
           break
+        case 'approved':
+          color = 'success'
+          value = 'aprovado'
+          icon = 'lucide:check'
+          break
         default:
           color = 'neutral'
           icon = 'lucide:help-circle'
@@ -83,8 +89,10 @@ const columns = [
   },
   {
     header: 'Ações',
-    cell: ({ row }) =>
-      h('div', { class: 'flex gap-2 items-center' }, [
+    cell: ({ row }) => {
+      console.log(row.original)
+
+      return h('div', { class: 'flex gap-2 items-center' }, [
         h(UButton, {
           variant: 'outline',
           color: 'neutral',
@@ -94,9 +102,20 @@ const columns = [
         }),
         h(UiActions, {
           onConfirm: () => deleteOne(row.original.id, orderStore),
-          loading: isLoading.value
+          loading: isLoading.value,
+          edit: true,
+          editComponent: h(UiModalOrder, {
+            action: 'update',
+            data: {
+              ...row.original,
+              productId: row.original.product?.id,
+              supplierId: row.original.supplier?.id,
+              expectedDate: row.original.expectedDate?.split('T')[0]
+            }
+          })
         })
       ])
+    }
     // cell: ({ row }) =>
     //   h(UiActions, {
     //     onConfirm: () => deleteOne(row.original.id, orderStore),
@@ -163,7 +182,7 @@ const open = ref<boolean>(false)
 
 <template>
   <div class="space-y-6 flex flex-col h-full">
-    <UiH1 icon="lucide:shopping-cart">Pedidos de compra</UiH1>
+    <UiH1 icon="lucide:shopping-cart">Compras</UiH1>
 
     <UiTable
       :data="filteredOrders"
