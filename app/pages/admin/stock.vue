@@ -131,29 +131,13 @@ const columns = [
   }
 ]
 
-const statusFilters = ref([
-  'Todos',
-  'normal',
-  'low-stock',
-  'overstock',
-  'sold-out'
-])
-
-const warehouseFilters = ref([
-  'Todos os Armazéns',
-  'Armazém Central',
-  'Armazém Viana',
-  'Armazém Benfica',
-  'Filial Talatona',
-  'Filial Kilamba'
-])
-
-const selectedStatus = ref('Todos')
-const selectedWarehouse = ref('Todos os Armazéns')
 const stockModalStyle = {
   content: '!w-200 !max-w-none',
   body: 'flex-1 '
 }
+
+const search = ref<string>('')
+
 const open = ref<boolean>(false)
 </script>
 
@@ -171,11 +155,9 @@ const open = ref<boolean>(false)
       <template #header>
         <div class="flex justify-between">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              icon="i-lucide-search"
-              size="md"
-              placeholder="Pesquisar estoque..."
-              variant="outline"
+            <UiSearch
+              @search="async () => await stockStore.getAll(search)"
+              v-model="search"
             />
             <UButton
               @click="async () => await stockStore.export()"

@@ -45,7 +45,7 @@ const columns = [
   }
 ]
 
-const search = ref('')
+const search = ref<string>('')
 const userStore = useUserStore()
 const toast = useToast()
 
@@ -80,11 +80,9 @@ const open = ref<boolean>(false)
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              variant="outline"
+            <UiSearch
+              @search="async () => await userStore.getAll(search)"
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar utilizador..."
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>

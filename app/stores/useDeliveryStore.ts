@@ -12,7 +12,6 @@ export const useDeliveryStore = defineStore('delivery', {
       try {
         let url = '/delivery'
         if (filter) url = url.concat(`?_id=${filter}%`)
-        console.log(url)
 
         const deliveries = await api(url)
 

@@ -11,11 +11,14 @@ export const useCategoryStore = defineStore('category', {
     categoryCount: state => state.categories.length || 0
   },
   actions: {
-    async getAll() {
+    async getAll(filter: Record<string, any>) {
       const api = useApi()
 
       try {
-        const categories = await api('/category')
+        let url: string = '/category'
+        if (filter) url = url.concat(`?_id=${filter}%`)
+        const categories = await api(url)
+
         if (categories) this.categories = categories
         // categories?.forEach(category => {
         //   if (this.seen.has(category.id)) return

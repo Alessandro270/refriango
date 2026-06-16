@@ -130,9 +130,15 @@ const columns = [
 
 const deliveryStore = useDeliveryStore()
 
-const statusFilters = ref(['Todos', 'completed', 'pending', 'cancelled'])
+const statusFilters = ref([
+  { name: 'Todos', value: 'all' },
+  { name: 'Concluído', value: 'completed' },
+  { name: 'Pendente', value: 'pending' },
+  { name: 'Aprovado', value: 'approved' },
+  { name: 'Cancelado', value: 'cancelled' }
+])
 
-const selectedStatus = ref('Todos')
+const selectedStatus = ref('all')
 
 const toast = useToast()
 const productStore = useProductStore()
@@ -162,9 +168,6 @@ onMounted(async () => {
 
 const search = ref<string>('')
 
-watch(search, handleSearch)
-watch(search, handleSearch)
-
 async function handleSearch() {
   await deliveryStore.getAll(search.value)
 }
@@ -184,14 +187,7 @@ const open = ref(false)
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
-            <UFieldGroup>
-              <UInput
-                v-model="search"
-                variant="outline"
-                placeholder="Pesquisar entrega..."
-                icon="lucide:search"
-              />
-            </UFieldGroup>
+            <UiSearch @search="handleSearch" v-model="search" />
             <UButton icon="lucide:download" variant="outline">
               Exportar
             </UButton>
@@ -201,6 +197,8 @@ const open = ref(false)
               v-model="selectedStatus"
               variant="outline"
               :items="statusFilters"
+              label-key="name"
+              value-key="value"
             />
             <UModal v-model:open="open">
               <template #header>

@@ -8,11 +8,13 @@ export const useStockStore = defineStore('stock', {
     }
   },
   actions: {
-    async getAll() {
+    async getAll(filter: Record<string, any>) {
       const api = useApi()
 
       try {
-        const stocks = await api('/stock')
+        let url: string = '/stock'
+        if (filter) url = url.concat(`?_id=${filter}%`)
+        const stocks = await api(url)
         this.stocks = stocks
       } catch (e) {
         throw new Error(e.message)

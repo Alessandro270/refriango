@@ -8,11 +8,14 @@ export const useProductStore = defineStore('product', {
     }
   },
   actions: {
-    async getAll() {
+    async getAll(filter: Record<string, any>) {
       const api = useApi()
 
       try {
-        const products = await api('/product')
+        let url: string = '/product'
+
+        if (filter) url = url.concat(`?_id=${filter}%`)
+        const products = await api(url)
 
         if (products) this.products = products
         // products?.forEach(product => {

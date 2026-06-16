@@ -8,11 +8,13 @@ export const useWarehouseStore = defineStore('warehouse', {
     }
   },
   actions: {
-    async getAll() {
+    async getAll(filter: Record<string, any>) {
       const api = useApi()
 
       try {
-        const warehouses = await api('/warehouse')
+        let url: string = '/warehouse'
+        if (filter) url = url.concat(`?_id=${filter}%`)
+        const warehouses = await api(url)
 
         if (warehouses) this.warehouses = warehouses
         // warehouses?.forEach(warehouse => {

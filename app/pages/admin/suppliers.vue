@@ -91,16 +91,6 @@ onMounted(async () => {
   }
 })
 
-const filteredSuppliers = computed(() => {
-  return supplierStore.suppliers.filter(supplier => {
-    return (
-      supplier.name.toLowerCase().includes(search.value.toLowerCase()) ||
-      supplier.email.toLowerCase().includes(search.value.toLowerCase()) ||
-      supplier.id.toLowerCase().includes(search.value.toLowerCase())
-    )
-  })
-})
-
 const open = ref<boolean>(false)
 </script>
 
@@ -111,18 +101,16 @@ const open = ref<boolean>(false)
     </div>
 
     <UiTable
-      :data="filteredSuppliers"
+      :data="supplierStore.suppliers"
       :columns="columns"
       :loading="supplierStore.isLoading"
     >
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              variant="outline"
+            <UiSearch
+              @search="async () => await supplierStore.getAll(search)"
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar fornecedor..."
             />
             <UButton
               @click="async () => await supplierStore.export()"

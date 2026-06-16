@@ -80,7 +80,7 @@ const columns = [
   }
 ]
 
-const search = ref('')
+const search = ref<string>('')
 </script>
 
 <template>
@@ -97,12 +97,11 @@ const search = ref('')
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              variant="outline"
+            <UiSearch
+              @search="async () => await categoryStore.getAll(search)"
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar categoria..."
             />
+
             <UButton
               @click="async () => await categoryStore.export()"
               icon="lucide:download"

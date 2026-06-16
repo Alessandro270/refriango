@@ -157,7 +157,6 @@ onMounted(async () => {
 const statusFilters = ref(['Todos', 'completed', 'pending', 'cancelled'])
 
 const selectedStatus = ref('Todos')
-const search = ref('')
 
 const filteredOrders = computed(() => {
   return orderStore.orders.filter(order => {
@@ -178,6 +177,11 @@ const modalStyle = {
 }
 
 const open = ref<boolean>(false)
+const search = ref<string>('')
+
+async function handleSearch() {
+  await orderStore.getAll(search.value)
+}
 </script>
 
 <template>
@@ -192,12 +196,7 @@ const open = ref<boolean>(false)
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              variant="outline"
-              v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar compra..."
-            />
+            <UiSearch @search="handleSearch" v-model="search" />
             <UButton icon="lucide:download" variant="outline">
               Exportar
             </UButton>

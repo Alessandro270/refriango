@@ -164,11 +164,9 @@ const open = ref<boolean>(false)
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
-            <UInput
+            <UiSearch
+              @search="async () => await warehouseStore.getAll(search)"
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar armazéns..."
-              variant="outline"
             />
             <UButton
               @click="async () => await warehouseStore.export()"

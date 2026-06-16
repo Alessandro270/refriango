@@ -122,6 +122,10 @@ const columns = [
       })
   }
 ]
+
+async function handleSearch() {
+  await productStore.getAll(search.value)
+}
 </script>
 
 <template>
@@ -135,19 +139,15 @@ const columns = [
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center gap-4">
-            <UInput
-              variant="outline"
-              v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar produto..."
-              class="max-w-sm bg-white"
-            />
+            <UiSearch @search="handleSearch" v-model="search" />
+
             <UButton
               @click="async () => await productStore.export()"
               icon="lucide:download"
               variant="outline"
-              >Exportar</UButton
             >
+              Exportar
+            </UButton>
           </div>
 
           <div class="flex gap-4">

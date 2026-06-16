@@ -11,12 +11,14 @@ export const useUserStore = defineStore('user', {
     usersCount: state => state.users.length || 0
   },
   actions: {
-    async getAll() {
+    async getAll(filter: Record<string, any>) {
       const api = useApi()
 
       try {
-        const users = await api('/user')
-        if (users.length) this.users = users
+        let url: string = '/user'
+        if (filter) url = url.concat(`?_id=${filter}%`)
+        const users = await api(url)
+        if (users) this.users = users
         // users?.forEach(user => {
         //   if (this.seen.has(user.id)) return
         //   this.users.push(user)

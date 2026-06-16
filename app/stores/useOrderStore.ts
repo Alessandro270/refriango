@@ -8,16 +8,15 @@ export const useOrderStore = defineStore('order', {
     }
   },
   actions: {
-    async getAll() {
+    async getAll(filter: Record<string, any>) {
       const api = useApi()
-      const authStore = useAuthStore()
-
       try {
-        const orders = await api('/order', {
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          }
-        })
+        console.log(filter)
+
+        let url = '/order'
+        if (filter) url = url.concat(`?_id=${filter}%`)
+
+        const orders = await api(url)
 
         if (orders) this.orders = orders
         // orders?.forEach(order => {

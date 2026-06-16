@@ -11,16 +11,14 @@ export const useSupplierStore = defineStore('supplier', {
     suppliersCount: state => state.suppliers.length || 0
   },
   actions: {
-    async getAll() {
+    async getAll(filter: Record<string, any>) {
       const api = useApi()
       const authStore = useAuthStore()
 
       try {
-        const suppliers = await api('/supplier', {
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          }
-        })
+        let url: string = '/supplier'
+        if (filter) url = url.concat(`?_id=${filter}%`)
+        const suppliers = await api(url)
 
         if (suppliers) this.suppliers = suppliers
         // suppliers?.forEach(supplier => {
