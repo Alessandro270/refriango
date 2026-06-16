@@ -133,21 +133,6 @@ const deliveryStore = useDeliveryStore()
 const statusFilters = ref(['Todos', 'completed', 'pending', 'cancelled'])
 
 const selectedStatus = ref('Todos')
-const search = ref('')
-
-const filteredDeliveries = computed(() => {
-  return deliveryStore.deliveries?.filter(delivery => {
-    const matchesStatus =
-      selectedStatus.value === 'Todos' ||
-      delivery.status === selectedStatus.value
-
-    const matchesSearch =
-      delivery.id.toLowerCase().includes(search.value.toLowerCase()) ||
-      delivery.supplierId.toLowerCase().includes(search.value.toLowerCase())
-
-    return matchesStatus && matchesSearch
-  })
-})
 
 const toast = useToast()
 const productStore = useProductStore()
@@ -174,6 +159,16 @@ onMounted(async () => {
     deliveryStore.isLoading = false
   }
 })
+
+const search = ref<string>('')
+
+watch(search, handleSearch)
+watch(search, handleSearch)
+
+async function handleSearch() {
+  await deliveryStore.getAll(search.value)
+}
+
 const open = ref(false)
 </script>
 
@@ -182,19 +177,21 @@ const open = ref(false)
     <UiH1 icon="lucide:van"> Entregas </UiH1>
 
     <UiTable
-      :data="filteredDeliveries"
+      :data="deliveryStore.deliveries"
       :columns="columns"
       :loading="deliveryStore.isLoading"
     >
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              variant="outline"
-              v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar entrega..."
-            />
+            <UFieldGroup>
+              <UInput
+                v-model="search"
+                variant="outline"
+                placeholder="Pesquisar entrega..."
+                icon="lucide:search"
+              />
+            </UFieldGroup>
             <UButton icon="lucide:download" variant="outline">
               Exportar
             </UButton>
