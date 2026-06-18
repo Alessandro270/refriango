@@ -152,6 +152,7 @@ const stockModalStyle = {
   body: 'flex-1 '
 }
 const open = ref<boolean>(false)
+const search = ref<string>('')
 </script>
 
 <template>
@@ -168,11 +169,9 @@ const open = ref<boolean>(false)
       <template #header>
         <div class="flex justify-between">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              icon="i-lucide-search"
-              size="md"
-              placeholder="Pesquisar estoque..."
-              variant="outline"
+            <UiSearch
+              v-model="search"
+              @search="async () => await stockStore.getAll(search)"
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>

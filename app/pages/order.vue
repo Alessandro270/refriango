@@ -147,11 +147,9 @@ const open = ref<boolean>(false)
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              variant="outline"
+            <UiSearch
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar compra..."
+              @search="async () => await orderStore.getAll(search)"
             />
             <UButton icon="lucide:download" variant="outline">
               Exportar

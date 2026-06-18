@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const search = ref('')
-
 const statusFilters = ref(['Todos', 'Ativo', 'Inativo', 'Em falta'])
 
 const categoryFilters = ref([
@@ -23,6 +21,7 @@ const UBadge = resolveComponent('UBadge')
 const toast = useToast()
 const productStore = useProductStore()
 
+const search = ref<string>('')
 onMounted(async () => {
   try {
     if (!productStore.hasLoaded) {
@@ -140,12 +139,9 @@ const columns = [
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center gap-4">
-            <UInput
-              variant="outline"
+            <UiSearch
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar produto..."
-              class="max-w-sm bg-white"
+              @search="async () => await productStore.getAll(search)"
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>

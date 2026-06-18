@@ -1,14 +1,4 @@
 <script setup lang="ts">
-const search = ref('')
-const selectedLocation = ref<string | null>(null)
-
-const locationFilters = [
-  { label: 'Todas localizações', value: null },
-  { label: 'Luanda Centro', value: 'luanda_centro' },
-  { label: 'Viana', value: 'viana' },
-  { label: 'Cacuaco', value: 'cacuaco' }
-]
-
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
 const UIcon = resolveComponent('UIcon')
@@ -112,19 +102,7 @@ const columns = [
   }
 ]
 
-const filteredWarehouses = computed(() => {
-  return warehouseStore.warehouses.filter(warehouse => {
-    const matchesLocation =
-      !selectedLocation.value || warehouse.location === selectedLocation.value
-
-    const matchesSearch =
-      warehouse.name.toLowerCase().includes(search.value.toLowerCase()) ||
-      warehouse.id.toLowerCase().includes(search.value.toLowerCase())
-
-    return matchesLocation && matchesSearch
-  })
-})
-
+const search = ref<string>('')
 const open = ref<boolean>(false)
 </script>
 
@@ -133,18 +111,16 @@ const open = ref<boolean>(false)
     <UiH1 icon="lucide:warehouse">Armazéns</UiH1>
 
     <UiTable
-      :data="filteredWarehouses"
+      :data="warehouseStore.warehouses"
       :columns="columns"
       :loading="warehouseStore.isLoading"
     >
       <template #header>
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
-            <UInput
+            <UiSearch
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar armazéns..."
-              variant="outline"
+              @search="async () => await warehouseStore.getAll(search)"
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>

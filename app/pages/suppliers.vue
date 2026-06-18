@@ -55,7 +55,6 @@ const columns = [
   }
 ]
 
-const search = ref('')
 const supplierStore = useSupplierStore()
 const toast = useToast()
 
@@ -76,17 +75,8 @@ onMounted(async () => {
   }
 })
 
-const filteredSuppliers = computed(() => {
-  return supplierStore.suppliers.filter(supplier => {
-    return (
-      supplier.name.toLowerCase().includes(search.value.toLowerCase()) ||
-      supplier.email.toLowerCase().includes(search.value.toLowerCase()) ||
-      supplier.id.toLowerCase().includes(search.value.toLowerCase())
-    )
-  })
-})
-
 const open = ref<boolean>(false)
+const search = ref<string>('')
 </script>
 
 <template>
@@ -96,18 +86,16 @@ const open = ref<boolean>(false)
     </div>
 
     <UiTable
-      :data="filteredSuppliers"
+      :data="supplierStore.suppliers"
       :columns="columns"
       :loading="supplierStore.isLoading"
     >
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              variant="outline"
+            <UiSearch
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar fornecedor..."
+              @search="async () => await supplierStore.getAll(search)"
             />
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>

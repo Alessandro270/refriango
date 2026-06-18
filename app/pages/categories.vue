@@ -35,7 +35,11 @@ const columns = [
         row.original.name
       ])
   },
-  { accessorKey: 'description', header: 'descricao' },
+  {
+    accessorKey: 'description',
+    header: 'descricao',
+    cell: ({ row }) => row.original.description || '—'
+  },
 
   {
     accessorKey: 'createdAt',
@@ -72,16 +76,12 @@ const categoryCount = computed(() => categoryStore.categories.length)
       <template #header>
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center justify-between gap-4">
-            <UInput
-              variant="outline"
+            <UiSearch
               v-model="search"
-              icon="i-lucide-search"
-              placeholder="Pesquisar categoria..."
+              @search="async () => await categoryStore.getAll(search)"
             />
+
             <UButton icon="lucide:download" variant="outline">Exportar</UButton>
-            <span class="text-sm text-zinc-500">
-              Categorias: {{ categoryCount }}
-            </span>
           </div>
           <UModal v-model:open="open">
             <template #header>
