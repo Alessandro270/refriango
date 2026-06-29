@@ -8,7 +8,7 @@ export const useOrderStore = defineStore('order', {
     }
   },
   actions: {
-    async getAll(filter: Record<string, any>) {
+    async getAll(filter?: Record<string, any>) {
       const api = useApi()
       try {
         console.log(filter)

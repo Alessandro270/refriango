@@ -8,7 +8,7 @@ export const useWarehouseStore = defineStore('warehouse', {
     }
   },
   actions: {
-    async getAll(filter: Record<string, any>) {
+    async getAll(filter?: Record<string, any>) {
       const api = useApi()
 
       try {

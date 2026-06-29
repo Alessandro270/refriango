@@ -104,27 +104,27 @@ const columns = [
         () => (refrigerated ? 'sim' : 'nao')
       )
     }
-  },
-  {
-    header: 'Detalhes',
-    cell: ({ row }) =>
-      h(
-        UModal,
-        {
-          title: 'Detalhes do produto'
-        },
-        {
-          default: () =>
-            h(UButton, {
-              variant: 'outline',
-              color: 'neutral',
-              icon: 'lucide:ellipsis-vertical',
-              size: 'xs'
-            }),
-          body: () => h(UiModalDetails, { data: row.original })
-        }
-      )
   }
+  // {
+  //   header: 'Detalhes',
+  //   cell: ({ row }) =>
+  //     h(
+  //       UModal,
+  //       {
+  //         title: 'Detalhes do produto'
+  //       },
+  //       {
+  //         default: () =>
+  //           h(UButton, {
+  //             variant: 'outline',
+  //             color: 'neutral',
+  //             icon: 'lucide:ellipsis-vertical',
+  //             size: 'xs'
+  //           }),
+  //         body: () => h(UiModalDetails, { data: row.original })
+  //       }
+  //     )
+  // }
 ]
 </script>
 
@@ -143,23 +143,18 @@ const columns = [
               v-model="search"
               @search="async () => await productStore.getAll(search)"
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await productStore.export()"
+              icon="lucide:download"
+              variant="outline"
+            >
+              Exportar
+            </UButton>
           </div>
 
-          <div class="flex gap-4">
-            <USelect
-              v-model="selectedStatus"
-              :items="statusFilters"
-              variant="outline"
-              class="w-28"
-            />
+          <div class="flex items-center gap-4">
+            <UiModalUpload :store="productStore" />
 
-            <USelect
-              v-model="selectedCategory"
-              :items="categoryFilters"
-              variant="outline"
-              class="w-42"
-            />
             <UButton to="/products/new" icon="lucide:plus">
               Novo produto
             </UButton>

@@ -122,7 +122,12 @@ const open = ref<boolean>(false)
               v-model="search"
               @search="async () => await warehouseStore.getAll(search)"
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await warehouseStore.export()"
+              icon="lucide:download"
+              variant="outline"
+              >Exportar</UButton
+            >
           </div>
           <div class="flex items-center gap-4">
             <UiModalUpload :store="warehouseStore" />

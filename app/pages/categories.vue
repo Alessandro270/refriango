@@ -81,19 +81,30 @@ const categoryCount = computed(() => categoryStore.categories.length)
               @search="async () => await categoryStore.getAll(search)"
             />
 
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await categoryStore.export()"
+              icon="lucide:download"
+              variant="outline"
+            >
+              Exportar
+            </UButton>
           </div>
-          <UModal v-model:open="open">
-            <template #header>
-              <UiModalTitle @close="open = false">
-                Nova categoria
-              </UiModalTitle>
-            </template>
-            <UButton icon="lucide:plus"> Nova categoria </UButton>
-            <template #body>
-              <UiModalCategory @close="open = false" />
-            </template>
-          </UModal>
+
+          <div class="flex items-center gap-4">
+            <UiModalUpload :store="categoryStore" />
+
+            <UModal v-model:open="open">
+              <template #header>
+                <UiModalTitle @close="open = false">
+                  Nova categoria
+                </UiModalTitle>
+              </template>
+              <UButton icon="lucide:plus"> Nova categoria </UButton>
+              <template #body>
+                <UiModalCategory @close="open = false" />
+              </template>
+            </UModal>
+          </div>
         </div>
       </template>
     </UiTable>

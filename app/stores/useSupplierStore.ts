@@ -11,7 +11,7 @@ export const useSupplierStore = defineStore('supplier', {
     suppliersCount: state => state.suppliers.length || 0
   },
   actions: {
-    async getAll(filter: Record<string, any>) {
+    async getAll(filter?: Record<string, any>) {
       const api = useApi()
       const authStore = useAuthStore()
 

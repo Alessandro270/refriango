@@ -26,7 +26,7 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 lowercase' }, [
         h(UIcon, {
-          name: 'lucide:at-sign',
+          name: 'lucide:mail',
           class: 'text-blue-400 '
         }),
         row.original.email

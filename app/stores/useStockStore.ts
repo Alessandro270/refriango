@@ -8,7 +8,7 @@ export const useStockStore = defineStore('stock', {
     }
   },
   actions: {
-    async getAll(filter: Record<string, any>) {
+    async getAll(filter?: Record<string, any>) {
       const api = useApi()
 
       try {

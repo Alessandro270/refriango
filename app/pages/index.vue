@@ -1,31 +1,4 @@
 <script lang="ts" setup>
-const cards = ref([
-  {
-    title: 'Total de produtos',
-    description: '121',
-    to: '/products',
-    icon: 'lucide:boxes'
-  },
-  {
-    title: 'Estoque baixo',
-    description: '13',
-    to: '/stock',
-    icon: 'lucide:package-minus'
-  },
-  {
-    title: 'Esgotado',
-    description: '41',
-    to: '/stock',
-    icon: 'lucide:package-open'
-  },
-  {
-    title: 'Fornecedores',
-    description: '21',
-    to: '/suppliers',
-    icon: 'lucide:handshake'
-  }
-])
-
 const option = {
   title: {
     text: 'Comparação de vendas',
@@ -110,111 +83,68 @@ const option = {
   ]
 }
 
-const data = ref([
+const cards = ref([
   {
-    id: 'STK-2026-001',
-    product: 'Coca-Cola 2L',
-    category: 'Refrigerantes',
-    purchasePrice: 1400,
-    salePrice: 1800,
-    quantity: 24,
-    minimumStock: 10,
-    maximumStock: 40
+    title: 'Total de produtos',
+    description: '0',
+    to: '/products',
+    icon: 'lucide:boxes'
   },
   {
-    id: 'STK-2026-002',
-    product: 'Fanta Laranja 2L',
-    category: 'Refrigerantes',
-    purchasePrice: 1350,
-    salePrice: 1750,
-    quantity: 8,
-    minimumStock: 10,
-    maximumStock: 35
+    title: 'Estoque baixo',
+    description: '0',
+    to: '/stock',
+    icon: 'lucide:package-minus'
   },
   {
-    id: 'STK-2026-003',
-    product: 'Sprite 2L',
-    category: 'Refrigerantes',
-    purchasePrice: 1300,
-    salePrice: 1700,
-    quantity: 0,
-    minimumStock: 8,
-    maximumStock: 30
+    title: 'Esgotado',
+    description: '0',
+    to: '/stock',
+    icon: 'lucide:package-open'
   },
   {
-    id: 'STK-2026-004',
-    product: 'Água Pura 1.5L',
-    category: 'Águas',
-    purchasePrice: 650,
-    salePrice: 900,
-    quantity: 52,
-    minimumStock: 20,
-    maximumStock: 50
-  },
-  {
-    id: 'STK-2026-005',
-    product: 'Sumol Ananás',
-    category: 'Sumos',
-    purchasePrice: 950,
-    salePrice: 1250,
-    quantity: 14,
-    minimumStock: 6,
-    maximumStock: 25
-  },
-  {
-    id: 'STK-2026-006',
-    product: 'Red Bull 250ml',
-    category: 'Energéticas',
-    purchasePrice: 1700,
-    salePrice: 2200,
-    quantity: 5,
-    minimumStock: 8,
-    maximumStock: 20
-  },
-  {
-    id: 'STK-2026-007',
-    product: 'Compal Manga',
-    category: 'Sumos',
-    purchasePrice: 1050,
-    salePrice: 1400,
-    quantity: 18,
-    minimumStock: 10,
-    maximumStock: 30
-  },
-  {
-    id: 'STK-2026-008',
-    product: 'Pepsi 2L',
-    category: 'Refrigerantes',
-    purchasePrice: 1250,
-    salePrice: 1650,
-    quantity: 11,
-    minimumStock: 10,
-    maximumStock: 35
-  },
-  {
-    id: 'STK-2026-009',
-    product: 'Monster Energy',
-    category: 'Energéticas',
-    purchasePrice: 1900,
-    salePrice: 2400,
-    quantity: 2,
-    minimumStock: 5,
-    maximumStock: 15
-  },
-  {
-    id: 'STK-2026-010',
-    product: 'Água com Gás 500ml',
-    category: 'Águas',
-    purchasePrice: 800,
-    salePrice: 1100,
-    quantity: 27,
-    minimumStock: 12,
-    maximumStock: 30
+    title: 'Fornecedores',
+    description: '0',
+    to: '/suppliers',
+    icon: 'lucide:handshake'
   }
 ])
 
+const stockStore = useStockStore()
+const productStore = useProductStore()
+const supplierStore = useSupplierStore()
+
+const isLoading = ref<boolean>(false)
+onMounted(async () => {
+  try {
+    isLoading.value = true
+    await stockStore.getAll()
+    await productStore.getAll()
+    await supplierStore.getAll()
+    cards.value.forEach(val => {
+      if (val.title === 'Total de produtos')
+        val.description = String(productStore.products.length)
+      else if (val.title === 'Estoque baixo')
+        val.description = String(
+          stockStore.stocks.filter(val => val.quantity < val.minimumStock)
+            .length
+        )
+      else if (val.title === 'Esgotado')
+        val.description = String(
+          stockStore.stocks.filter(val => val.quantity <= 0).length
+        )
+      else if (val.title === 'Fornecedores')
+        val.description = String(supplierStore.suppliersCount)
+    })
+  } catch (e) {
+    console.log(e)
+  } finally {
+    isLoading.value = false
+  }
+})
+
 const filteredData = computed(() =>
-  data.value.filter(el => el.quantity < el.minimumStock)
+  stockStore.stocks.filter(el => el.quantity < el.minimumStock)
 )
 
 const UBadge = resolveComponent('UBadge')

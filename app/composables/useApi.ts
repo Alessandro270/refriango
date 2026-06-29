@@ -22,7 +22,6 @@ export const useApi = () => {
         options._retry = false
         return
       }
-
       if (response.status === 401) {
         try {
           await authStore.refresh()

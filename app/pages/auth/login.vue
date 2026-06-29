@@ -30,10 +30,7 @@ async function handleSubmit() {
     await authStore.login(body)
     await navigateTo('/')
   } catch (e) {
-    toast.add({
-      title: 'Não foi possível efetuar o login',
-      icon: 'lucide:user-x'
-    })
+    console.log(e)
   } finally {
     isLoading.value = false
   }

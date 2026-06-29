@@ -11,7 +11,7 @@ export const useCategoryStore = defineStore('category', {
     categoryCount: state => state.categories.length || 0
   },
   actions: {
-    async getAll(filter: Record<string, any>) {
+    async getAll(filter?: Record<string, any>) {
       const api = useApi()
 
       try {

@@ -6,7 +6,7 @@ export const useDeliveryStore = defineStore('delivery', {
     isLoading: true
   }),
   actions: {
-    async getAll(filter: Record<string, any>) {
+    async getAll(filter?: Record<string, any>) {
       const api = useApi()
 
       try {

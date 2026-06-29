@@ -21,7 +21,7 @@ const columns = [
     cell: ({ row }) =>
       h('div', { class: 'flex items-center gap-2 lowercase' }, [
         h(UIcon, {
-          name: 'lucide:at-sign',
+          name: 'lucide:mail',
           class: 'text-blue-400 '
         }),
         row.original.email
@@ -97,17 +97,29 @@ const search = ref<string>('')
               v-model="search"
               @search="async () => await supplierStore.getAll(search)"
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
+            <UButton
+              @click="async () => await supplierStore.export()"
+              icon="lucide:download"
+              variant="outline"
+              >Exportar</UButton
+            >
           </div>
-          <UModal v-model:open="open">
-            <template #header>
-              <UiModalTitle @close="open = false">Novo Fornecedor</UiModalTitle>
-            </template>
-            <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
-            <template #body>
-              <UiModalSupplier @close="open = false" />
-            </template>
-          </UModal>
+
+          <div class="flex items-center gap-4">
+            <UiModalUpload :store="supplierStore" />
+
+            <UModal v-model:open="open">
+              <template #header>
+                <UiModalTitle @close="open = false">
+                  Novo Fornecedor
+                </UiModalTitle>
+              </template>
+              <UButton icon="lucide:plus"> Novo Fornecedor </UButton>
+              <template #body>
+                <UiModalSupplier @close="open = false" />
+              </template>
+            </UModal>
+          </div>
         </div>
       </template>
     </UiTable>

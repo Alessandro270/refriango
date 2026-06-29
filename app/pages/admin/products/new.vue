@@ -81,6 +81,7 @@ async function handleSubmit() {
     await productStore.create(data)
     await navigateTo('/admin/products')
   } catch (e) {
+    console.log(e)
     toast.add({ title: 'Ocorreu um erro' })
   } finally {
     isLoading.value = false
@@ -330,20 +331,6 @@ async function handleSubmit() {
       name="refrigerated"
     >
       <UCheckbox v-model="state.refrigerated" orientation="horizontal" />
-    </UFormField>
-    <UFormField
-      :size="formFieldSize"
-      :ui="uiStyle"
-      label="Fazer upload de *.xsls, *.csv"
-      class="col-start-1 row-start-7 col-span-2 items-center"
-    >
-      <UFileUpload
-        :ui="fileUploadStyle"
-        type="file"
-        label="Upload *.xsls, *.csv"
-        class="w-full"
-        variant="button"
-      />
     </UFormField>
     <UButton
       icon="lucide:x"

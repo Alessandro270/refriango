@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', {
     usersCount: state => state.users.length || 0
   },
   actions: {
-    async getAll(filter: Record<string, any>) {
+    async getAll(filter?: Record<string, any>) {
       const api = useApi()
 
       try {

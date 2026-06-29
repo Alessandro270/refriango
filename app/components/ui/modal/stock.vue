@@ -20,7 +20,15 @@ const schema = z.object({
     .nonempty('Deve ter um armazem')
 })
 
-const state = reactive({ ...stock })
+const state = reactive({
+  ...stock
+})
+
+onMounted(() => {
+  console.log(state)
+  state.productId = stock?.product?.id
+  state.warehouseId = stock?.warehouse?.id
+})
 
 const productStore = useProductStore()
 const warehouseStore = useWarehouseStore()

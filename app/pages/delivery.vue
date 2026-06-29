@@ -90,29 +90,29 @@ const columns = [
         () => value
       )
     }
-  },
-  {
-    header: 'Detalhes',
-    cell: ({ row }) => {
-      return h(
-        UModal,
-        {
-          title: 'Detalhes da entrega',
-          ui: uiModalStyle
-        },
-        {
-          default: () =>
-            h(UButton, {
-              variant: 'outline',
-              color: 'neutral',
-              icon: 'lucide:ellipsis-vertical',
-              size: 'xs'
-            }),
-          body: () => h(UiModalDelivery)
-        }
-      )
-    }
   }
+  // {
+  //   header: 'Detalhes',
+  //   cell: ({ row }) => {
+  //     return h(
+  //       UModal,
+  //       {
+  //         title: 'Detalhes da entrega',
+  //         ui: uiModalStyle
+  //       },
+  //       {
+  //         default: () =>
+  //           h(UButton, {
+  //             variant: 'outline',
+  //             color: 'neutral',
+  //             icon: 'lucide:ellipsis-vertical',
+  //             size: 'xs'
+  //           }),
+  //         body: () => h(UiModalDelivery)
+  //       }
+  //     )
+  //   }
+  // }
 ]
 
 const deliveryStore = useDeliveryStore()
@@ -172,11 +172,6 @@ const open = ref(false)
             </UButton>
           </div>
           <div class="flex items-center gap-4">
-            <USelect
-              v-model="selectedStatus"
-              variant="outline"
-              :items="statusFilters"
-            />
             <UModal v-model:open="open">
               <template #header>
                 <UiModalTitle @close="open = false">

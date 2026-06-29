@@ -8,7 +8,7 @@ export const useProductStore = defineStore('product', {
     }
   },
   actions: {
-    async getAll(filter: Record<string, any>) {
+    async getAll(filter?: Record<string, any>) {
       const api = useApi()
 
       try {
@@ -71,17 +71,13 @@ export const useProductStore = defineStore('product', {
       }
     },
     async create(body) {
-      const config = useRuntimeConfig()
       const toast = useToast()
-      const authStore = useAuthStore()
       try {
+        const api = useApi()
+
         const product = await api('/product', {
           method: 'POST',
-          headers: {
-            authorization: `Bearer ${authStore.token}`
-          },
-          body,
-          baseURL: config.public.apiUrl
+          body
         })
 
         this.products.push(product)

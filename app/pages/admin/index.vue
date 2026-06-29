@@ -328,7 +328,7 @@ const columns = [
           <UiH3>produtos em estoque baixo</UiH3>
           <UButton
             label="ver estoque"
-            to="/stock"
+            to="/admin/stock"
             icon="lucide:arrow-up-right"
           />
         </div>
