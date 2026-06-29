@@ -10,7 +10,7 @@ watch(model, onSearch)
   <UInput
     v-model="model"
     variant="outline"
-    placeholder="Pesquisar entrega..."
+    placeholder="Pesquisar..."
     icon="lucide:search"
   />
 </template>

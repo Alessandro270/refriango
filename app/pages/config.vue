@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import * as z from 'zod'
-
+const authStore = useAuthStore()
+const userStore = useUserStore()
 const uiStyle = {
   label: 'text-ui-text',
   root: 'h-full',
@@ -21,9 +22,9 @@ const passwordSchema = z.object({
 })
 
 const updateUserState = {
-  firstname: undefined,
-  lastname: undefined,
-  email: undefined
+  firstname: authStore.user?.firstname,
+  lastname: authStore.user?.lastname,
+  email: authStore.user?.email
 }
 
 const passwordState = {
@@ -33,8 +34,6 @@ const passwordState = {
 }
 const updateUserIsLoading = ref<boolean>(false)
 const passwordIsLoading = ref<boolean>(false)
-const authStore = useAuthStore()
-const userStore = useUserStore()
 
 async function handleResetPassword() {
   passwordIsLoading.value = true

@@ -166,10 +166,6 @@ const open = ref(false)
               v-model="search"
               @search="async () => await deliveryStore.getAll(search)"
             />
-
-            <UButton icon="lucide:download" variant="outline">
-              Exportar
-            </UButton>
           </div>
           <div class="flex items-center gap-4">
             <UModal v-model:open="open">

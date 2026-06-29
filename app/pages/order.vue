@@ -151,7 +151,11 @@ const open = ref<boolean>(false)
               v-model="search"
               @search="async () => await orderStore.getAll(search)"
             />
-            <UButton icon="lucide:download" variant="outline">
+            <UButton
+              @click="async () => await orderStore.export()"
+              icon="lucide:download"
+              variant="outline"
+            >
               Exportar
             </UButton>
           </div>
