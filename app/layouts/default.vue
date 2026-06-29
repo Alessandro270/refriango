@@ -105,11 +105,7 @@ const fullName = computed(
                 {{ fullName }}
               </span>
               <span class="inline-block text-xs font-semibold text-zinc-400">
-                {{
-                  authStore.user?.role === 'user'
-                    ? 'Funcionário'
-                    : 'Administrador'
-                }}
+                Funcionário
               </span>
             </div>
           </div>

@@ -21,11 +21,20 @@ const passwordSchema = z.object({
   confirmPassword: z.string().optional()
 })
 
-const updateUserState = {
+const updateUserState = reactive({
   firstname: authStore.user?.firstname,
   lastname: authStore.user?.lastname,
   email: authStore.user?.email
-}
+})
+
+onMounted(async () => {
+  await authStore.getAuthUser()
+  console.log(authStore.user)
+
+  updateUserState.firstname = authStore.user?.firstname
+  updateUserState.lastname = authStore.user?.lastname
+  updateUserState.email = authStore.user?.email
+})
 
 const passwordState = {
   password: undefined,

@@ -83,7 +83,6 @@ async function handleSubmit() {
     await navigateTo('/admin/products')
   } catch (e) {
     console.log(e)
-    toast.add({ title: 'Ocorreu um erro' })
   } finally {
     isLoading.value = false
   }

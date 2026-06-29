@@ -76,7 +76,7 @@ const columns = [
           break
         case 'completed':
           color = 'success'
-          value = 'concluído'
+          value = 'completo'
           icon = 'lucide:check-circle'
           break
         case 'cancelled':
@@ -132,7 +132,7 @@ const deliveryStore = useDeliveryStore()
 
 const statusFilters = ref([
   { name: 'Todos', value: 'all' },
-  { name: 'Concluído', value: 'completed' },
+  { name: 'completo', value: 'completed' },
   { name: 'Pendente', value: 'pending' },
   { name: 'Aprovado', value: 'approved' },
   { name: 'Cancelado', value: 'cancelled' }

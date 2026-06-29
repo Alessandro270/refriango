@@ -11,8 +11,13 @@ onMounted(async () => {
 })
 
 async function updateStatus(status: string) {
-  await deliveryStore.update(id, { status })
-  delivery.value.status = status
+  try {
+    await deliveryStore.update(id, { status })
+    delivery.value.status = status
+    await stockStore.getAll()
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 const statusMap = {
@@ -27,7 +32,7 @@ const statusMap = {
     color: 'success'
   },
   completed: {
-    label: 'concluído',
+    label: 'completo',
     icon: 'lucide:check-circle',
     color: 'success'
   },
@@ -54,6 +59,7 @@ const cancelOpen = ref<boolean>(false)
 const completeOpen = ref<boolean>(false)
 
 const router = useRouter()
+const stockStore = useStockStore()
 </script>
 
 <template>
@@ -62,7 +68,7 @@ const router = useRouter()
       <span class="inline-block"> Detalhes da entrega </span>
       <UButton
         variant="link"
-        class="text-ui-text cursor-pointer hover:text-zinc-500 active:text-zinc-600 border border-transparent rounded-none "
+        class="text-ui-text cursor-pointer hover:text-zinc-500 active:text-zinc-600 border border-transparent rounded-none"
         icon="lucide:arrow-left"
         @click="router.back()"
       >
@@ -91,65 +97,73 @@ const router = useRouter()
           <div
             class="flex items-center gap-2"
             v-if="
-              currentStatus?.label !== 'concluído' &&
+              currentStatus?.label !== 'completo' &&
               currentStatus?.label !== 'cancelado'
             "
           >
-            <UModal
-              v-model:open="completeOpen"
-              title="Tens a certeza?"
-              :ui="uiModalStyle"
-            >
-              <UButton
-                icon="lucide:box"
-                class="rounded-sm uppercase font-bold text-zinc-900 py-0.5 text-[10.5px]"
-                variant="solid"
-                size="xs"
-                color="warning"
-                :disabled="currentStatus.label !== 'aprovado'"
+            <template v-if="currentStatus?.label === 'aprovado'">
+              <UModal
+                v-model:open="completeOpen"
+                title="Tens a certeza?"
+                :ui="uiModalStyle"
               >
-                Completo
-              </UButton>
+                <UButton
+                  icon="lucide:box"
+                  class="rounded-sm uppercase font-bold text-zinc-900 py-0.5 text-[10.5px]"
+                  variant="solid"
+                  size="xs"
+                  color="warning"
+                  :disabled="currentStatus.label !== 'aprovado'"
+                >
+                  Completo
+                </UButton>
 
-              <template #body>
-                <UiModalConfirm
-                  @close="completeOpen = false"
-                  @confirm="
-                    () => {
-                      updateStatus('completed')
-                      completeOpen = false
-                    }
-                  "
-                />
-              </template>
-            </UModal>
-            <UModal
-              v-model:open="approveOpen"
-              title="Tens a certeza?"
-              :ui="uiModalStyle"
-            >
-              <UButton
-                icon="lucide:check"
-                class="rounded-sm uppercase font-bold text-zinc-900 py-0.5 text-[10.5px]"
-                variant="solid"
-                size="xs"
-                color="success"
-                :disabled="currentStatus.label === 'aprovado'"
+                <template #body>
+                  <UiModalConfirm
+                    @close="completeOpen = false"
+                    @confirm="
+                      async () => {
+                        updateStatus('completed')
+
+                        await stockStore.getAll()
+                        completeOpen = false
+                      }
+                    "
+                  />
+                </template>
+              </UModal>
+            </template>
+
+            <template v-if="currentStatus?.label !== 'aprovado'">
+              <UModal
+                v-model:open="approveOpen"
+                title="Tens a certeza?"
+                :ui="uiModalStyle"
               >
-                Aprovar
-              </UButton>
-              <template #body>
-                <UiModalConfirm
-                  @close="approveOpen = false"
-                  @confirm="
-                    () => {
-                      updateStatus('approved')
-                      approveOpen = false
-                    }
-                  "
-                />
-              </template>
-            </UModal>
+                <UButton
+                  icon="lucide:check"
+                  class="rounded-sm uppercase font-bold text-zinc-900 py-0.5 text-[10.5px]"
+                  variant="solid"
+                  size="xs"
+                  color="success"
+                  :disabled="currentStatus.label === 'aprovado'"
+                >
+                  Aprovar
+                </UButton>
+                <template #body>
+                  <UiModalConfirm
+                    @close="approveOpen = false"
+                    @confirm="
+                      () => {
+                        updateStatus('approved')
+                        approveOpen = false
+                      }
+                    "
+                  />
+                </template>
+              </UModal>
+            </template>
+
             <UModal
               v-model:open="cancelOpen"
               title="Tens a certeza?"

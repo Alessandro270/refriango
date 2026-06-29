@@ -94,11 +94,6 @@ async function handleSubmit() {
     await productStore.getAll()
     await router.push('/admin/products')
   } catch (e) {
-    toast.add({
-      title: 'Ocorreu um erro',
-      icon: 'lucide:file-x',
-      color: 'error'
-    })
     console.log(e)
   } finally {
     isLoading.value = false

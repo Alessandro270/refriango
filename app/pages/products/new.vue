@@ -79,7 +79,6 @@ async function handleSubmit() {
     await productStore.create(data)
     await navigateTo('/products')
   } catch (e) {
-    toast.add({ title: 'Ocorreu um erro' })
   } finally {
     isLoading.value = false
   }
@@ -330,6 +329,7 @@ async function handleSubmit() {
       color="error"
       variant="soft"
       class="w-full h-max flex items-center justify-center col-span-2"
+      to="/products"
     >
       Descartar
     </UButton>

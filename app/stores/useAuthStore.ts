@@ -81,6 +81,7 @@ export const useAuthStore = defineStore('auth', {
           method: 'POST',
           body: payload
         })
+        console.log(user)
 
         this.token = token
         this.user = user
@@ -128,7 +129,7 @@ export const useAuthStore = defineStore('auth', {
         })
 
         toast.add({
-          title: 'Senha retificada com sucesso1',
+          title: 'Senha retificada com sucesso!',
           icon: 'lucide:user-check',
           color: 'success'
         })
@@ -137,6 +138,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     logout() {
+      if (!this.isAuth) return
       const toast = useToast()
       toast.add({ title: 'Terminando sessão..', icon: 'lucide:loader-circle' })
       this.user = null

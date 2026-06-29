@@ -121,25 +121,25 @@ const option = computed(() => ({
 const cards = ref([
   {
     title: 'Total de produtos',
-    description: '121',
+    description: '0',
     to: '/products',
     icon: 'lucide:boxes'
   },
   {
     title: 'Estoque baixo',
-    description: '13',
+    description: '0',
     to: '/stock',
     icon: 'lucide:package-minus'
   },
   {
     title: 'Esgotado',
-    description: '41',
+    description: '0',
     to: '/stock',
     icon: 'lucide:package-open'
   },
   {
     title: 'Fornecedores',
-    description: '21',
+    description: '0',
     to: '/suppliers',
     icon: 'lucide:handshake'
   }

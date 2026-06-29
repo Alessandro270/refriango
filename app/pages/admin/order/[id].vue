@@ -19,7 +19,7 @@ const statusMap = {
     color: 'success'
   },
   completed: {
-    label: 'concluído',
+    label: 'completo',
     icon: 'lucide:check-circle',
     color: 'success'
   },
@@ -37,9 +37,16 @@ watch(
   () => (currentStatus.value = statusMap[order.value?.status ?? 'pending'])
 )
 
+const stockStore = useStockStore()
 async function updateStatus(status: string) {
-  const res = await orderStore.update(id, { status })
-  if (res) order.value = res
+  try {
+    const res = await orderStore.update(id, { status })
+    await orderStore.getAll()
+    await stockStore.getAll()
+    if (res) order.value = res
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 onMounted(async () => {
@@ -92,7 +99,7 @@ const completeOpen = ref<boolean>(false)
           <div
             class="flex items-center gap-2"
             v-if="
-              currentStatus?.label !== 'concluído' &&
+              currentStatus?.label !== 'completo' &&
               currentStatus?.label !== 'cancelado'
             "
           >

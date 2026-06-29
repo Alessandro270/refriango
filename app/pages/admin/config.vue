@@ -2,6 +2,9 @@
 import * as z from 'zod'
 
 definePageMeta({ layout: 'admin' })
+
+const authStore = useAuthStore()
+const userStore = useUserStore()
 const uiStyle = {
   label: 'text-ui-text',
   root: 'h-full',
@@ -21,11 +24,20 @@ const passwordSchema = z.object({
   confirmPassword: z.string().optional()
 })
 
-const updateUserState = {
-  firstname: undefined,
-  lastname: undefined,
-  email: undefined
-}
+const updateUserState = reactive({
+  firstname: authStore.user?.firstname,
+  lastname: authStore.user?.lastname,
+  email: authStore.user?.email
+})
+
+onMounted(async () => {
+  await authStore.getAuthUser()
+  console.log(authStore.user)
+
+  updateUserState.firstname = authStore.user?.firstname
+  updateUserState.lastname = authStore.user?.lastname
+  updateUserState.email = authStore.user?.email
+})
 
 const passwordState = {
   password: undefined,
@@ -34,8 +46,6 @@ const passwordState = {
 }
 const updateUserIsLoading = ref<boolean>(false)
 const passwordIsLoading = ref<boolean>(false)
-const authStore = useAuthStore()
-const userStore = useUserStore()
 
 async function handleResetPassword() {
   passwordIsLoading.value = true
