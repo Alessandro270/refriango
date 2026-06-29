@@ -1,126 +1,157 @@
 <script lang="ts" setup>
-const option = {
-  title: {
-    text: 'Comparação de vendas',
-    textStyle: {
-      color: '#fff'
+const stockStore = useStockStore()
+const productStore = useProductStore()
+const supplierStore = useSupplierStore()
+
+const deliveryStore = useDeliveryStore()
+const orderStore = useOrderStore()
+
+const isLoading = ref<boolean>(false)
+
+const getWeekIndexForLast12Weeks = (date: Date): number => {
+  const today = new Date()
+
+  today.setHours(0, 0, 0, 0)
+  const targetDate = new Date(date)
+  targetDate.setHours(0, 0, 0, 0)
+
+  const diffInMs = today.getTime() - targetDate.getTime()
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
+
+  const weeksAgo = Math.floor(diffInDays / 7)
+
+  if (weeksAgo >= 0 && weeksAgo < 12) {
+    return 11 - weeksAgo
+  }
+
+  return -1
+}
+
+const weeksLabels = [
+  'sem 1',
+  'sem 2',
+  'sem 3',
+  'sem 4',
+  'sem 5',
+  'sem 6',
+  'sem 7',
+  'sem 8',
+  'sem 9',
+  'sem 10',
+  'sem 11',
+  'sem 12'
+]
+
+const weeklyOrders = computed(() => {
+  const weeksData = Array(12).fill(0)
+
+  if (!orderStore.orders) return weeksData
+
+  orderStore.orders.forEach(order => {
+    const date = new Date(order.createdAt)
+    if (!isNaN(date.getTime())) {
+      const weekIndex = getWeekIndexForLast12Weeks(date)
+      if (weekIndex !== -1) {
+        weeksData[weekIndex] += Number(order.quantity || 0)
+      }
     }
+  })
+
+  return weeksData
+})
+
+const weeklyDeliveries = computed(() => {
+  const weeksData = Array(12).fill(0)
+
+  if (!deliveryStore.deliveries) return weeksData
+
+  deliveryStore.deliveries.forEach(delivery => {
+    const date = new Date(delivery.createdAt)
+    if (!isNaN(date.getTime())) {
+      const weekIndex = getWeekIndexForLast12Weeks(date)
+      if (weekIndex !== -1) {
+        weeksData[weekIndex] += Number(delivery.quantity || 0)
+      }
+    }
+  })
+
+  return weeksData
+})
+
+const option = computed(() => ({
+  title: {
+    text: 'Movimentação Semanal do Mês',
+    textStyle: { color: '#334155' }
   },
   tooltip: {
     trigger: 'axis'
   },
   legend: {
-    data: ['2024', '2025'],
-    textStyle: {
-      color: '#000'
-    }
+    data: ['Entradas', 'Saídas'],
+    textStyle: { color: '#475569' }
   },
   xAxis: {
     type: 'category',
-    data: [
-      'Jan',
-      'Fev',
-      'Mar',
-      'Abr',
-      'Mai',
-      'Jun',
-      'Jul',
-      'Ago',
-      'Set',
-      'Out',
-      'Nov',
-      'Dez'
-    ],
-    axisLabel: {
-      color: '#333'
-    },
-    axisLine: {
-      lineStyle: {
-        color: '#475569'
-      }
-    }
+    data: weeksLabels,
+    axisLabel: { color: '#64748b' },
+    axisLine: { lineStyle: { color: '#cbd5e1' } }
   },
   yAxis: {
     type: 'value',
-    axisLabel: {
-      color: '#444'
-    },
-    splitLine: {
-      lineStyle: {
-        color: '#ddd'
-      }
-    }
+    axisLabel: { color: '#64748b' },
+    splitLine: { lineStyle: { color: '#f1f5f9' } }
   },
   series: [
     {
       name: 'Entradas',
       type: 'bar',
-      smooth: true,
-      showSymbol: false,
-      data: [17, 12, 18, 14, 22, 30, 28, 35, 40, 38, 45, 50],
-      lineStyle: {
-        width: 2,
-        color: 'rgba(245, 39, 39, 0.5)'
-      },
-      areaStyle: {
-        color: 'rgba(245, 39, 39, 0.47)'
-      }
+      data: weeklyOrders.value,
+      itemStyle: { color: '#3b82f6' }
     },
     {
-      name: 'Saidas',
+      name: 'Saídas',
       type: 'bar',
-      smooth: true,
-      showSymbol: false,
-      data: [12, 20, 25, 19, 35, 40, 42, 48, 55, 60, 58, 70],
-      lineStyle: {
-        width: 2,
-        color: '#22c55e'
-      },
-      areaStyle: {
-        color: 'rgba(34,197,94,0.2)'
-      }
+      data: weeklyDeliveries.value,
+      itemStyle: { color: '#ef4444' }
     }
   ]
-}
+}))
 
 const cards = ref([
   {
     title: 'Total de produtos',
-    description: '0',
+    description: '121',
     to: '/products',
     icon: 'lucide:boxes'
   },
   {
     title: 'Estoque baixo',
-    description: '0',
+    description: '13',
     to: '/stock',
     icon: 'lucide:package-minus'
   },
   {
     title: 'Esgotado',
-    description: '0',
+    description: '41',
     to: '/stock',
     icon: 'lucide:package-open'
   },
   {
     title: 'Fornecedores',
-    description: '0',
+    description: '21',
     to: '/suppliers',
     icon: 'lucide:handshake'
   }
 ])
 
-const stockStore = useStockStore()
-const productStore = useProductStore()
-const supplierStore = useSupplierStore()
-
-const isLoading = ref<boolean>(false)
 onMounted(async () => {
   try {
     isLoading.value = true
     await stockStore.getAll()
     await productStore.getAll()
     await supplierStore.getAll()
+    await orderStore.getAll()
+    await deliveryStore.getAll()
     cards.value.forEach(val => {
       if (val.title === 'Total de produtos')
         val.description = String(productStore.products.length)
@@ -152,10 +183,6 @@ const UButton = resolveComponent('UButton')
 
 const columns = [
   {
-    accessorKey: '_id',
-    header: '#'
-  },
-  {
     accessorKey: 'product',
     header: 'produto',
     cell: ({ row }) =>
@@ -164,7 +191,7 @@ const columns = [
           name: 'lucide:box',
           class: 'text-blue-400 '
         }),
-        row.original.product
+        row.original.product?.name
       ])
   },
   {
@@ -176,7 +203,7 @@ const columns = [
           name: 'lucide:chart-column-stacked',
           class: 'text-blue-400'
         }),
-        row.original.category
+        row.original.product?.categoryName
       ])
   },
   {
@@ -188,7 +215,7 @@ const columns = [
           name: 'lucide:dollar-sign',
           class: 'text-red-400'
         }),
-        row.original.purchasePrice
+        row.original.product?.purchasePrice
       ])
   },
 
@@ -201,7 +228,7 @@ const columns = [
           name: 'lucide:dollar-sign',
           class: 'text-emerald-400'
         }),
-        row.original.salePrice
+        row.original.product?.salePrice
       ])
   },
   {

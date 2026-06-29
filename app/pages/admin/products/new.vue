@@ -79,6 +79,7 @@ async function handleSubmit() {
     const data = schema.parse(state)
 
     await productStore.create(data)
+    await productStore.getAll()
     await navigateTo('/admin/products')
   } catch (e) {
     console.log(e)
@@ -96,17 +97,13 @@ async function handleSubmit() {
     :schema="schema"
     @submit="handleSubmit"
   >
-    <UiH3 class="col-start-3 col-span-8">Cadastrar novo produto</UiH3>
-    <UFileUpload
-      class="w-full row-span-6 row-start-1 col-span-2"
-      label="Imagem do produto"
-    />
+    <UiH3 class="col-span-8">Cadastrar novo produto</UiH3>
 
     <UFormField
       :size="formFieldSize"
       :ui="uiStyle"
       label="Nome"
-      class="col-span-4"
+      class="col-span-5"
       name="name"
     >
       <UInput
@@ -122,7 +119,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Fornecedores"
-      class="col-span-4"
+      class="col-span-5"
       name="supplierId"
     >
       <USelect
@@ -148,7 +145,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Peso"
-      class="col-span-4"
+      class="col-span-5"
       name="weight"
     >
       <UFieldGroup>
@@ -173,7 +170,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Categoria"
-      class="col-span-4"
+      class="col-span-5"
       name="categoryId"
     >
       <USelect
@@ -200,7 +197,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Largura"
-      class="col-span-4"
+      class="col-span-5"
       name="width"
     >
       <UInputNumber
@@ -216,7 +213,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Altura"
-      class="col-span-4"
+      class="col-span-5"
       name="height"
     >
       <UInputNumber
@@ -232,7 +229,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Comprimento"
-      class="col-span-4"
+      class="col-span-5"
       name="length"
     >
       <UInputNumber
@@ -248,7 +245,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Data de validade"
-      class="col-span-4"
+      class="col-span-5"
       name="expiresAt"
     >
       <UInput
@@ -263,7 +260,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Preco de compra"
-      class="col-span-4"
+      class="col-span-5"
       name="purchasePrice"
     >
       <UFieldGroup>
@@ -287,7 +284,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Preco de venda"
-      class="col-span-4"
+      class="col-span-5"
       name="salePrice"
     >
       <UFieldGroup>
@@ -312,7 +309,7 @@ async function handleSubmit() {
       :size="formFieldSize"
       :ui="uiStyle"
       label="Descricao do produto"
-      class="h-full col-start-3 col-span-6"
+      class="h-full col-span-8"
       name="description"
     >
       <UTextarea
@@ -336,7 +333,8 @@ async function handleSubmit() {
       icon="lucide:x"
       color="error"
       variant="soft"
-      class="w-full h-max col-start-3 flex items-center justify-center col-span-2"
+      class="w-full h-max flex items-center justify-center col-span-2"
+      to="/admin/products"
     >
       Descartar
     </UButton>

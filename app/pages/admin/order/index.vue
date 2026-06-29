@@ -197,7 +197,11 @@ async function handleSearch() {
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
             <UiSearch @search="handleSearch" v-model="search" />
-            <UButton icon="lucide:download" variant="outline">
+            <UButton
+              @click="async () => await orderStore.export()"
+              icon="lucide:download"
+              variant="outline"
+            >
               Exportar
             </UButton>
           </div>

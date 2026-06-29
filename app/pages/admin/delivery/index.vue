@@ -143,6 +143,16 @@ const selectedStatus = ref('all')
 const toast = useToast()
 const productStore = useProductStore()
 
+const filteredDeliveries = computed(() => {
+  if (selectedStatus.value === 'all') {
+    return deliveryStore.deliveries
+  }
+
+  return deliveryStore.deliveries.filter(
+    delivery => delivery.status === selectedStatus.value
+  )
+})
+
 onMounted(async () => {
   try {
     if (!deliveryStore.hasLoaded) {
@@ -180,7 +190,7 @@ const open = ref(false)
     <UiH1 icon="lucide:van"> Entregas </UiH1>
 
     <UiTable
-      :data="deliveryStore.deliveries"
+      :data="filteredDeliveries"
       :columns="columns"
       :loading="deliveryStore.isLoading"
     >
@@ -188,9 +198,6 @@ const open = ref(false)
         <div class="flex justify-between items-center space-x-4 w-full">
           <div class="flex items-center justify-between gap-4">
             <UiSearch @search="handleSearch" v-model="search" />
-            <UButton icon="lucide:download" variant="outline">
-              Exportar
-            </UButton>
           </div>
           <div class="flex items-center gap-4">
             <USelect

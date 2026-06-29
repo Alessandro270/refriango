@@ -84,7 +84,6 @@ const open = ref<boolean>(false)
               @search="async () => await userStore.getAll(search)"
               v-model="search"
             />
-            <UButton icon="lucide:download" variant="outline">Exportar</UButton>
           </div>
           <UModal v-model:open="open">
             <template #header>
